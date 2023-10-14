@@ -93,7 +93,7 @@ const Grid = () => {
     <Row xs={1} md={5} className="g-4">
       {cardArr.map((v, idx) => (
         <Col key={idx}>
-            <PostCard imgUrl={v.src} imgHeight="250px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
+            <PostCard imgUrl={v.src} imgHeight="150px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
         </Col>
       ))}
     </Row>

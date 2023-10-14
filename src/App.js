@@ -7,14 +7,14 @@ import LoginPage from "./pages/LoginPage";
 
 function App() {
 
-  const marginStyle = {
-    marginLeft: '3rem',
-    marginRight: '3rem',
-  }
+  // const marginStyle = {
+  //   marginLeft: '3rem',
+  //   marginRight: '3rem',
+  // }
     
   return (
     
-    <div style={marginStyle}>
+    <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
