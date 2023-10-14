@@ -1,12 +1,12 @@
 import Topbar from "../components/Topbar";
 
-const BlogPage = () => {
+const ManagePage = () => {
     return (
         <div>
             <Topbar />
-            블로그페이지입니다.
+            계정관리페이지입니다.
         </div>
     )
 }
 
-export default BlogPage;
+export default ManagePage;
