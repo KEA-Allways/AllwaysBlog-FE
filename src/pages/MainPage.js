@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Topbar from "../components/Topbar";
 import NoLoginTopbar from "../components/NoLoginTopbar";
+import Banner from "../components/Banner";
 
 const MainPage = () => {
 
@@ -12,6 +13,7 @@ const MainPage = () => {
     return (
         <div>
             {login ? <Topbar/> : <NoLoginTopbar/>}
+            <Banner />
         </div>
     )
 }
