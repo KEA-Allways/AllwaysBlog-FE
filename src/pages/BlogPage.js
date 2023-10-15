@@ -1,11 +1,21 @@
+import React from 'react';
+import BlogBody from "../components/BlogBody";
 import Topbar from "../components/Topbar";
 
 const BlogPage = () => {
     return (
+        <>
         <div>
             <Topbar />
-            블로그페이지입니다.
         </div>
+
+        <hr/>
+        
+        <div>
+            <BlogBody />
+        </div>
+        </>
+        
     )
 }
 
