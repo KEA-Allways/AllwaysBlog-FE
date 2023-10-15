@@ -9,95 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser  } from '@fortawesome/free-solid-svg-icons';
 import kaBtn from "../assets/kakao_login_btn.png"
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [PW, setPW] = useState("");
 
-  const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
-
-
-  const loginBtnClicked = async () => {
-    const result = await axios.post(
-      `${process.env.REACT_APP_BASE_URL_MEMBER}/email`,
-      {
-        email: email,
-        password: PW,
-      }
-    );
-
-    console.log(result.data.result);
-
-    if (result.data.isSuccess) {
-      localStorage.setItem("jwt", result.data.result.jwt);
-      localStorage.setItem("memberId", result.data.result.id);
-      navigate("/");
-    } else {
-      alert(result.data.message);
-    }
-  };
-
-    const kakaoBtnClicked = async () => {
-      console.log(kakaoUrl);
-      window.location.href = kakaoUrl;
-    };
-
-  return (
-    <>
-      <LoginPageTopbar></LoginPageTopbar>
-      <Container>
-        <LoginSection>
-          <LoginTitle>Login</LoginTitle>
-          <TextInputContainer>
-            
-            <Input
-              placeholder="이메일"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </TextInputContainer>
-          <TextInputContainer>   
-            <Input
-              placeholder="비밀번호"
-              type="password"
-              onChange={(e) => {
-                setPW(e.target.value);
-              }}
-            />
-          </TextInputContainer>
-          <BtnsContainer>
-            <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
-            <Link to="/signup">
-              <SignupBtn>회원가입</SignupBtn>
-            </Link>
-          </BtnsContainer>
-          <ReLoginContainer>
-
-            <ReLoginCheckBox 
-              type="checkbox" 
-              value="None" 
-              id="checkbox1" 
-              name="check"
-            />
-
-            <Span>로그인 상태 유지</Span>
-            <ForgotPWText>비밀번호 찾기</ForgotPWText>
-            
-          </ReLoginContainer>
-
-          <Line />
-          <KaBtn src={kaBtn} onClick={kakaoBtnClicked} />
-          <Notice>
-            
-          </Notice>
-        </LoginSection>
-      </Container>
-
-  
-    </>
-  );
+    
+    return (
+        <>
+             <LoginPageTopbar></LoginPageTopbar>
+        </>
+    )
 };
+
 
 const Container = styled.div`
   display: flex;
@@ -256,4 +180,4 @@ const Notice = styled.div`
 `;
 
 
-export default LoginPage;
+export default SignUpPage;
