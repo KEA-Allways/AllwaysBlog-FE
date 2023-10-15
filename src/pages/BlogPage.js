@@ -1,10 +1,9 @@
-import Topbar from "../components/Topbar";
+import BlogTopSideBar from "../components/BlogTopSideBar";
 
 const BlogPage = () => {
     return (
         <div>
-            <Topbar />
-            블로그페이지입니다.
+            <BlogTopSideBar />
         </div>
     )
 }
