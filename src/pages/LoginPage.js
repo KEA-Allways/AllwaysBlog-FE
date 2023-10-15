@@ -68,7 +68,7 @@ const LoginPage = () => {
           </TextInputContainer>
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
-            <Link to="/signup">
+            <Link to="/sign-up">
               <SignupBtn>회원가입</SignupBtn>
             </Link>
           </BtnsContainer>
