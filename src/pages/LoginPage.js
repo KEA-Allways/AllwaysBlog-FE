@@ -1,46 +1,48 @@
 import LoginPageTopbar from "../components/LoginPageTopbar";
 import Footer from "../components/Footer";
 import styled from "@emotion/styled";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser  } from '@fortawesome/free-solid-svg-icons';
-import kaBtn from "../assets/kakao_login_btn.png"
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import kaBtn from "../assets/kakao_login_btn.png";
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [PW, setPW] = useState("");
+
+  const [response, setResponse] = useState("");
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
-
   const loginBtnClicked = async () => {
-    const result = await axios.post(
-      `${process.env.REACT_APP_BASE_URL_MEMBER}/email`,
-      {
-        email: email,
-        password: PW,
-      }
-    );
+    await axios
+      .post("http://private-06de82-bee3083.apiary-mock.com/api/users/login ", {
+        userId: userId,
+        password: password,
+      })
+      .then((response) => {
+        setResponse(response);
+      });
 
-    console.log(result.data.result);
+    alert(response.status);
 
-    if (result.data.isSuccess) {
-      localStorage.setItem("jwt", result.data.result.jwt);
-      localStorage.setItem("memberId", result.data.result.id);
+    if (response.status === 200) {
+      // localStorage.setItem("jwt", result.data.result.jwt);
+      // localStorage.setItem("memberId", result.data.result.id);
       navigate("/");
     } else {
-      alert(result.data.message);
+      alert(response.data.message);
     }
   };
 
-    const kakaoBtnClicked = async () => {
-      console.log(kakaoUrl);
-      window.location.href = kakaoUrl;
-    };
+  const kakaoBtnClicked = async () => {
+    console.log(kakaoUrl);
+    window.location.href = kakaoUrl;
+  };
 
   return (
     <>
@@ -49,52 +51,45 @@ const LoginPage = () => {
         <LoginSection>
           <LoginTitle>Login</LoginTitle>
           <TextInputContainer>
-            
             <Input
               placeholder="이메일"
               onChange={(e) => {
-                setEmail(e.target.value);
+                setUserId(e.target.value);
               }}
             />
           </TextInputContainer>
-          <TextInputContainer>   
+          <TextInputContainer>
             <Input
               placeholder="비밀번호"
               type="password"
               onChange={(e) => {
-                setPW(e.target.value);
+                setPassword(e.target.value);
               }}
             />
           </TextInputContainer>
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
-            <Link to="/sign-up">
+            <Link to="/sign-up" style={{textDecoration: "none"}}>
               <SignupBtn>회원가입</SignupBtn>
             </Link>
           </BtnsContainer>
           <ReLoginContainer>
-
-            <ReLoginCheckBox 
-              type="checkbox" 
-              value="None" 
-              id="checkbox1" 
+            <ReLoginCheckBox
+              type="checkbox"
+              value="None"
+              id="checkbox1"
               name="check"
             />
 
-            <Span>로그인 상태 유지</Span>
+            <ReLoginText>로그인 상태 유지</ReLoginText>
             <ForgotPWText>비밀번호 찾기</ForgotPWText>
-            
           </ReLoginContainer>
 
           <Line />
           <KaBtn src={kaBtn} onClick={kakaoBtnClicked} />
-          <Notice>
-            
-          </Notice>
+          <Notice></Notice>
         </LoginSection>
       </Container>
-
-  
     </>
   );
 };
@@ -110,14 +105,14 @@ const Container = styled.div`
 `;
 
 const LoginSection = styled.div`
-  margin-top: 50px;
+  margin-top: 0px;
   padding-top: 59px;
   width: 550px;
   height: 646px;
   background: #fff;
   border: solid;
   border-color: rgba(0, 0, 0, 0);
-  box-shadow: 5px  rgba(1, 0, 0, 3);
+  box-shadow: 5px rgba(1, 0, 0, 3);
   border-radius: 50px;
   text-align: center;
   display: flex;
@@ -125,27 +120,30 @@ const LoginSection = styled.div`
   align-items: center;
 `;
 
-
-
-
 const LoginTitle = styled.div`
-   display: block;
-    font-size: 35px;
-    font-weight: 700;
-    padding: 5px 0;
-    border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 10px;
-  
+  display: block;
+  font-size: 35px;
+  font-weight: 700;
+  padding: 5px 0;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 10px;
+
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
-
-
 
 const TextInputContainer = styled.div`
   display: flex;
   margin-top: 23px;
-  
-`;
 
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05);
+    color: white;
+  }
+`;
 
 const Input = styled.input`
   width: 336px;
@@ -157,25 +155,23 @@ const Input = styled.input`
   border-radius: 13px;
 
   background: #f0f0f0;
-  
+
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 
   font-weight: 400;
   font-size: 15px;
 
-
   transition: all 0.3s ease 0s;
 `;
 
 const ReLoginContainer = styled.div`
-
   width: 330px;
   margin-top: 40px;
   margin-bottom: 10px;
 `;
 
-
 const ReLoginCheckBox = styled.input`
+  cursor: pointer;
   float: left;
   width: 20px;
   height: 20px;
@@ -183,21 +179,36 @@ const ReLoginCheckBox = styled.input`
   border-radius: 30%;
   position: relative;
   border: 1px solid #11a3fc;
+
+  transition: all 0.5s ease 0s;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
-const Span = styled.div`
-float : left;
-font-size: 13px;
-font-weight: 700;
-padding-left : 10px;
+const ReLoginText = styled.div`
+  float: left;
+  font-size: 13px;
+  font-weight: 700;
+  padding-left: 10px;
 
+  transition: all 0.5s ease 0s;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const ForgotPWText = styled.div`
   font-size: 13px;
   font-weight: 700;
-  padding-left : 10px;
-  float : right;
+  padding-left: 10px;
+  cursor: pointer;
+  float: right;
+
+  transition: all 0.5s ease 0s;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const BtnsContainer = styled.div`
@@ -221,6 +232,14 @@ const LoginBtn = styled.div`
   font-size: 18px;
   color: white;
   cursor: pointer;
+
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05);
+    background: cornflowerblue;
+    color: white;
+    transition: 0.5s;
+  }
 `;
 
 const SignupBtn = styled.div`
@@ -235,6 +254,14 @@ const SignupBtn = styled.div`
   font-weight: 400;
   font-size: 18px;
   color: black;
+
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05);
+    background: cornflowerblue;
+    color: white;
+    transition: 0.5s;
+  }
 `;
 
 const Line = styled.hr`
@@ -246,6 +273,11 @@ const KaBtn = styled.img`
   width: 335px;
   margin-top: 29px;
   cursor: pointer;
+
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const Notice = styled.div`
@@ -254,6 +286,5 @@ const Notice = styled.div`
   font-size: 12px;
   color: #9a9a9a;
 `;
-
 
 export default LoginPage;
