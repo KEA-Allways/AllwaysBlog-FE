@@ -1,10 +1,9 @@
-import Topbar from "../components/Topbar";
+import ManageTopSideBar from "../components/ManageTopSideBar";
 
 const ManagePage = () => {
     return (
         <div>
-            <Topbar />
-            계정관리페이지입니다.
+            <ManageTopSideBar />
         </div>
     )
 }

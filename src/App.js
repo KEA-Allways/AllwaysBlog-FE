@@ -6,6 +6,7 @@ import ManagePage from "./pages/ManagePage";
 import LoginPage from "./pages/LoginPage";
 import MngtCats from "./pages/MngtCats";
 import Cat01 from "./temp/Cat01";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/mngtCats" element={<MngtCats />} />

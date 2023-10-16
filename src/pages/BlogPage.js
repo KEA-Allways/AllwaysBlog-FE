@@ -1,12 +1,26 @@
-import Topbar from "../components/Topbar";
+import React from 'react';
+import { Row, Col } from 'react-bootstrap';
+import BlogTopbar from "../components/BlogTopbar";
+import BlogBody from "../components/BlogBody";
+import BlogSidebar from "../components/BlogSidebar";
+import Footer from "../components/Footer";
 
 const BlogPage = () => {
     return (
-        <div>
-            <Topbar />
-            블로그페이지입니다.
-        </div>
-    )
-}
+      <div>
+        <BlogTopbar />
+        <hr />
+        <Row>
+          <Col md={2}>
+            <BlogSidebar />
+          </Col>
+          <Col md={10}>
+            <BlogBody />
+          </Col>
+        </Row>
+         <Footer />
+      </div>
+    );
+  };
 
 export default BlogPage;
