@@ -18,10 +18,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [isShowPwChecked, setShowPwChecked] = useState(true);
   
-  const initPassword = () => {
-    setPassword((current) => "");
-  }
-
   const toggleHidePassword =()=>{
     setShowPwChecked(!isShowPwChecked);
   }
@@ -52,7 +48,7 @@ const LoginPage = () => {
             title: "로그인 실패!",
             icon: 'error'
           }).then(()=> {
-            initPassword();
+            setPassword("");
           }) 
            
         }
@@ -85,6 +81,7 @@ const LoginPage = () => {
             <Input
               placeholder="비밀번호"
               type={isShowPwChecked ? "password":"text"}
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
