@@ -1,7 +1,7 @@
 import LoginPageTopbar from "../components/LoginPageTopbar";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import axios from "axios";
 import React from "react";
 import kaBtn from "../assets/kakao_login_btn.png";
@@ -14,6 +14,11 @@ const LoginPage = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+   
+  }, [password]);
+
+
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
   const loginBtnClicked = () => {
@@ -24,7 +29,7 @@ const LoginPage = () => {
       .then((response) => {
         //setResponse(response);
 
-        if (response.status === 200) {
+        if (response.status === 200 && userId !== "") {
           // localStorage.setItem("jwt", result.data.result.jwt);
           // localStorage.setItem("memberId", result.data.result.id);
           Swal.fire({
@@ -34,11 +39,14 @@ const LoginPage = () => {
             navigate("/");
           }) 
     
-        } else {
+        } else if(userId === ""){
           Swal.fire({
             title: "로그인 실패!",
             icon: 'error'
-          })
+          }).then(()=> {
+            setUserId("");
+            setPassword("444");
+          }) 
            
         }
       });
