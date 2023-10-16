@@ -1,13 +1,11 @@
 import LoginPageTopbar from "../components/LoginPageTopbar";
-import Footer from "../components/Footer";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
 import kaBtn from "../assets/kakao_login_btn.png";
+import Swal from "sweetalert2";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -18,25 +16,35 @@ const LoginPage = () => {
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
-  const loginBtnClicked = async () => {
-    await axios
-      .post("http://private-06de82-bee3083.apiary-mock.com/api/users/login ", {
+  const loginBtnClicked = () => {
+     axios.post("http://private-06de82-bee3083.apiary-mock.com/api/users/login ", {
         userId: userId,
-        password: password,
+        password: password
       })
       .then((response) => {
-        setResponse(response);
+        //setResponse(response);
+
+        if (response.status === 200) {
+          // localStorage.setItem("jwt", result.data.result.jwt);
+          // localStorage.setItem("memberId", result.data.result.id);
+          Swal.fire({
+            title: "로그인 성공!",
+            icon: 'success'
+          }).then(()=> {
+            navigate("/");
+          }) 
+    
+        } else {
+          Swal.fire({
+            title: "로그인 실패!",
+            icon: 'error'
+          })
+           
+        }
       });
 
-    alert(response.status);
 
-    if (response.status === 200) {
-      // localStorage.setItem("jwt", result.data.result.jwt);
-      // localStorage.setItem("memberId", result.data.result.id);
-      navigate("/");
-    } else {
-      alert(response.data.message);
-    }
+    
   };
 
   const kakaoBtnClicked = async () => {
