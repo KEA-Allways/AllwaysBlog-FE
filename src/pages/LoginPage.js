@@ -33,7 +33,7 @@ const LoginPage = () => {
       .then((response) => {
         //setResponse(response);
 
-        if (response.status === 200 && userId !== "") {
+        if (response.status === 200) {
           // localStorage.setItem("jwt", result.data.result.jwt);
           // localStorage.setItem("memberId", result.data.result.id);
           Swal.fire({
@@ -43,7 +43,6 @@ const LoginPage = () => {
             navigate("/");
           }) 
     
-        } else if(userId === ""){
           Swal.fire({
             title: "로그인 실패!",
             icon: 'error'
