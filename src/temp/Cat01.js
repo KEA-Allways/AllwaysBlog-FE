@@ -5,26 +5,14 @@ import { Button } from "react-bootstrap";
 
 const Cat01 = () => {
 
-    //api
-    const apiClicked = async () => {
-        const result = await axios.post(
-            //"http://private-06de82-bee3083.apiary-mock.com/api/users/login",
-            "http://private-06de82-bee3083.apiary-mock.com/api/some-endpoint",
-            {
-
-            }
-        ).then((response) => {
-            alert(response.status)
-            console.log(response)
-        })
-    }
-
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/')
+        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
           .then((response) => {
-            setData(response.data);
+            //setData(response.data.themes[0].lists);
+            setData(response.data.themes);
+            console.log(data)
           })
           .catch((error) => {
             console.error('API GET request error:', error);
@@ -33,13 +21,6 @@ const Cat01 = () => {
 
     const dragItem = useRef();
     const dragOverItem = useRef();
-
-    const [menus, setMenus] = useState ([
-        { title : '양식 레시피'},
-        { title : '일식 레시피'},
-        { title : '한식 레시피'},
-        { title : '디저트 레시피'}
-    ]);
 
     const dragStart = idx => {
         dragItem.current = idx;
@@ -50,14 +31,20 @@ const Cat01 = () => {
       };
     
       const drop = () => {
-        const copyListItems = [...menus];
+        const copyListItems = [...data];
         const dragItemConotent = copyListItems[dragItem.current];
         copyListItems.splice(dragItem.current, 1);
         copyListItems.splice(dragOverItem.current, 0, dragItemConotent);
         dragItem.current = null;
         dragOverItem.current = null;
-        setMenus(copyListItems);
+        setData(copyListItems);
       };
+
+      useEffect(() => {
+        // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
+        apiGetCategories();
+    }, []);
+
 
     return (
         <div>
@@ -66,8 +53,8 @@ const Cat01 = () => {
             <Button onClick={apiGetCategories}>Test API Request</Button>
       
             <div>
-                {menus && 
-                    menus.map((item, idx) => (
+                {data && 
+                    data.map((item, idx) => (
                         <div key={idx} id={idx}
                             style={{
                                 //backgroundColor: 'lightblue',
@@ -81,10 +68,11 @@ const Cat01 = () => {
                             onDragOver={e => e.preventDefault()}
                             onDragEnd={drop}
                             draggable>
-                            {item.title}
+                            {item.themeName}
                         </div>
                     ))}
             </div>
+
         </div>
     )
 }
