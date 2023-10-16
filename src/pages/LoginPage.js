@@ -6,17 +6,25 @@ import axios from "axios";
 import React from "react";
 import kaBtn from "../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
+import {FaEye} from "react-icons/fa"
 
+
+ 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowPwChecked, setShowPwChecked] = useState(true);
+  
+  const initPassword = () => {
+    setPassword((current) => "");
+  }
 
-  useEffect(() => {
-   
-  }, [password]);
+  const toggleHidePassword =()=>{
+    setShowPwChecked(!isShowPwChecked);
+  }
 
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
@@ -44,8 +52,7 @@ const LoginPage = () => {
             title: "로그인 실패!",
             icon: 'error'
           }).then(()=> {
-            setUserId("");
-            setPassword("444");
+            initPassword();
           }) 
            
         }
@@ -77,11 +84,17 @@ const LoginPage = () => {
           <TextInputContainer>
             <Input
               placeholder="비밀번호"
-              type="password"
+              type={isShowPwChecked ? "password":"text"}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
+
+            
+              <Icon onClick={toggleHidePassword}/> 
+
+
+
           </TextInputContainer>
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
@@ -151,13 +164,13 @@ const LoginTitle = styled.div`
 `;
 
 const TextInputContainer = styled.div`
+position: relative; 
   display: flex;
   margin-top: 23px;
 
   transition: all 0.5s ease;
   &:hover {
     transform: scale(1.05);
-    color: white;
   }
 `;
 
@@ -176,6 +189,7 @@ const Input = styled.input`
 
   font-weight: 400;
   font-size: 15px;
+
 
   transition: all 0.3s ease 0s;
 `;
@@ -301,6 +315,15 @@ const Notice = styled.div`
   font-weight: 400;
   font-size: 12px;
   color: #9a9a9a;
+`;
+
+const Icon = styled(FaEye)`
+  position: absolute;
+  top: 14px;
+  bottom: 0px;
+  left: 90%;
+  height: 20px;
+  cursor: pointer;
 `;
 
 export default LoginPage;
