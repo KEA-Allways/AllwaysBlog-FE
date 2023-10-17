@@ -5,11 +5,7 @@
   transition: opacity 0.3s linear, left 0.3s ease-out;
 
   position: fixed;
-  /* top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%; Adjust the width as needed */
-  /* max-width: 768px; Maximum width for the modal */
+ 
 }
 
 .modal-title {
@@ -169,39 +165,17 @@ header {
   padding-top: 5px;
 }
 
-#comp__opt1 .category {
-  position: relative;
-  top: 220px;
-  font-size: 24px;
-}
+ 
 
 /* COMPONENT OPTION 2 */
 
-#comp__opt2 {
-  width: 100%;
-  height: 100%;
-  color: #fff;
-  text-align: center;
-}
+ 
 
-#comp__opt2 .title {
-  position: relative;
-  display: inline-block;
-  top: 150px;
-  font-size: 54px;
-  font-weight: 500;
-}
+ 
 
-#comp__opt2 .subtitle {
-  visibility: hidden;
-  opacity: 0;
-}
+ 
 
-#comp__opt2 .category {
-  position: relative;
-  top: 230px;
-  font-size: 25px;
-}
+ 
 
 /* COMPONENT OPTION 3 */
 
@@ -280,11 +254,10 @@ input.input__field::placeholder {
 
 /* BTN */
 
-.btn {
+.modal__btn {
   width: 192px;
   height: 40px;
   margin-left: 20px;
-
   border-radius: 20px;
   border: none;
   background-color: #f4f4f4;
@@ -292,26 +265,54 @@ input.input__field::placeholder {
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: background-color 0.2s ease, color 0.2s ease, opacity 0.4s ease,
     transform 0.4s ease;
 }
 
-.btn:focus {
+.modal__btn:focus {
   outline: none;
 }
 
-.btn:active {
+.modal__btn:active {
   transform: scale(1.05);
   opacity: 0.2;
 }
 
-.btns {
+.modal__btn:hover {
+  background-color: #3b45ff;
+  color: #fff;
+}
+
+.modal__init__btn:active{
+  transform: scale(1.05);
+  opacity: 0.2;
+}
+
+.modal__init__btn:hover{
+  background-color: red;
+  color:white
+}
+
+
+.modal__sucess__btn:active{
+  transform: scale(1.05);
+  opacity: 0.2;
+}
+
+.modal__sucess__btn:hover{
+  background-color: green;
+  color:white
+}
+
+.modal__btns {
   display: flex;
   justify-content: flex-end; /* Center horizontally */
   align-items: center; /* Center vertically */
 }
 
- 
 
 
 .selected {
@@ -319,10 +320,7 @@ input.input__field::placeholder {
   color: #fff;
 }
 
-.btn:hover {
-  background-color: #3b45ff;
-  color: #fff;
-}
+
 
 /* BACKGROUND */
 
@@ -347,25 +345,11 @@ input.input__field::placeholder {
 /* MASTER PANEL */
 
 .master__panel {
-  margin-top: 50px;
+  margin-top: 25px;
   text-align: center;
 }
 
-.master__panel .btn {
-  border-radius: 0;
-  margin-right: 10px;
-}
-
-.master__panel .btn:last-child {
-  margin-right: 0;
-  background-color: #888;
-  color: #fff;
-}
-
-.master__panel .btn:last-child:hover {
-  background-color: #3b45ff;
-  color: #fff;
-}
+ 
 
 /* OUTPUT */
 
