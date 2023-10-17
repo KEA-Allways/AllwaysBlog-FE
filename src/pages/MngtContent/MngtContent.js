@@ -4,7 +4,7 @@ import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TableStyles from "../../components/Table.module.css"
-import styled from "@emotion/styled";
+import Paging from "../../components/Paging/Paging"
 
 const MngtContents = () => {
 
@@ -124,6 +124,7 @@ const MngtContents = () => {
                     </tbody>
 
                 </Table>
+                <Paging />
             </div>
         </div>
     )
