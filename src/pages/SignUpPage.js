@@ -35,10 +35,8 @@ const SignUpPage = () => {
 
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  const signUpBtnClicked = async () => {
-    await axios
-
-      .post(
+  const signUpBtnClicked = () => {
+     axios.post(
         "http://private-06de82-bee3083.apiary-mock.com/api/users/new-user ",
         {
           profileImg: profileImage,
@@ -56,22 +54,28 @@ const SignUpPage = () => {
       )
 
       .then((response) => {
-        setResponse(response);
+        
+        console.log(response);
+
+        if (response.status === 200) {
+          Swal.fire({
+            title: "회원가입 성공!",
+            icon: 'success'
+          }).then(()=> {
+            navigate("/login");
+          }) 
+               
+        } else {
+          Swal.fire({
+            title: "회원가입 실패!",
+            icon: 'error'
+          }).then(()=> {
+
+          }) 
+        }
       });
 
-    if (response.status === 200) {
-      //alert(response.data.message);
-
-      Swal.fire({
-        title: <strong>회원가입성공</strong>,
-
-        icon: "success",
-      });
-
-      navigate("/");
-    } else {
-      //alert(response.data.message);
-    }
+   
   };
 
   const selectFile = (e) => {
@@ -344,7 +348,6 @@ const Input = styled.input`
   &:hover {
     transform: scale(1.05);
 
-    color: white;
   }
 `;
 
@@ -382,8 +385,6 @@ const EmailBtn = styled.div`
 
     background: cornflowerblue;
 
-    color: white;
-
     transition: 0.5s;
   }
 `;
@@ -419,8 +420,6 @@ const SignUpBtn = styled.div`
     transform: scale(1.05);
 
     background: cornflowerblue;
-
-    color: white;
 
     transition: 0.5s;
   }
