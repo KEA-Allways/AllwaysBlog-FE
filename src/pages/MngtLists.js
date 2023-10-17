@@ -5,14 +5,14 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 const MngtLists = (props) => {
-    const { catSeq } = useParams();
+    const { themeSeq } = useParams();
 
     const [lists, setLists] = useState([]);
 
     const apiGetCategories = () => {
         axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
           .then((response) => {
-            setLists(response.data.themes[catSeq].lists);
+            setLists(response.data.themes[themeSeq].lists);
             console.log(lists)
           })
           .catch((error) => {

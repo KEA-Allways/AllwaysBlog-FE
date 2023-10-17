@@ -24,7 +24,7 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/mngtCats" element={<MngtCats />} />
-          <Route path="/cat/:catSeq" element={<MngtLists />} />
+          <Route path="/cat/:themeSeq" element={<MngtLists />} />
         </Routes>
       </BrowserRouter>
     </div>
