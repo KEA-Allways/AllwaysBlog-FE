@@ -4,6 +4,7 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ThumbnailModal.css";
 import html2canvas from "html2canvas";
+import { left } from "@popperjs/core";
 
 const ThumbnailModal = ({ showModal, onClose} ) => {
   //modal
@@ -159,15 +160,17 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         onHide={onClose}
         className="modal fade"
         size="lg"
+            
       >
         <section className="wrapper">
           <Container fluid className="wrapper">
             <Row className="contents">
-              <Col>
+               
                 <header>
                   <h1>Thumbnail Maker</h1>
                 </header>
                 {/* preview 에 배경단색 설정과 배경 이미지 설정  ref를 통해서 dom에 접근할수 있다.*/}
+                 
                 <div
                   id="capture"
                   className="preview"
@@ -178,6 +181,10 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
+                    
+                    float:"left",
+                    paddingLeft:"5px"
+                     
                     
                   }}
                 >
@@ -196,13 +203,16 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     </li>)}
                   </ul>
                 </div>
+                
                 <div className="control__panel">
                   <div className="inputFields horizontal">
+                    
                     <Form.Group controlId="title">
                       <Form.Control
                         type="text"
                         placeholder="제목을 입력하세요"
                         onChange={handleTitleChange}
+                        style={{ width: '200px', height: '40px', marginRight: '10px' }}
                       />
                     </Form.Group>
                     <Form.Group controlId="subtitle">
@@ -210,6 +220,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         type="text"
                         placeholder="내용을 입력하세요"
                         onChange={handleSubtitleChange}
+                        style={{ width: '200px', height: '40px' }}
                       />
                     </Form.Group>
                   </div>
@@ -217,20 +228,20 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     <div id="background__btn__container" className="btns">
                       <Button
                         variant="primary"
-                        className="random__solid"
+                        className="btn random__solid"
                         onClick={handleRandomColorClick}
                       >
                         랜덤 단색
                       </Button>
                       <Button
                         variant="primary"
-                        className="img__url"
+                        className="btn img__url"
                         onClick={handleImageBackground}
                       >
                         이미지 URL
                       </Button>
 
-                      <Button variant="primary" className="karlo_api" onClick={handleKarloImage} >
+                      <Button variant="primary" className="btn karlo_api" onClick={handleKarloImage} >
                         칼로 API
                     </Button>
                     </div>
@@ -287,7 +298,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     </Button>
                   </div>
                 </div>
-              </Col>
+              
             </Row>
           </Container>
         </section>
