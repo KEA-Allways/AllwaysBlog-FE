@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage.js/SignUpPage";
 import PostPage from "./pages/PostPage/PostPage";
 import MngtTheme from "./pages/MngtTheme/MngtTheme";
 import MngtList from "./pages/MngtList/MngtList";
+import MngtContent from "./pages/MngtContent/MngtContent"
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/post" element={<PostPage />} />
           <Route path="/mngtTheme" element={<MngtTheme />} />
           <Route path="/mngtTheme/:themeSeq" element={<MngtList />} />
+          <Route path="/mngtContent" element={<MngtContent/>} />
         </Routes>
       </BrowserRouter>
     </div>

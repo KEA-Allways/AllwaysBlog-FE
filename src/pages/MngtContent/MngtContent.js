@@ -1,8 +1,10 @@
-import Topbar from "../components/Topbar";
+import ManageTopSideBar from "../../components/TopSidebar/ManageTopSideBar";
+import Topbar from "../../components/Topbar/Topbar";
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TableStyles from "../components/Table.module.css"
+import TableStyles from "../../components/Table.module.css"
+import styled from "@emotion/styled";
 
 const MngtContents = () => {
 
@@ -108,10 +110,10 @@ const MngtContents = () => {
                             <td>
                                 {hideList[idx] && (
                                     <div style={{ marginTop: '10px' }}>
-                                        <Button className="btn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
+                                        <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
                                             수정
                                         </Button>
-                                        <Button className="btn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
+                                        <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
                                             삭제
                                         </Button>
                                     </div>
