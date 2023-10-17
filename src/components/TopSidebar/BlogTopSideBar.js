@@ -1,5 +1,5 @@
-import BlogSidebar from "./BlogSidebar";
-import Topbar from "./Topbar";
+import BlogSidebar from "../Sidebar/BlogSidebar";
+import Topbar from "../Topbar/Topbar";
 
 
 const BlogTopSideBar = () => {

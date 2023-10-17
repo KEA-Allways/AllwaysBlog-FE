@@ -1,10 +1,10 @@
-import LoginPageTopbar from "../components/LoginPageTopbar";
+import LoginPageTopbar from "../../components/Topbar/LoginPageTopbar"
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState ,useEffect} from "react";
 import axios from "axios";
 import React from "react";
-import kaBtn from "../assets/kakao_login_btn.png";
+import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 
@@ -42,15 +42,14 @@ const LoginPage = () => {
           }).then(()=> {
             navigate("/");
           }) 
-    
-          
+         
+        } else {
           Swal.fire({
             title: "로그인 실패!",
             icon: 'error'
           }).then(()=> {
             setPassword("");
           }) 
-           
         }
       });
 
@@ -66,9 +65,12 @@ const LoginPage = () => {
   return (
     <>
       <LoginPageTopbar></LoginPageTopbar>
+      
       <Container>
         <LoginSection>
           <LoginTitle>Login</LoginTitle>
+
+
           <TextInputContainer>
             <Input
               placeholder="이메일"
@@ -77,6 +79,8 @@ const LoginPage = () => {
               }}
             />
           </TextInputContainer>
+
+
           <TextInputContainer>
             <Input
               placeholder="비밀번호"
@@ -86,19 +90,18 @@ const LoginPage = () => {
                 setPassword(e.target.value);
               }}
             />
-
-            
-              <Icon onClick={toggleHidePassword}/> 
-
-
-
+             <Icon onClick={toggleHidePassword}/> 
           </TextInputContainer>
+
+
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
-            <Link to="/sign-up" style={{textDecoration: "none"}}>
+            <Link to="/signup" style={{textDecoration: "none"}}>
               <SignupBtn>회원가입</SignupBtn>
             </Link>
           </BtnsContainer>
+
+
           <ReLoginContainer>
             <ReLoginCheckBox
               type="checkbox"
@@ -112,6 +115,7 @@ const LoginPage = () => {
           </ReLoginContainer>
 
           <Line />
+          
           <KaBtn src={kaBtn} onClick={kakaoBtnClicked} />
           <Notice></Notice>
         </LoginSection>
