@@ -1,8 +1,6 @@
-import BlogTopSideBar from "../../components/TopSidebar/BlogTopSideBar";
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import BlogBody from "../../components/Body/BlogBody";
-import Topbar from "../../components/Topbar/Topbar";
 import BlogTopbar from "../../components/Topbar/BlogTopbar";
 import BlogSidebar from "../../components/Sidebar/BlogSidebar";
 
