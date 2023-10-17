@@ -1,4 +1,5 @@
 import {motion} from "framer-motion";
+ 
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -72,6 +73,7 @@ function BlogSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
+ 
           </motion.div>
            
            {/* 프로필 */}
