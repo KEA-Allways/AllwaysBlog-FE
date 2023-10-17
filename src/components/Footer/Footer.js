@@ -1,12 +1,21 @@
 import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
-import { MDBIcon } from 'mdbreact';
 import "./Footer.module.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
 import styles from "./Footer.module.css";
+import Button from 'react-bootstrap/Button';
 
+import { FaGoogle } from "react-icons/fa";
+import {FaGithub} from "react-icons/fa"
+import {FaInstagram} from "react-icons/fa"
+import {FaReact} from "react-icons/fa";
+import  {FaBootstrap} from  "react-icons/fa";
+import {BiLogoSpringBoot} from "react-icons/bi";
+import {BiSolidSchool} from "react-icons/bi";
+import {BiEnvelope} from "react-icons/bi"
+import {BiPhone} from "react-icons/bi"
+
+
+ 
 
 export default function footer() {
   return (
@@ -15,7 +24,7 @@ export default function footer() {
          
         
       </section>
-
+       
       <section className=''>
         <MDBContainer >
         
@@ -23,13 +32,13 @@ export default function footer() {
           
            
           <a href='https://www.google.com/' className='me-4 text-reset'>
-            <MDBIcon fab icon="google" />
+             <FaGoogle />
           </a>
           <a href='https://www.instagram.com/' className='me-4 text-reset'>
-            <MDBIcon fab icon="instagram" />
+             <FaInstagram/>
           </a>
           <a href='https://github.com/KEA-Allways' className='me-4 text-reset'>
-            <MDBIcon fab icon="github" />
+             <FaGithub/>
           </a>
         </div>
         </MDBContainer>
@@ -38,7 +47,6 @@ export default function footer() {
           <MDBRow className='mt-2'>
             <MDBCol md="4" lg="4" xl="3" className='mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>
-                <MDBIcon icon="gem" className="me-3" />
                 Allways
               </h6>
               <p className={styles.p}>
@@ -50,26 +58,26 @@ export default function footer() {
                         <input type="email" name="email" placeholder="Your Email" className={styles.footerInput} />
                     </form>
                     </div>
-                    <button type="button" className="btn btn-dark" style={{marginLeft:"3px", padding:"20px"}}> </button>
+                    <Button variant="success">Dark</Button> 
                 </div>
             </MDBCol>
 
             <MDBCol md="4" lg="3" xl="2" className='mx-auto mb-4'>
               <h6 className='text-uppercase fw-bold mb-4'>Skills</h6>
               <p>
-              <i class="fas fa-power-off"  ></i>
-                <span style={{marginLeft:"10px"}}>Spring boot</span>
+              <BiLogoSpringBoot className='me-3'/>
+                 Spring boot 
                   
               </p>
               <p>
 
-              <i class="fab fa-react"></i>
-              <span style={{marginLeft:"10px"}}> React</span>
+              <FaReact className='me-3'/>
+                React 
                  
               </p>
               <p>
-              <i class="fab fa-bootstrap"></i>  
-              <span style={{marginLeft:"10px"}}>bootstrap</span>
+              <FaBootstrap className='me-3'/>
+               bootstrap 
                  
               </p>
                
@@ -81,16 +89,18 @@ export default function footer() {
               <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
               <p>
               
-                    <MDBIcon icon="home" className="me-2" />
+                <BiSolidSchool className="me-3"/>
                 
                 Gachon University, ko-kr
               </p>
               <p>
-                <MDBIcon icon="envelope" className="me-3" />
+                <BiEnvelope className="me-3"/>
+                {/* <MDBIcon icon="envelope" className="me-3" /> */}
                 info@example.com
               </p>
               <p>
-                <MDBIcon icon="phone" className="me-3" /> + 01 234 567 89
+                 <BiPhone className="me-3"/>
+                 + 82 10 1234 5678
               </p>
                
             </MDBCol>

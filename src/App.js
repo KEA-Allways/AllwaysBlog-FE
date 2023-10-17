@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage.js/SignUpPage";
 import PostPage from "./pages/PostPage/PostPage";
 
 
+
 function App() {
 
   // const marginStyle = {

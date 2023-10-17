@@ -58,10 +58,7 @@
     flex: 1; /* Take as much space as possible */
     padding: 10px;
   }
-.btn {
-    margin-left: 10px;
-    padding-left: 10px;
-}
+ 
 .p {
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
