@@ -247,6 +247,8 @@ const SignUpTitle = styled.div`
   padding: 5px 0;
 
   border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 20px;
+
 `;
 
 const SignUpText = styled.div`
@@ -263,6 +265,7 @@ const SignUpText = styled.div`
   margin-left: 10px;
 
   float: left;
+
 `;
 
 const Profile = styled.img`
@@ -287,7 +290,7 @@ const Profile = styled.img`
 
 const Line = styled.hr`
   margin-top: 34px;
-
+  margin-bottom: 20px;
   width: 400px;
 `;
 
@@ -386,6 +389,11 @@ const EmailBtn = styled.div`
 `;
 
 const SignUpBtn = styled.div`
+
+
+
+  text-align: center;
+
   width: 156px;
 
   height: 48px;
