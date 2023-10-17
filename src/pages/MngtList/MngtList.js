@@ -1,46 +1,47 @@
 import { useState, useRef, useEffect } from "react";
-import Topbar from "../components/Topbar";
+import Topbar from "../../components/Topbar/Topbar";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
-const Cat01 = () => {
+const MngtList = (props) => {
+    const { themeSeq } = useParams();
 
-    const [data, setData] = useState([]);
+    const [lists, setLists] = useState([]);
 
     const apiGetCategories = () => {
         axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
           .then((response) => {
-            //setData(response.data.themes[0].lists);
-            setData(response.data.themes);
-            console.log(data)
+            setLists(response.data.themes[themeSeq].lists);
+            console.log(lists)
           })
           .catch((error) => {
             console.error('API GET request error:', error);
           });
-      };
+    };
 
     const dragItem = useRef();
     const dragOverItem = useRef();
 
     const dragStart = idx => {
         dragItem.current = idx;
-      };
+    };
     
-      const dragEnter = idx => {
+    const dragEnter = idx => {
         dragOverItem.current = idx;
-      };
+    };
     
-      const drop = () => {
-        const copyListItems = [...data];
+    const drop = () => {
+        const copyListItems = [...lists];
         const dragItemConotent = copyListItems[dragItem.current];
         copyListItems.splice(dragItem.current, 1);
         copyListItems.splice(dragOverItem.current, 0, dragItemConotent);
         dragItem.current = null;
         dragOverItem.current = null;
-        setData(copyListItems);
-      };
+        setLists(copyListItems);
+    };
 
-      useEffect(() => {
+    useEffect(() => {
         // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
         apiGetCategories();
     }, []);
@@ -53,8 +54,8 @@ const Cat01 = () => {
             <Button onClick={apiGetCategories}>Test API Request</Button>
       
             <div>
-                {data && 
-                    data.map((item, idx) => (
+                {lists && 
+                    lists.map((item, idx) => (
                         <div key={idx} id={idx}
                             style={{
                                 //backgroundColor: 'lightblue',
@@ -68,7 +69,7 @@ const Cat01 = () => {
                             onDragOver={e => e.preventDefault()}
                             onDragEnd={drop}
                             draggable>
-                            {item.themeName}
+                            {item.listName}
                         </div>
                     ))}
             </div>
@@ -77,4 +78,4 @@ const Cat01 = () => {
     )
 }
 
-export default Cat01;
+export default MngtList;

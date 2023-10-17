@@ -1,10 +1,10 @@
-import Topbar from "../components/Topbar";
+import Topbar from "../../components/Topbar/Topbar";
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const MngtCats = (props) => {
+const MngtTheme = (props) => {
     const [themes, setThemes] = useState([]);
 
     const apiGetCategories = () => {
@@ -44,7 +44,7 @@ const MngtCats = (props) => {
                         <td>{idx + 1}</td>
                         <td>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Link to={`/cat/${idx}`}>{item.themeName}</Link>
+                                <Link to={`/mngtTheme/${idx}`}>{item.themeName}</Link>
                             </div>
                         </td>
                     </tr>
@@ -56,4 +56,4 @@ const MngtCats = (props) => {
     )
 }
 
-export default MngtCats;
+export default MngtTheme;
