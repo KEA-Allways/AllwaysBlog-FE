@@ -307,9 +307,12 @@ input.input__field::placeholder {
 
 .btns {
   display: flex;
-  justify-content: center; /* Center horizontally */
+  justify-content: flex-end; /* Center horizontally */
   align-items: center; /* Center vertically */
 }
+
+ 
+
 
 .selected {
   background-color: #3b45ff;
@@ -475,7 +478,3 @@ input.input__field::placeholder {
 }
 
 /* BTN */
-.btns {
-  display: flex;
-  justify-content: flex-end; /* Align to the right */
-}

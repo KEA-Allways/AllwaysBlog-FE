@@ -226,59 +226,58 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                   </div>
                   <div className="background__btns">
                     <div id="background__btn__container" className="btns">
-                      <Button
-                        variant="primary"
+                      <button
                         className="btn random__solid"
                         onClick={handleRandomColorClick}
                       >
                         랜덤 단색
-                      </Button>
-                      <Button
-                        variant="primary"
+                      </button>
+                      <button
                         className="btn img__url"
                         onClick={handleImageBackground}
                       >
                         이미지 URL
-                      </Button>
+                      </button>
 
-                      <Button variant="primary" className="btn karlo_api" onClick={handleKarloImage} >
+                      <button  
+                        className="btn karlo_api" onClick={handleKarloImage} >
                         칼로 API
-                    </Button>
+                    </button>
                     </div>
                   </div>
                   <div className="components__btns">
                     <div id="component__btn__container" className="btns">
-                      <Button
+                      <button
                         data-set="comp__opt1"
                         className="btn component__opt"
                         onClick={() => setShowSubtitle(true)}
                       >
                         제목 / 내용
-                      </Button>
-                      <Button
+                      </button>
+                      <button
                         data-set="comp__opt2"
                         className="btn component__opt"
                         onClick={() => setShowSubtitle(false)}
                       >
                         제목만
-                      </Button>
+                      </button>
                     </div>
                   </div>
 
                   <div className="text__style">
                     <div id="textstyle__btn__container" className="btns">
-                      <Button
+                      <button
                         className="btn text__btn text__invert"
                         onClick={() => handleTextBlackOrWhite()}
                       >
                         텍스트 색상 반전
-                      </Button>
-                      <Button
+                      </button>
+                      <button
                         className="btn text__btn text__random"
                         onClick={() => handleTextColorChange()}
                       >
                         텍스트 색상 랜덤
-                      </Button>
+                      </button>
                     </div>
                   </div>
                   <div className="master__panel">
