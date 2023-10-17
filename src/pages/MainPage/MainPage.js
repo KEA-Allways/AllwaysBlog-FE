@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Topbar from "../components/Topbar";
-import NoLoginTopbar from "../components/NoLoginTopbar";
-import Banner from "../components/Banner";
-import Grid from "../components/Grid";
-import Footer from "../components/Footer";
+import Topbar from "../../components/Topbar/Topbar";
+import NoLoginTopbar from "../../components/Topbar/NoLoginTopbar";
+import Banner from "../../components/Banner/Banner"
+import Grid from "../../components/Grid/Grid";
+import Footer from "../../components/Footer/Footer";
 
 const MainPage = () => {
 
@@ -18,15 +18,13 @@ const MainPage = () => {
     const [login, setLogin] = useState(false);
 
     const handleLogin = () => {
-        setLogin((cur) => !cur);
+        setLogin(!login);
     }
     
     return (
         <div>
-            <div style={marginStyle}>
-                {login ? <Topbar/> : <NoLoginTopbar/>}
+            {login ? <Topbar/> : <NoLoginTopbar/>}
                 
-            </div>
             <Banner />
             <div style={{marginBottom : "50px", marginTop : "50px"}}></div>
             <div style={maxMarginStyle}>

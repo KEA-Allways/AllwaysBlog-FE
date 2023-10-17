@@ -1,27 +1,26 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import './Footer.css';
-import CopyButton from './CopyButton';
+import styles from "./Footer.module.css";
+import CopyButton from '../CopyButton/CopyButton';
 
 function Footer() {
     return (
-        <div className='footer-container'>
+        <div className={styles.footerContainer}>
             <section className="footer-subscription">
                 <p className="footer-subscription-heading">
                     저희 Allways와 함께 여행을 떠나보시겠습니까?
                 </p>
-                <p className="footer-subscription-text">
+                <p className={styles.footerSubscriptionText}>
                     언제든 여행을 그만두실수도 있습니다.
                 </p>
-                <div className="input-areas">
+                <div className={styles.inputAreas}>
                     <form>
                         <input type="email" name = "email" placeholder = "Your Email" 
-                        className="footer-input"/>
-                        <button className='btn--outline'>구독</button>
+                        className={styles.footerInput}/>
+                        <button className={styles.btnOutline}>구독</button>
                     </form>
                 </div>
             </section>
-            <section className='footer-subscription'>
+            <section className={styles.footerSubscription}>
                 <h2>Contact Us</h2><br />
                 <h4>사용하시면서 불편하신점이 있으시다면</h4><br />
                 <CopyButton content="kis07150@naver.com"/><br />

@@ -1,4 +1,4 @@
-import ManageTopSideBar from "../components/ManageTopSideBar";
+import ManageTopSideBar from "../../components/TopSidebar/ManageTopSideBar";
 
 const ManagePage = () => {
     return (
