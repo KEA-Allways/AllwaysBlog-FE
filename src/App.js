@@ -9,6 +9,7 @@ import PostPage from "./pages/PostPage/PostPage";
 import MngtTheme from "./pages/MngtTheme/MngtTheme";
 import MngtList from "./pages/MngtList/MngtList";
 import MngtContent from "./pages/MngtContent/MngtContent"
+import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/mngtTheme" element={<MngtTheme />} />
           <Route path="/mngtTheme/:themeSeq" element={<MngtList />} />
           <Route path="/mngtContent" element={<MngtContent/>} />
+          <Route path="/mngtTemplate" element={<MngtTemplate/>}/>
         </Routes>
       </BrowserRouter>
     </div>
