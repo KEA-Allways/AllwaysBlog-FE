@@ -6,6 +6,8 @@ import ManagePage from "./pages/ManagePage/ManagePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage.js/SignUpPage";
 import PostPage from "./pages/PostPage/PostPage";
+import MngtCats from "./pages/MngtCats";
+import MngtTemplate from "./pages/ManagePage/MngtTemplate/MngtTemplate";
 
 
 
@@ -27,6 +29,8 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/post" element={<PostPage />} />
+          <Route path="/mngtCats" element={<MngtCats/>}/>
+          <Route path="/mngt/mngtTemplate" element={<MngtTemplate/>}/>
         </Routes>
       </BrowserRouter>
     </div>
