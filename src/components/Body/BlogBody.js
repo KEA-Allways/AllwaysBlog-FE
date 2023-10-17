@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import {Card, Col, Row} from 'react-bootstrap';
 import { useState } from "react";
+import styles from "./BlogBody.module.css";
 
 const CardsData = [
   {
@@ -122,7 +123,7 @@ const BlogBody = () => {
   };
 
   return (
-    <div>
+    <div className={styles.mt5}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           <button onClick={() => handleButtonClick("카드형")}>카드형</button>

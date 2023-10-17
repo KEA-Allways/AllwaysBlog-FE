@@ -1,5 +1,4 @@
 import {motion} from "framer-motion";
-import {BarChartRounded, DashboardRounded, TocRounded} from '@material-ui/icons';
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -64,7 +63,6 @@ function Sidebar() {
           <motion.div
             whileHover={{
               scale : "1.2",
-              rotate : 180,
               backgroundColor : "rgba(255,255,255,0.3)",
               backdropFilter: "blur(3.5px)",
               WebkitBackdropFilter : "blur(3.5px)",
@@ -73,8 +71,10 @@ function Sidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
-               <TocRounded />
+               <img src="/img/backIcon.jpg"  width="50px" height="50px"/> 
           </motion.div>
+           
+             
            
            {/* 프로필 */}
            <motion.div className={styles.profile}
@@ -91,18 +91,18 @@ function Sidebar() {
               border: "1px solid rgba(255, 255, 255, 0.18)",
               cursor : "pointer"
             }}>
-              <img src='/img/usericon.png' alt='profile_img'/> 
+              <img src='/img/logo192.png' alt='profile_img'/> 
           </motion.div>
           {/* 그룹 1 */}
           <div className={styles.groups}>
             <div className={styles.group}>
               <motion.h3
                 animate = {{opacity : open ? 1 : 0, height : open ? 'auto' : 0}}
-                >테마1</motion.h3>
-              <Item name="카테고리1" />  
-              <Item name="카테고리2" />  
+                >ANALYTICS</motion.h3>
+              <Item  name="Dashboard" />  
+              <Item  name="Performance" />  
             </div>  
-          </div>  
+          </div>     
         </motion.div>
         
       </motion.div>

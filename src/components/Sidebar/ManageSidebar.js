@@ -1,5 +1,4 @@
 import {motion} from "framer-motion";
-import {BarChartRounded, DashboardRounded, TocRounded} from '@material-ui/icons';
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -64,7 +63,6 @@ function ManageSidebar() {
           <motion.div
             whileHover={{
               scale : "1.2",
-              rotate : 180,
               backgroundColor : "rgba(255,255,255,0.3)",
               backdropFilter: "blur(3.5px)",
               WebkitBackdropFilter : "blur(3.5px)",
@@ -73,7 +71,7 @@ function ManageSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
-               <TocRounded />
+                <img src="/img/backIcon.jpg"  width="35px" height="35px"/> 
           </motion.div>
            
            {/* 프로필 */}
