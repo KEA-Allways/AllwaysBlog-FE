@@ -5,6 +5,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+<<<<<<< HEAD
+=======
+    "@material-ui/icons": "^4.11.3",
+>>>>>>> 4adfd29b70798ee18bc9c202ee9dc56661462062
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -56,5 +60,4 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {}
-  }
-
+}
