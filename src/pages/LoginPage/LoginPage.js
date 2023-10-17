@@ -1,4 +1,4 @@
-import LoginPageTopbar from "../components/LoginPageTopbar";
+import LoginPageTopbar from "../../components/Topbar/Topbar";
 
 const LoginPage = () => {
     return (
