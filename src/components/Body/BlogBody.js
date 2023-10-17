@@ -128,7 +128,7 @@ const BlogBody = () => {
           <button onClick={() => handleButtonClick("카드형")}>카드형</button>
           <button onClick={() => handleButtonClick("리스트형")}>리스트형</button>
         </div>
-        <Link to="/new-post"> {/* 'new-post'로 이동 */}
+        <Link to="/post"> {/* 'new-post'로 이동 */}
           <button>글 작성하기</button>
         </Link>
       </div>
@@ -140,7 +140,7 @@ const BlogBody = () => {
           <Col key={index}>
             <Card1
               imgUrl={blg.src}
-              imgHeight="250px"
+              imgHeight="150px"
               title={blg.title}
               subtitle={blg.subtitle}
               usericon={blg.userIcon}
