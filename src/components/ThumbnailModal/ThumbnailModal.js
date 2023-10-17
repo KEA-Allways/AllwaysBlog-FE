@@ -207,7 +207,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                 <div className="control__panel">
                   <div className="inputFields horizontal">
                     
-                    <Form.Group controlId="title">
+                    <Form.Group controlId="title" className="me-4">
                       <Form.Control
                         type="text"
                         placeholder="제목을 입력하세요"
@@ -215,7 +215,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         style={{ width: '200px', height: '40px', marginRight: '10px' }}
                       />
                     </Form.Group>
-                    <Form.Group controlId="subtitle">
+                    <Form.Group controlId="subtitle"className="me-3" >
                       <Form.Control
                         type="text"
                         placeholder="내용을 입력하세요"
@@ -225,38 +225,36 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     </Form.Group>
                   </div>
                   <div className="background__btns">
-                    <div id="background__btn__container" className="btns">
+                    <div id="background__btn__container" className="modal__btns">
                       <button
-                        className="btn random__solid"
+                        className="modal__btn random__solid"
                         onClick={handleRandomColorClick}
                       >
                         랜덤 단색
                       </button>
                       <button
-                        className="btn img__url"
+                        className="modal__btn img__url"
                         onClick={handleImageBackground}
                       >
                         이미지 URL
                       </button>
 
                       <button  
-                        className="btn karlo_api" onClick={handleKarloImage} >
+                        className="modal__btn karlo_api" onClick={handleKarloImage} >
                         칼로 API
                     </button>
                     </div>
                   </div>
                   <div className="components__btns">
-                    <div id="component__btn__container" className="btns">
+                    <div id="component__btn__container" className="modal__btns">
                       <button
-                        data-set="comp__opt1"
-                        className="btn component__opt"
+                         className="modal__btn me-3"
                         onClick={() => setShowSubtitle(true)}
                       >
                         제목 / 내용
                       </button>
                       <button
-                        data-set="comp__opt2"
-                        className="btn component__opt"
+                        className="modal__btn me-3"
                         onClick={() => setShowSubtitle(false)}
                       >
                         제목만
@@ -265,36 +263,41 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                   </div>
 
                   <div className="text__style">
-                    <div id="textstyle__btn__container" className="btns">
+                    <div id="textstyle__btn__container" className="modal__btns">
                       <button
-                        className="btn text__btn text__invert"
+                        className="modal__btn me-3"
                         onClick={() => handleTextBlackOrWhite()}
                       >
                         텍스트 색상 반전
                       </button>
                       <button
-                        className="btn text__btn text__random"
+                        className="modal__btn me-3"
                         onClick={() => handleTextColorChange()}
                       >
                         텍스트 색상 랜덤
                       </button>
                     </div>
                   </div>
-                  <div className="master__panel">
-                    <Button
-                      variant="primary"
+                  <div className="master__panel modal__btns">
+                    <button
+                      className="modal__btn modal__init__btn me-3"
                       id="initialize"
+                      style={{ height: "60px"}}
                       onClick={handleReset}
+                      
                     >
+                      
                       초기화
-                    </Button>
-                    <Button
-                      variant="primary"
+                    </button>
+                     
+                    <button
+                      className="modal__btn modal__sucess__btn me-3"
                       id="export"
+                      style={{ height: "60px"}}
                       onClick={handleExport}
                     >
                       완료 및 이미지화
-                    </Button>
+                    </button>
                   </div>
                 </div>
               
