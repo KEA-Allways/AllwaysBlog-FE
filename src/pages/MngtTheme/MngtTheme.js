@@ -1,14 +1,28 @@
-import Topbar from "../components/Topbar";
+import Topbar from "../../components/Topbar/Topbar";
 import { Button, Table } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const cats = [
-    { title : '소소한 요리 기록'},
-    { title : '여행 다이어리'}
-]
+const MngtTheme = (props) => {
+    const [themes, setThemes] = useState([]);
 
-const MngtCats = () => {
+    const apiGetCategories = () => {
+        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
+          .then((response) => {
+            setThemes(response.data.themes);
+            console.log(themes)
+          })
+          .catch((error) => {
+            console.error('API GET request error:', error);
+          });
+    };
+
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
+        apiGetCategories();
+    }, []);
+
     return (
         <div>
             <Topbar />
@@ -25,12 +39,12 @@ const MngtCats = () => {
                     </thead>
                     <tbody>
                     
-                    {cats.map((contents, idx) => (
+                    {themes.map((item, idx) => (
                         <tr>
                         <td>{idx + 1}</td>
                         <td>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Link to={`/cat0${idx+1}`}>{contents.title}</Link>
+                                <Link to={`/mngtTheme/${idx}`}>{item.themeName}</Link>
                             </div>
                         </td>
                     </tr>
@@ -42,4 +56,4 @@ const MngtCats = () => {
     )
 }
 
-export default MngtCats;
+export default MngtTheme;
