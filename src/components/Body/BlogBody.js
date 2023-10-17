@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {Card, Col, Row} from 'react-bootstrap';
 import { useState } from "react";
 import styles from "./BlogBody.module.css";
+import {motion} from "framer-motion";
 
 const CardsData = [
   {
@@ -95,6 +96,7 @@ const BlogBody = () => {
 
   const Card1 = ({imgUrl, alt, imgHeight, title, subtitle, usericon, nickname}) => {
     return (
+      <div  className={styles.cardStyle}>
       <Card>
         <Card.Img variant="top" alt={alt} src={imgUrl} height={imgHeight} />
         <Card.Body>
@@ -105,11 +107,13 @@ const BlogBody = () => {
           <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
         </Card.Footer>
       </Card>
+      </div>
     );
   };
   
   const Card2 = ({title, subtitle, usericon, nickname}) => {
     return (
+      <div className={styles.listStyle}>
       <Card>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
@@ -119,6 +123,7 @@ const BlogBody = () => {
           <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
         </Card.Footer>
       </Card>
+      </div>
     );
   };
 
