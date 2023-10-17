@@ -191,6 +191,8 @@ const Container = styled.div`
 `;
 
 const SignUpSection = styled.div`
+  box-shadow: 1px 1px 15px -5px black;
+
   margin-top: 0px;
   padding-top: 10px;
   width: 550px;
@@ -199,7 +201,6 @@ const SignUpSection = styled.div`
   border: solid;
   
   border-color: rgba(0, 0, 0, 0);
-
   box-shadow: 5px rgba(0, 0, 0, 3);
 
   border-radius: 50px;
@@ -244,6 +245,7 @@ const Profile = styled.img`
 const Line = styled.hr`
   margin-top: 34px;
   width: 400px;
+  
 `;
 
 const ProfileUpload = styled.input`
@@ -266,7 +268,6 @@ const TextInputContainer = styled.div`
 `;
 
 const Input = styled.input`
-  
   width: 300px;
   height: 38px;
   padding-left: 19px;

@@ -117,10 +117,11 @@ const Container = styled.div`
   height: 1000px;
   align-items: center;
   padding-top: 60px;
-  background: #00b4ef;
+  // background: #00b4ef;
 `;
 
 const LoginSection = styled.div`
+  box-shadow: 1px 1px 15px -5px black;
   margin-top: 0px;
   padding-top: 59px;
   width: 550px;
