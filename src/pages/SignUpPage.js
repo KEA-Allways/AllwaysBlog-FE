@@ -1,16 +1,11 @@
 import LoginPageTopbar from "../components/LoginPageTopbar";
-
 import styled from "@emotion/styled";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import { useState, useRef } from "react";
-
 import React from "react";
-
 import axios from "axios";
-
 import Swal from "sweetalert2";
+import { FaEye } from "react-icons/fa";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -24,58 +19,54 @@ const SignUpPage = () => {
   );
 
   const [response, setResponse] = useState("");
-
   const [userId, setUserId] = useState("");
-
   const [email, setEmail] = useState("");
-
   const [nickname, setNickname] = useState("");
-
   const [password, setPassword] = useState("");
-
   const [repeatPassword, setRepeatPassword] = useState("");
 
+  const [isShowPwChecked, setShowPwChecked] = useState(true);
+  const [isShowRepeatPwChecked, setShowRepeatPwChecked] = useState(true);
+
+  const toggleHidePassword = () => {
+    setShowPwChecked(!isShowPwChecked);
+  };
+
+  const toggleHideRepeatPassword = () => {
+    setShowRepeatPwChecked(!isShowRepeatPwChecked);
+  };
+
   const signUpBtnClicked = () => {
-     axios.post(
+    axios
+      .post(
         "http://private-06de82-bee3083.apiary-mock.com/api/users/new-user ",
         {
           profileImg: profileImage,
-
           userId: userId,
-
           email: email,
-
           nickname: nickname,
-
           password: password,
-
           repeatPassword: repeatPassword,
         }
       )
 
       .then((response) => {
-        
         console.log(response);
 
         if (response.status === 200) {
           Swal.fire({
             title: "회원가입 성공!",
-            icon: 'success'
-          }).then(()=> {
+            icon: "success",
+          }).then(() => {
             navigate("/login");
-          }) 
-               
+          });
         } else {
           Swal.fire({
             title: "회원가입 실패!",
-            icon: 'error'
-          }).then(()=> {
-
-          }) 
+            icon: "error",
+          }).then(() => {});
         }
       });
-
-   
   };
 
   const selectFile = (e) => {
@@ -98,7 +89,6 @@ const SignUpPage = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImage(reader.result);
-
         alert(reader.result);
       }
     };
@@ -109,11 +99,9 @@ const SignUpPage = () => {
   return (
     <>
       <LoginPageTopbar></LoginPageTopbar>
-
       <Container>
         <SignUpSection>
           <SignUpTitle>회원가입</SignUpTitle>
-
           <Profile
             src={profileImage}
             style={{ margin: "10px", cursor: "pointer" }}
@@ -121,7 +109,6 @@ const SignUpPage = () => {
               fileInput.current.click();
             }}
           />
-
           <ProfileUpload
             type="file"
             accept="image/*"
@@ -129,10 +116,8 @@ const SignUpPage = () => {
             onChange={selectFile}
             ref={fileInput}
           />
-
           <SignUpContainer>
             <SignUpText>이메일</SignUpText>
-
             <TextInputContainer>
               <Input
                 placeholder="이메일을 입력해주세요."
@@ -140,11 +125,8 @@ const SignUpPage = () => {
                   setEmail(e.target.value);
                 }}
               />
-
               <EmailBtn>인증하기</EmailBtn>
             </TextInputContainer>
-
-            
             <SignUpText>아이디</SignUpText>
             <TextInputContainer>
               <Input
@@ -154,9 +136,7 @@ const SignUpPage = () => {
                 }}
               />
             </TextInputContainer>
-
             <SignUpText>닉네임</SignUpText>
-
             <TextInputContainer>
               <Input
                 placeholder="닉네임을 입력해주세요."
@@ -165,27 +145,28 @@ const SignUpPage = () => {
                 }}
               />
             </TextInputContainer>
-
             <SignUpText>비밀번호</SignUpText>
-
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 입력해주세요."
+                type={isShowPwChecked ? "password":"text"}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
+              <Icon onClick={toggleHidePassword} />
             </TextInputContainer>
-
             <SignUpText>비밀번호 재입력</SignUpText>
-
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 다시 입력해주세요."
+                type={isShowRepeatPwChecked ? "password":"text"}
                 onChange={(e) => {
                   setRepeatPassword(e.target.value);
                 }}
               />
+
+              <Icon onClick={toggleHideRepeatPassword} />
             </TextInputContainer>
           </SignUpContainer>
 
@@ -200,101 +181,68 @@ const SignUpPage = () => {
 
 const Container = styled.div`
   display: flex;
-
   align: left;
-
   flex-direction: column;
-
   width: 100vw;
-
   height: 1000px;
-
   align-items: center;
-
   padding-top: 30px;
-
-  background: #00b4ef;
+  background: #fff;
 `;
 
 const SignUpSection = styled.div`
   margin-top: 0px;
-
   padding-top: 10px;
-
   width: 550px;
-
   height: 800px;
-
   background: #fff;
-
   border: solid;
-
+  
   border-color: rgba(0, 0, 0, 0);
 
-  box-shadow: 5px rgba(1, 0, 0, 3);
+  box-shadow: 5px rgba(0, 0, 0, 3);
 
   border-radius: 50px;
-
   text-align: center;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
 `;
 
 const SignUpTitle = styled.div`
   display: block;
-
   font-size: 35px;
-
   font-weight: 700;
-
   padding: 5px 0;
-
   border-bottom: 2px solid #f0f0f0;
 `;
 
 const SignUpText = styled.div`
   width: 200px;
-
   display: block;
-
   font-size: 15px;
-
   font-weight: 700;
-
   text-align: left;
-
   margin-left: 10px;
-
   float: left;
 `;
 
 const Profile = styled.img`
   box-shadow: 1px 1px 15px -5px black;
-
   border-radius: 50%;
-
   cursor: pointer;
-
   width: 120px;
-
   height: 120px;
-
   transition: all 0.5s ease;
 
   &:hover {
     transform: scale(1.1);
-
     transition: 0.5s;
   }
 `;
 
 const Line = styled.hr`
   margin-top: 34px;
-
   width: 400px;
 `;
 
@@ -304,125 +252,92 @@ const ProfileUpload = styled.input`
 
 const SignUpContainer = styled.div`
   margin-top: 23px;
-
   display: flex;
-
   flex-direction: column;
-
   transition: all 0.5s ease;
 `;
 
 const TextInputContainer = styled.div`
+  position: relative; 
   display: flex;
-
   margin-top: 1px;
-
   margin-bottom: 20px;
-
   transition: all 0.5s ease;
 `;
 
 const Input = styled.input`
+  
   width: 300px;
-
   height: 38px;
-
   padding-left: 19px;
-
   padding-right: 19px;
-
   border: none;
-
   border-radius: 13px;
-
   background: #f0f0f0;
-
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-
   font-weight: 400;
-
   font-size: 15px;
-
   transition: all 0.5s ease 0s;
-
   &:hover {
     transform: scale(1.05);
-
   }
 `;
 
 const EmailBtn = styled.div`
   width: 100px;
-
   height: 38px;
-
   margin-left: 15px;
-
   line-height: 38px;
-
   background: #00b4ef;
-
   border: 1px solid #dadada;
-
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
   border-radius: 15px;
-
   font-style: normal;
-
   font-weight: 400;
-
   font-size: 14px;
-
   color: white;
-
   cursor: pointer;
-
   transition: all 0.5s ease;
-
   &:hover {
     transform: scale(1.05);
-
     background: cornflowerblue;
-
     transition: 0.5s;
   }
 `;
 
 const SignUpBtn = styled.div`
   width: 156px;
-
   height: 48px;
-
   line-height: 48px;
-
   background: #00b4ef;
-
   border: 1px solid #dadada;
-
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
   border-radius: 15px;
-
   font-style: normal;
-
   font-weight: 400;
-
   font-size: 18px;
-
   color: white;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05);
+    background: cornflowerblue;
+    transition: 0.5s;
+  }
+`;
 
+const Icon = styled(FaEye)`
+  position: absolute;
+  top: 10px;
+  bottom: 0px;
+  left: 65%;
+  height: 20px;
   cursor: pointer;
 
   transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.05);
-
-    background: cornflowerblue;
-
-    transition: 0.5s;
-  }
+   &:hover {
+    transform: scale(1.3);
+   }
 `;
 
 export default SignUpPage;

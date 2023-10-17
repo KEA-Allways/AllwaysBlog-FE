@@ -52,9 +52,6 @@ const LoginPage = () => {
           }) 
         }
       });
-
-
-    
   };
 
   const kakaoBtnClicked = async () => {
@@ -69,8 +66,6 @@ const LoginPage = () => {
       <Container>
         <LoginSection>
           <LoginTitle>Login</LoginTitle>
-
-
           <TextInputContainer>
             <Input
               placeholder="이메일"
@@ -79,8 +74,6 @@ const LoginPage = () => {
               }}
             />
           </TextInputContainer>
-
-
           <TextInputContainer>
             <Input
               placeholder="비밀번호"
@@ -92,16 +85,12 @@ const LoginPage = () => {
             />
              <Icon onClick={toggleHidePassword}/> 
           </TextInputContainer>
-
-
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
             <Link to="/sign-up" style={{textDecoration: "none"}}>
               <SignupBtn>회원가입</SignupBtn>
             </Link>
           </BtnsContainer>
-
-
           <ReLoginContainer>
             <ReLoginCheckBox
               type="checkbox"
@@ -109,13 +98,10 @@ const LoginPage = () => {
               id="checkbox1"
               name="check"
             />
-
             <ReLoginText>로그인 상태 유지</ReLoginText>
             <ForgotPWText>비밀번호 찾기</ForgotPWText>
           </ReLoginContainer>
-
           <Line />
-          
           <KaBtn src={kaBtn} onClick={kakaoBtnClicked} />
           <Notice></Notice>
         </LoginSection>
@@ -165,10 +151,9 @@ const LoginTitle = styled.div`
 `;
 
 const TextInputContainer = styled.div`
-position: relative; 
+  position: relative;   
   display: flex;
   margin-top: 23px;
-
   transition: all 0.5s ease;
   &:hover {
     transform: scale(1.05);
