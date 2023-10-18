@@ -7,6 +7,11 @@ import styles from "./Sidebar.module.css";
 function ManageSidebar() {
 
   const [open, setOpen] = useState(true);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+  };
 
   const handleToggle = () => {
     setOpen(!open);
@@ -69,7 +74,7 @@ function ManageSidebar() {
               WebkitBackdropFilter : "blur(3.5px)",
               border: "1px solid rgba(255, 255, 255, 0.18)",
             }} 
-            onClick={handleToggle}
+            onClicked={handleToggle}
             className={styles.linesIcon} 
           >
  
@@ -95,11 +100,11 @@ function ManageSidebar() {
           {/* 그룹 1 */}
           <div className={styles.groups}>
             <div className={styles.group}>
-              <Item name="블로그관리홈" path="/mngt"/>  
-              <Item name="테마 관리" path="/mngt/theme"/>
-              <Item name="컨텐츠 관리" path="/mngt/content"/> 
-              <Item name="서식관리" path="/mngt/template"/>  
-              <Item name="통계" path="/mngt/static"/> 
+              <Item name="블로그관리홈" path="/mngt" selected={selectedItem === "/mngt"} onClicked={handleItemClick}/>  
+              <Item name="테마 관리" path="/mngt/theme" selected={selectedItem === "/mngt/theme"} onClicked={handleItemClick}/>
+              <Item name="컨텐츠 관리" path="/mngt/content" selected={selectedItem === "/mngt/content"} onClicked={handleItemClick}/> 
+              <Item name="서식관리" path="/mngt/template" selected={selectedItem === "/mngt/template"} onClicked={handleItemClick}/>  
+              <Item name="통계" path="/mngt/static" selected={selectedItem === "/mngt/static"} onClicked={handleItemClick}/> 
             </div>  
           </div>
         </motion.div>

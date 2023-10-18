@@ -10,3 +10,7 @@
     margin-right: 0.5rem;
     margin-top: 6px;
 }
+
+.selected {
+    background-color: blue;
+}
