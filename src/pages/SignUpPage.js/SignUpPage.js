@@ -191,8 +191,6 @@ const SignUpPage = () => {
 const Container = styled.div`
   display: flex;
 
-  align: left;
-
   flex-direction: column;
 
   width: 100vw;
@@ -389,7 +387,6 @@ const EmailBtn = styled.div`
 `;
 
 const SignUpBtn = styled.div`
-
 
 
   text-align: center;
