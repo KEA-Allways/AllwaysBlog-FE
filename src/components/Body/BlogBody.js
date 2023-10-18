@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import {Card, Col, Row} from 'react-bootstrap';
 import { useState } from "react";
+import styles from "./BlogBody.module.css";
+import {motion} from "framer-motion";
 
 const CardsData = [
   {
@@ -94,6 +96,7 @@ const BlogBody = () => {
 
   const Card1 = ({imgUrl, alt, imgHeight, title, subtitle, usericon, nickname}) => {
     return (
+      <div  className={styles.cardStyle}>
       <Card>
         <Card.Img variant="top" alt={alt} src={imgUrl} height={imgHeight} />
         <Card.Body>
@@ -104,11 +107,13 @@ const BlogBody = () => {
           <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
         </Card.Footer>
       </Card>
+      </div>
     );
   };
   
   const Card2 = ({title, subtitle, usericon, nickname}) => {
     return (
+      <div className={styles.listStyle}>
       <Card>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
@@ -118,17 +123,28 @@ const BlogBody = () => {
           <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
         </Card.Footer>
       </Card>
+      </div>
     );
   };
 
   return (
-    <div>
+    <div className={styles.mt5}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <button onClick={() => handleButtonClick("카드형")}>카드형</button>
-          <button onClick={() => handleButtonClick("리스트형")}>리스트형</button>
+          {showContent === "카드형" && (
+            <div>
+            <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+            <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+            </div>
+          )}
+          {showContent === "리스트형" && (
+            <div>
+            <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+            <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+            </div>
+          )}
         </div>
-        <Link to="/post"> {/* 'new-post'로 이동 */}
+        <Link to="/post">
           <button>글 작성하기</button>
         </Link>
       </div>

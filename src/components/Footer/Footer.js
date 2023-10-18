@@ -1,39 +1,117 @@
-import React from 'react'
+import React from 'react';
+import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import "./Footer.module.css";
 import styles from "./Footer.module.css";
-import CopyButton from '../CopyButton/CopyButton';
+import Button from 'react-bootstrap/Button';
 
-function Footer() {
-    return (
-        <div className={styles.footerContainer}>
-            <section className="footer-subscription">
-                <p className="footer-subscription-heading">
-                    저희 Allways와 함께 여행을 떠나보시겠습니까?
-                </p>
-                <p className={styles.footerSubscriptionText}>
-                    언제든 여행을 그만두실수도 있습니다.
-                </p>
-                <div className={styles.inputAreas}>
-                    <form>
-                        <input type="email" name = "email" placeholder = "Your Email" 
-                        className={styles.footerInput}/>
-                        <button className={styles.btnOutline}>구독</button>
-                    </form>
-                </div>
-            </section>
-            <section className={styles.footerSubscription}>
-                <h2>Contact Us</h2><br />
-                <h4>사용하시면서 불편하신점이 있으시다면</h4><br />
-                <CopyButton content="kis07150@naver.com"/><br />
-                <p>깃허브 : <a href='https://github.com/KEA-Allways/' target="_blank" rel="noopener noreferrer">
-                    <img src='/img/githubLogo.png' alt="GitHub" width="32" height="32" />
-                </a>
-                </p>
-            </section>
-            <section>
-                    <small>Allways © 2023</small>
-            </section>
+import { FaGoogle } from "react-icons/fa";
+import {FaGithub} from "react-icons/fa"
+import {FaInstagram} from "react-icons/fa"
+import {FaReact} from "react-icons/fa";
+import  {FaBootstrap} from  "react-icons/fa";
+import {BiLogoSpringBoot} from "react-icons/bi";
+import {BiSolidSchool} from "react-icons/bi";
+import {BiEnvelope} from "react-icons/bi"
+import {BiPhone} from "react-icons/bi"
+
+
+ 
+
+export default function footer() {
+  return (
+    <MDBFooter bgColor='#f4f4f4' className='text-center text-lg-start text-muted'>
+      <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
+         
+        
+      </section>
+       
+      <section className=''>
+        <MDBContainer >
+        
+        <div className='d-flex justify-content-end mt-3'> 
+          
+           
+          <a href='https://www.google.com/' className='me-4 text-reset'>
+             <FaGoogle />
+          </a>
+          <a href='https://www.instagram.com/' className='me-4 text-reset'>
+             <FaInstagram/>
+          </a>
+          <a href='https://github.com/KEA-Allways' className='me-4 text-reset'>
+             <FaGithub/>
+          </a>
         </div>
-    )
-}
+        </MDBContainer>
+      
+        <MDBContainer className=' justify-content-between align-items-center'>
+          <MDBRow className='mt-2'>
+            <MDBCol md="4" lg="4" xl="3" className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>
+                Allways
+              </h6>
+              <p className={styles.p}>
+              저희 Allways와 함께 여행을 떠나보시겠습니까? 언제든 여행을 그만두실수도 있습니다.
+              </p>
+              <div className='d-flex '>
+                    <div className={styles.inputAreas}>
+                    <form>
+                        <input type="email" name="email" placeholder="Your Email" className={styles.footerInput} />
+                    </form>
+                    </div>
+                    <Button variant="success">Dark</Button> 
+                </div>
+            </MDBCol>
 
-export default Footer
+            <MDBCol md="4" lg="3" xl="2" className='mx-auto mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>Skills</h6>
+              <p>
+              <BiLogoSpringBoot className='me-3'/>
+                 Spring boot 
+                  
+              </p>
+              <p>
+
+              <FaReact className='me-3'/>
+                React 
+                 
+              </p>
+              <p>
+              <FaBootstrap className='me-3'/>
+               bootstrap 
+                 
+              </p>
+               
+            </MDBCol>
+
+             
+
+            <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
+              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
+              <p>
+              
+                <BiSolidSchool className="me-3"/>
+                
+                Gachon University, ko-kr
+              </p>
+              <p>
+                <BiEnvelope className="me-3"/>
+                {/* <MDBIcon icon="envelope" className="me-3" /> */}
+                info@example.com
+              </p>
+              <p>
+                 <BiPhone className="me-3"/>
+                 + 82 10 1234 5678
+              </p>
+               
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </section>
+
+      <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+        © 2023 Copyright: <span >Allways</span>
+         
+      </div>
+    </MDBFooter>
+  );
+}

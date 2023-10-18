@@ -4,6 +4,9 @@ import NoLoginTopbar from "../../components/Topbar/NoLoginTopbar";
 import Banner from "../../components/Banner/Banner"
 import Grid from "../../components/Grid/Grid";
 import Footer from "../../components/Footer/Footer";
+import styles from "./MainPage.module.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 const MainPage = () => {
 

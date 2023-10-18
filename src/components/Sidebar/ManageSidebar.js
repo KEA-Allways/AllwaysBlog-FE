@@ -1,4 +1,5 @@
 import {motion} from "framer-motion";
+ 
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -63,7 +64,6 @@ function ManageSidebar() {
           <motion.div
             whileHover={{
               scale : "1.2",
-              rotate : 180,
               backgroundColor : "rgba(255,255,255,0.3)",
               backdropFilter: "blur(3.5px)",
               WebkitBackdropFilter : "blur(3.5px)",
@@ -72,6 +72,7 @@ function ManageSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
+ 
           </motion.div>
            
            {/* 프로필 */}
@@ -94,10 +95,11 @@ function ManageSidebar() {
           {/* 그룹 1 */}
           <div className={styles.groups}>
             <div className={styles.group}>
-              <Item name="블로그관리홈" />  
-              <Item name="컨텐츠 관리" /> 
-              <Item name="서식관리" />  
-              <Item name="통계" /> 
+              <Item name="블로그관리홈" path="/mngt"/>  
+              <Item name="테마 관리" path="/mngt/theme"/>
+              <Item name="컨텐츠 관리" path="/mngt/content"/> 
+              <Item name="서식관리" path="/mngt/template"/>  
+              <Item name="통계" path="/mngt/static"/> 
             </div>  
           </div>
         </motion.div>

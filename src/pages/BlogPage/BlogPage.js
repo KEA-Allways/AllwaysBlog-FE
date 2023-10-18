@@ -1,17 +1,14 @@
-import BlogTopSideBar from "../../components/TopSidebar/BlogTopSideBar";
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import BlogBody from "../../components/Body/BlogBody";
-import Topbar from "../../components/Topbar/Topbar";
 import BlogTopbar from "../../components/Topbar/BlogTopbar";
 import BlogSidebar from "../../components/Sidebar/BlogSidebar";
-
 
 const BlogPage = () => {
     return (
         <div>
             <BlogTopbar />
-            <Row>
+            <Row md={2}>
                 <Col md={2}>
                     <BlogSidebar />
                 </Col>
@@ -19,7 +16,7 @@ const BlogPage = () => {
                     
                 </Col>
                 <Col md={8}>
-                    <BlogBody />
+                    <BlogBody/>
                 </Col>
             </Row>
             

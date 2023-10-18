@@ -1,14 +1,18 @@
 import {motion} from "framer-motion";
+ 
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
 
 function BlogSidebar() {
-
   const [open, setOpen] = useState(true);
 
   const handleToggle = () => {
     setOpen(!open);
+  }
+
+  const handleBtn = (e) => {
+    window.location.href = "/blogs/" + e.target.id
   }
 
   const sideContainerVariants = {
@@ -25,7 +29,7 @@ function BlogSidebar() {
   const sidebarVariants = {
     true : {},
     false : {
-      width : "3rem",
+      width : "100px",
       transition : {
         delay : 0.4
       }
@@ -63,7 +67,6 @@ function BlogSidebar() {
           <motion.div
             whileHover={{
               scale : "1.2",
-              rotate : 180,
               backgroundColor : "rgba(255,255,255,0.3)",
               backdropFilter: "blur(3.5px)",
               WebkitBackdropFilter : "blur(3.5px)",
@@ -72,6 +75,7 @@ function BlogSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
+ 
           </motion.div>
            
            {/* 프로필 */}
@@ -95,10 +99,20 @@ function BlogSidebar() {
           <div className={styles.groups}>
             <div className={styles.group}>
               <motion.h3
+                id="theme1"
                 animate = {{opacity : open ? 1 : 0, height : open ? 'auto' : 0}}
+                whileHover={{
+                  backgroundColor : "rgba(255,255,255,0.3)",
+                  boxShadow : "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+                  backdropFilter: "blur(5.5px)",
+                  WebkitBackdropFilter : "blur(5.5px)",
+                  border: "1px solid rgba(255, 255, 255, 0.18)",
+                  cursor : "pointer"
+                }}
+                onClick={handleBtn}
                 >테마1</motion.h3>
-              <Item name="카테고리1" />  
-              <Item name="카테고리2" />  
+              <Item name="카테고리1" path="/blogs/theme1/category1"/>  
+              <Item name="카테고리2" path="/blogs/theme1/category2"/>  
             </div>  
           </div>  
         </motion.div>
