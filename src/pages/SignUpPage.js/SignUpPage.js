@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {FaEye} from "react-icons/fa"
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -23,6 +24,17 @@ const SignUpPage = () => {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  const [isShowPwChecked, setShowPwChecked] = useState(true);
+  const [isShowRepeatPwChecked, setShowRepeatPwChecked] = useState(true);
+  
+  const toggleHidePassword =()=>{
+    setShowPwChecked(!isShowPwChecked);
+  }
+
+  const toggleHideRepeatPassword =()=>{
+    setShowRepeatPwChecked(!isShowRepeatPwChecked);
+  }
 
   const signUpBtnClicked = () => {
      axios.post(
@@ -144,10 +156,12 @@ const SignUpPage = () => {
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 입력해주세요."
+                type={isShowPwChecked ? "password":"text"}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
+            <Icon onClick={toggleHidePassword}/> 
             </TextInputContainer>
 
             <SignUpText>비밀번호 재입력</SignUpText>
@@ -155,10 +169,13 @@ const SignUpPage = () => {
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 다시 입력해주세요."
+                type={isShowRepeatPwChecked ? "password":"text"}
                 onChange={(e) => {
                   setRepeatPassword(e.target.value);
                 }}
               />
+              <Icon onClick={toggleHideRepeatPassword}/> 
+
             </TextInputContainer>
           </SignUpContainer>
 
@@ -186,10 +203,13 @@ const Container = styled.div`
 
   padding-top: 30px;
 
-  background: #00b4ef;
+  background: #fff;
 `;
 
 const SignUpSection = styled.div`
+
+  box-shadow: 1px 1px 15px -5px black;
+
   margin-top: 0px;
 
   padding-top: 10px;
@@ -227,6 +247,8 @@ const SignUpTitle = styled.div`
   padding: 5px 0;
 
   border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 20px;
+
 `;
 
 const SignUpText = styled.div`
@@ -243,6 +265,7 @@ const SignUpText = styled.div`
   margin-left: 10px;
 
   float: left;
+
 `;
 
 const Profile = styled.img`
@@ -267,7 +290,7 @@ const Profile = styled.img`
 
 const Line = styled.hr`
   margin-top: 34px;
-
+  margin-bottom: 20px;
   width: 400px;
 `;
 
@@ -288,6 +311,7 @@ const SignUpContainer = styled.div`
 const TextInputContainer = styled.div`
   display: flex;
 
+  position : relative;
   margin-top: 1px;
 
   margin-bottom: 20px;
@@ -296,6 +320,8 @@ const TextInputContainer = styled.div`
 `;
 
 const Input = styled.input`
+
+ 
   width: 300px;
 
   height: 38px;
@@ -363,6 +389,11 @@ const EmailBtn = styled.div`
 `;
 
 const SignUpBtn = styled.div`
+
+
+
+  text-align: center;
+
   width: 156px;
 
   height: 48px;
@@ -396,6 +427,15 @@ const SignUpBtn = styled.div`
 
     transition: 0.5s;
   }
+`;
+
+const Icon = styled(FaEye)`
+  position: absolute;
+  top: 11px;
+  bottom: 0px;
+  left: 64%;
+  height: 20px;
+  cursor: pointer;
 `;
 
 export default SignUpPage;
