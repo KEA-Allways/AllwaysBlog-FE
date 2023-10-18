@@ -7,6 +7,9 @@ import React from "react";
 import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
+
+
 
 
  
@@ -31,8 +34,6 @@ const LoginPage = () => {
         password: password
       })
       .then((response) => {
-        //setResponse(response);
-
         if (response.status === 200) {
           // localStorage.setItem("jwt", result.data.result.jwt);
           // localStorage.setItem("memberId", result.data.result.id);
@@ -83,7 +84,9 @@ const LoginPage = () => {
                 setPassword(e.target.value);
               }}
             />
-             <Icon onClick={toggleHidePassword}/> 
+             <Icon onClick={toggleHidePassword}> {isShowPwChecked ? <FaEye /> : <FaEyeSlash />}</Icon>
+             
+
           </TextInputContainer>
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
@@ -304,7 +307,7 @@ const Notice = styled.div`
   color: #9a9a9a;
 `;
 
-const Icon = styled(FaEye)`
+const Icon = styled.div`
   position: absolute;
   top: 14px;
   bottom: 0px;
