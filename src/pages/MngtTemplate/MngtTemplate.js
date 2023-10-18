@@ -1,5 +1,4 @@
 import ManageTopSideBar from "../../components/TopSidebar/ManageTopSideBar";
-import Topbar from "../../components/Topbar/Topbar";
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -71,64 +70,67 @@ const MngtTemplate = () => {
     return (
         
         <div>
-            <Topbar />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h2>[서식 관리 페이지]</h2>
-                <Button className="Conbtn" color="secondary" size="sm" style={{ color: 'black', backgroundColor: 'white', border: '1px solid black' }}>
-                    서식 추가
-                </Button>
-            </div>
-            <div>
-                <Table striped style={{width: '100%', borderRadius: '10px' }} className={TableStyles.table}>
-                    <thead>
-                        <th style={{width: '5%'}}>
-                            <input type='checkbox' name='select-all' onChange={(e) => handleAllCheck(e.target.checked)}
-                                checked={checkItems.length === lists.length ? true : false} />
-                        </th>
-                        <th style={{width: '5%'}}>
-                            번호
-                        </th>
-                        <th style={{width: '70%'}} colSpan={1}>
-                            제목
-                        </th>
-                        <th style={{width: '20%'}}></th>
-                    </thead>
+            <ManageTopSideBar Container={
+                <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h2>[서식 관리 페이지]</h2>
+                        <Button className="Conbtn" color="secondary" size="sm" style={{ color: 'black', backgroundColor: 'white', border: '1px solid black' }}>
+                            서식 추가
+                        </Button>
+                    </div>
+                    <div>
+                        <Table striped style={{width: '100%', borderRadius: '10px' }} className={TableStyles.table}>
+                            <thead>
+                                <th style={{width: '5%'}}>
+                                    <input type='checkbox' name='select-all' onChange={(e) => handleAllCheck(e.target.checked)}
+                                        checked={checkItems.length === lists.length ? true : false} />
+                                </th>
+                                <th style={{width: '5%'}}>
+                                    번호
+                                </th>
+                                <th style={{width: '70%'}} colSpan={1}>
+                                    제목
+                                </th>
+                                <th style={{width: '20%'}}></th>
+                            </thead>
 
-                    <tbody>
-                    
-                    {lists.map((contents, idx) => (
-                        <tr onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}>
-                            <td>
-                                <input type='checkbox' name={`select-${contents.templateSeq}`}
-                                    onChange={(e) => handleSingleCheck(e.target.checked, contents.templateSeq)}
-                                    checked={checkItems.includes(contents.templateSeq) ? true : false} />
-                            </td>
-                            <td>
-                                {idx + 1}
-                            </td>
-                            <td style={{textAlign: 'left'}}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between',  flexDirection: 'column' }}>
-                                    <p style={{ margin: '0'}}>{contents.templateName}</p>
-                                </div>
-                            </td>
-                            <td>
-                                {hideList[idx] && (
-                                    <div style={{ marginTop: '10px' }}>
-                                        <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
-                                            수정
-                                        </Button>
-                                        <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
-                                            삭제
-                                        </Button>
-                                    </div>
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
+                            <tbody>
+                            
+                            {lists.map((contents, idx) => (
+                                <tr onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}>
+                                    <td>
+                                        <input type='checkbox' name={`select-${contents.templateSeq}`}
+                                            onChange={(e) => handleSingleCheck(e.target.checked, contents.templateSeq)}
+                                            checked={checkItems.includes(contents.templateSeq) ? true : false} />
+                                    </td>
+                                    <td>
+                                        {idx + 1}
+                                    </td>
+                                    <td style={{textAlign: 'left'}}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between',  flexDirection: 'column' }}>
+                                            <p style={{ margin: '0'}}>{contents.templateName}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {hideList[idx] && (
+                                            <div style={{ marginTop: '10px' }}>
+                                                <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
+                                                    수정
+                                                </Button>
+                                                <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
+                                                    삭제
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
 
-                </Table>
-            </div>
+                        </Table>
+                    </div>
+                </div>
+            } />
             <Paging/>
         </div>
     )
