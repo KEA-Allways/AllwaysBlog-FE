@@ -19,10 +19,10 @@ const LoginPage = () => {
   const [response, setResponse] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [isShowPwChecked, setShowPwChecked] = useState(true);
+  const [isShowPw, setShowPwState] = useState(false);
   
   const toggleHidePassword =()=>{
-    setShowPwChecked(!isShowPwChecked);
+    setShowPwState(!isShowPw);
   }
 
 
@@ -78,13 +78,13 @@ const LoginPage = () => {
           <TextInputContainer>
             <Input
               placeholder="비밀번호"
-              type={isShowPwChecked ? "password":"text"}
+              type={isShowPw ? "text":"password"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-             <Icon onClick={toggleHidePassword}> {isShowPwChecked ? <FaEye /> : <FaEyeSlash />}</Icon>
+             <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
              
 
           </TextInputContainer>
