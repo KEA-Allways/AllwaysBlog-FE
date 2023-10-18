@@ -36,7 +36,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname})
             <Typography gutterBottom variant="h5" component="div"  >
               {title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.secondary" style={{textOverflow: 'eclipse'}}>
               {subtitle}
             </Typography>
             

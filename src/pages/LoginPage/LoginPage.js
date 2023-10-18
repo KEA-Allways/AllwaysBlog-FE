@@ -7,6 +7,9 @@ import React from "react";
 import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
+
+
 
 
  
@@ -16,10 +19,10 @@ const LoginPage = () => {
   const [response, setResponse] = useState("");
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
-  const [isShowPwChecked, setShowPwChecked] = useState(true);
+  const [isShowPw, setShowPwState] = useState(false);
   
   const toggleHidePassword =()=>{
-    setShowPwChecked(!isShowPwChecked);
+    setShowPwState(!isShowPw);
   }
 
 
@@ -31,8 +34,6 @@ const LoginPage = () => {
         password: password
       })
       .then((response) => {
-        //setResponse(response);
-
         if (response.status === 200) {
           // localStorage.setItem("jwt", result.data.result.jwt);
           // localStorage.setItem("memberId", result.data.result.id);
@@ -77,13 +78,15 @@ const LoginPage = () => {
           <TextInputContainer>
             <Input
               placeholder="비밀번호"
-              type={isShowPwChecked ? "password":"text"}
+              type={isShowPw ? "text":"password"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-             <Icon onClick={toggleHidePassword}/> 
+             <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
+             
+
           </TextInputContainer>
           <BtnsContainer>
             <LoginBtn onClick={loginBtnClicked}>로그인</LoginBtn>
@@ -304,7 +307,7 @@ const Notice = styled.div`
   color: #9a9a9a;
 `;
 
-const Icon = styled(FaEye)`
+const Icon = styled.div`
   position: absolute;
   top: 14px;
   bottom: 0px;
