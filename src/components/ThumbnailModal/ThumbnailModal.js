@@ -4,7 +4,42 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ThumbnailModal.css";
 import html2canvas from "html2canvas";
-import { left } from "@popperjs/core";
+import {CommonButton }from "../../common";
+import styled from "@emotion/styled";
+
+const ModalButton = styled(CommonButton)`
+  background-color: #f4f4f4;
+  
+  color: #666666;
+  width: 192px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: #fff;
+    }
+`
+
+const ResetButton = styled(ModalButton)`
+&:hover {
+      background-color: red;
+      color:white
+    }
+`
+
+const SuccessButton = styled(ModalButton)`
+
+    &:hover{
+      background-color: green;
+      color:white
+    }
+`
+
+
+
 
 const ThumbnailModal = ({ showModal, onClose} ) => {
   //modal
@@ -224,80 +259,88 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                       />
                     </Form.Group>
                   </div>
-                  <div className="background__btns">
+                  <div className="background__btns ">
                     <div id="background__btn__container" className="modal__btns">
-                      <button
-                        className="modal__btn random__solid"
+                      <ModalButton
+                        className="random__solid  me-3"
                         onClick={handleRandomColorClick}
+                        style={{width: '160px', height: '40px'}}
+                        
                       >
                         랜덤 단색
-                      </button>
-                      <button
-                        className="modal__btn img__url"
+                      </ModalButton>
+                      <ModalButton
+                        className="img__url  me-3"
                         onClick={handleImageBackground}
+                        style={{width: '160px', height: '40px'}}
                       >
                         이미지 URL
-                      </button>
+                      </ModalButton>
 
-                      <button  
-                        className="modal__btn karlo_api" onClick={handleKarloImage} >
+                      <ModalButton  
+                        className="karlo_api" onClick={handleKarloImage} 
+                        style={{width: '160px', height: '40px'}}>
                         칼로 API
-                    </button>
+                    </ModalButton>
                     </div>
                   </div>
                   <div className="components__btns">
                     <div id="component__btn__container" className="modal__btns">
-                      <button
-                         className="modal__btn me-3"
+                      <ModalButton
+                         className="me-3"
                         onClick={() => setShowSubtitle(true)}
                       >
                         제목 / 내용
-                      </button>
-                      <button
-                        className="modal__btn me-3"
+                      </ModalButton>
+                      <ModalButton
+                        className="me-3"
                         onClick={() => setShowSubtitle(false)}
                       >
                         제목만
-                      </button>
+                      </ModalButton>
                     </div>
                   </div>
 
                   <div className="text__style">
                     <div id="textstyle__btn__container" className="modal__btns">
-                      <button
-                        className="modal__btn me-3"
+                      <ModalButton
+                        className="me-3"
                         onClick={() => handleTextBlackOrWhite()}
                       >
                         텍스트 색상 반전
-                      </button>
-                      <button
-                        className="modal__btn me-3"
+                      </ModalButton>
+                      <ModalButton
+                        className="me-3"
                         onClick={() => handleTextColorChange()}
                       >
                         텍스트 색상 랜덤
-                      </button>
+                      </ModalButton>
                     </div>
                   </div>
                   <div className="master__panel modal__btns">
-                    <button
-                      className="modal__btn modal__init__btn me-3"
+                    <ResetButton
+                      className="modal__init__btn me-3"
                       id="initialize"
-                      style={{ height: "60px"}}
+                      style={{ height: "60px",
+        
+                       }}
                       onClick={handleReset}
+                       
+
                       
                     >
                       
                       초기화
-                    </button>
+                    </ResetButton>
                      
-                    <button
-                      className="modal__btn modal__sucess__btn me-3"
+                    <SuccessButton
+                      className="modal__sucess__btn me-3"
                       id="export"
                       style={{ height: "60px"}}
                       onClick={handleExport}
                     >
                       완료 및 이미지화
-                    </button>
+                    </SuccessButton>
                   </div>
                 </div>
               
