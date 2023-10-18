@@ -3,6 +3,7 @@ import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import styles from "../../components/Text.module.css";
 
 const MngtList = (props) => {
     const { themeSeq } = useParams();
@@ -51,7 +52,7 @@ const MngtList = (props) => {
         <div>
             <ManageTopSideBar Container={
                 <div>
-                    [요리 카테고리 목록 관리]
+                    <h3 className={styles.h3}>목록 관리</h3>
                     {lists && 
                         lists.map((item, idx) => (
                             <div key={idx} id={idx}
