@@ -128,7 +128,7 @@ const BlogBody = () => {
   };
 
   return (
-    <div>
+    <div className={styles.mt5}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
           {showContent === "카드형" && (

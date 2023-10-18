@@ -64,7 +64,6 @@ function ManageSidebar() {
           <motion.div
             whileHover={{
               scale : "1.2",
-              rotate : 180,
               backgroundColor : "rgba(255,255,255,0.3)",
               backdropFilter: "blur(3.5px)",
               WebkitBackdropFilter : "blur(3.5px)",
