@@ -5,7 +5,9 @@ import { useState, useRef } from "react";
 import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+
 import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -25,16 +27,12 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  const [isShowPwChecked, setShowPwChecked] = useState(true);
-  const [isShowRepeatPwChecked, setShowRepeatPwChecked] = useState(true);
+  const [isShowPw, setShowPwState] = useState(false);
   
   const toggleHidePassword =()=>{
-    setShowPwChecked(!isShowPwChecked);
+    setShowPwState(!isShowPw);
   }
 
-  const toggleHideRepeatPassword =()=>{
-    setShowRepeatPwChecked(!isShowRepeatPwChecked);
-  }
 
   const signUpBtnClicked = () => {
      axios.post(
@@ -156,12 +154,12 @@ const SignUpPage = () => {
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 입력해주세요."
-                type={isShowPwChecked ? "password":"text"}
+                type={isShowPw ? "text":"password"}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
               />
-            <Icon onClick={toggleHidePassword}/> 
+                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
             </TextInputContainer>
 
             <SignUpText>비밀번호 재입력</SignUpText>
@@ -169,12 +167,12 @@ const SignUpPage = () => {
             <TextInputContainer>
               <Input
                 placeholder="비밀번호를 다시 입력해주세요."
-                type={isShowRepeatPwChecked ? "password":"text"}
+                type={isShowPw? "text":"password"}
                 onChange={(e) => {
                   setRepeatPassword(e.target.value);
                 }}
               />
-              <Icon onClick={toggleHideRepeatPassword}/> 
+                <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
 
             </TextInputContainer>
           </SignUpContainer>
@@ -429,7 +427,7 @@ const SignUpBtn = styled.div`
   }
 `;
 
-const Icon = styled(FaEye)`
+const Icon = styled.div`
   position: absolute;
   top: 11px;
   bottom: 0px;
