@@ -9,17 +9,16 @@ const  Topbar = () => {
   return (
     <Navbar className={classnames('justify-content-between', styles.topbar)}>
       <Navbar.Brand href='/'>
-          <img src="/img/logo.png" alt='Allways 로고'/>
+        <img src="/img/logo.png" className={styles.topbarLogo}/>
       </Navbar.Brand>
       <NavDropdown 
         title={image}
         id="basic-nav-dropdown" 
         drop="drop" 
-        align="end"
-      >
-            <NavDropdown.Item href="/blogs">내 블로그</NavDropdown.Item>
-            <NavDropdown.Item href="/mngt">계정 설정</NavDropdown.Item>
-            <NavDropdown.Item href="/">로그아웃</NavDropdown.Item>
+        align="end">
+          <NavDropdown.Item href="/blogs">내 블로그</NavDropdown.Item>
+          <NavDropdown.Item href="/mngt">계정 설정</NavDropdown.Item>
+          <NavDropdown.Item href="/">로그아웃</NavDropdown.Item>
       </NavDropdown>
     </Navbar>
   );

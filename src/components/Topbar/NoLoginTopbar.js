@@ -12,7 +12,7 @@ const  NoLoginTopbar = () => {
     return (
         <Navbar className={classnames('justify-content-between',styles.noLoginTopbar)}>
             <Navbar.Brand href='/'>
-                <img src="/img/logo.png" />
+                <img src="/img/logo.png" className={styles.topbarLogo}/>
             </Navbar.Brand>
             <Button variant='dark' onClick={handleButtonClick}>로그인</Button>
         </Navbar>
