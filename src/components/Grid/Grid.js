@@ -1,7 +1,5 @@
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import PostCard from '../PostCard/PostCard'
+import {Col, Row} from 'react-bootstrap';
+import CardStyle from '../PostCard/CardStyle';
 
 const Grid = () => {
 
@@ -93,7 +91,7 @@ const Grid = () => {
     <Row xs={1} md={5} className="g-4">
       {cardArr.map((v, idx) => (
         <Col key={idx}>
-            <PostCard imgUrl={v.src} imgHeight="150px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
+            <CardStyle imgUrl={v.src} imgHeight="150px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
         </Col>
       ))}
     </Row>

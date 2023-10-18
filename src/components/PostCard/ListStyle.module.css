@@ -1,0 +1,9 @@
+.listStyle {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.listStyle:hover {
+    /* Hover 효과 스타일 */
+    transform: scale(1.05); /* 확대 효과 */
+}
