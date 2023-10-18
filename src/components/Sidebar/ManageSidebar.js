@@ -1,4 +1,5 @@
 import {motion} from "framer-motion";
+ 
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -71,7 +72,7 @@ function ManageSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
-                <img src="/img/backIcon.jpg"  width="35px" height="35px"/> 
+ 
           </motion.div>
            
            {/* 프로필 */}

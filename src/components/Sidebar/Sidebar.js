@@ -71,7 +71,6 @@ function Sidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
-               <img src="/img/backIcon.jpg"  width="50px" height="50px"/> 
           </motion.div>
            
              

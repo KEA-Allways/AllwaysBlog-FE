@@ -1,5 +1,5 @@
 import {motion} from "framer-motion";
-import {BarChartRounded, DashboardRounded, TocRounded} from '@material-ui/icons';
+ 
 import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
@@ -72,7 +72,7 @@ function BlogSidebar() {
             onClick={handleToggle}
             className={styles.linesIcon} 
           >
-               {/* <img src="/img/backIcon.jpg"  width="35px" height="35px" margin="15px"/>  */}
+ 
           </motion.div>
            
            {/* 프로필 */}

@@ -6,6 +6,11 @@ import ManagePage from "./pages/ManagePage/ManagePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage.js/SignUpPage";
 import PostPage from "./pages/PostPage/PostPage";
+import MngtTheme from "./pages/MngtTheme/MngtTheme";
+import MngtList from "./pages/MngtList/MngtList";
+import MngtContent from "./pages/MngtContent/MngtContent"
+import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
+
 
 function App() {
 
@@ -25,6 +30,10 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/post" element={<PostPage />} />
+          <Route path="/mngtTheme" element={<MngtTheme />} />
+          <Route path="/mngtTheme/:themeSeq" element={<MngtList />} />
+          <Route path="/mngtContent" element={<MngtContent/>} />
+          <Route path="/mngtTemplate" element={<MngtTemplate/>}/>
         </Routes>
       </BrowserRouter>
     </div>

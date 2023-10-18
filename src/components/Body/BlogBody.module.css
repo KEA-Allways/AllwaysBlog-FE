@@ -1,3 +1,24 @@
-.mt5 {
-    margin-top: 50px;
+.buttonStyle {
+    height: 30px;
+    width: 30px;
+    margin-right: 5px;
+}
+
+.cardStyle {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 스타일을 여기에 추가합니다. */
+}
+
+.cardStyle:hover {
+    /* Hover 효과 스타일 */
+    transform: scale(1.05); /* 확대 효과 */
+}
+
+.listStyle {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+}
+
+.listStyle:hover {
+    /* Hover 효과 스타일 */
+    transform: scale(1.05); /* 확대 효과 */
 }
