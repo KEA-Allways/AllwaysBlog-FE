@@ -1,36 +1,61 @@
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import { IconButton, Typography } from "@mui/material";
+import CardActions from "@mui/material/CardActions"
+import { IconButton, Typography, makeStyles } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from "./CardStyle.module.css";
+import { CardActionArea } from '@mui/material';
+import styled from '@emotion/styled';
 
-const CardStyle = ({imgUrl, alt, imgHeight, title, subtitle, nickname}) => {
-    return (
+
+ 
+
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname}) => {
+  
+  return (
       <div className={styles.cardStyle}>
-        <Card style={{borderRadius: '10px'}}>
+        <Card sx={{  borderRadius:"10px"}}
+         >
+          <CardActionArea>
           <CardMedia
             component="img"
             height={imgHeight}
+            width={imgWidth}
             image={imgUrl}
-            alt={alt}/>
+            alt={alt}
+            //사진 꽉채우기 css 
+            sx={{
+              objectFit: 'cover',
+              width: '100%',
+                
+            }}
+            /> 
               
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
+          <CardContent sx={{height:"120px"}}>
+            <Typography gutterBottom variant="h5" component="div"  >
               {title}
             </Typography>
             <Typography variant="body2" color="text.secondary" style={{textOverflow: 'eclipse'}}>
               {subtitle}
             </Typography>
-            <hr/>
-            <IconButton aria-label="user-icon" width="20px" height="20px">
-              <AccountCircleIcon />
-            </IconButton>
-            {nickname}
-          </CardContent>
+            
+            </CardContent>
+            <CardActions>
+              <hr/>
+              <IconButton aria-label="user-icon" width="20px" height="10px" >
+                <AccountCircleIcon />
+              </IconButton>
+              {nickname}
+            </CardActions>
+            
+          
+          </CardActionArea>
         </Card>
       </div>
     );
   };
 
   export default CardStyle;
+
+
