@@ -25,7 +25,7 @@ const MngtTheme = (props) => {
 
     return (
         <div>
-            <Topbar />
+<Topbar />
             [테마 및 목록 관리 페이지]
             <div>
                 <Table style={{width: '100%'}}>
@@ -44,7 +44,7 @@ const MngtTheme = (props) => {
                         <td>{idx + 1}</td>
                         <td>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Link to={`/mngtTheme/${idx}`}>{item.themeName}</Link>
+                                <Link to={`/mngt/theme/${idx}`}>{item.themeName}</Link>
                             </div>
                         </td>
                     </tr>
