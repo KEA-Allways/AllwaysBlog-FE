@@ -1,8 +1,15 @@
 import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
-import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import styles from "../../components/Text.module.css";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const MngtTheme = (props) => {
     const [themes, setThemes] = useState([]);
@@ -27,30 +34,31 @@ const MngtTheme = (props) => {
         <div>
             <ManageTopSideBar Container={
                 <div>
-                    [테마 및 목록 관리 페이지]
-                    <Table style={{width: '100%'}}>
-                        <thead>
-                            <th style={{width: '10%'}}>
-                                번호
-                            </th>
-                            <th style={{width: '50%'}}>
-                                테마
-                            </th>
-                        </thead>
-                        <tbody>
-                        
-                        {themes.map((item, idx) => (
-                            <tr>
-                            <td>{idx + 1}</td>
-                            <td>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Link to={`/mngt/theme/${idx}`}>{item.themeName}</Link>
-                                </div>
-                            </td>
-                        </tr>
-                        ))}
-                        </tbody>
-                    </Table>
+                    <h3 className={styles.h3}>테마 관리</h3>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ width: '10%'}}>번호</TableCell>
+                                    <TableCell align="center">테마</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {themes.map((row, idx) => (
+                                    <TableRow
+                                        key={row.themeSeq}
+                                    >
+                                        <TableCell align="center">
+                                            {idx + 1}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            <Link to={`/mngt/theme/${idx}`}>{row.themeName}</Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
             } />
         </div>

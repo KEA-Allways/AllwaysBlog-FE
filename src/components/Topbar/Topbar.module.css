@@ -26,8 +26,8 @@
 }
 
 .topbarLogo {
-    width: 130px;
-    height: 50px;
+    width: 150px;
+    /*height: 50px;*/
     padding-left: 10px; 
     alt: 'Allways 로고';
 }

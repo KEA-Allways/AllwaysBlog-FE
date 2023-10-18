@@ -1,15 +1,25 @@
 import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
-import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TableStyles from "../../components/Table.module.css"
-import styled from "@emotion/styled";
+import * as React from 'react';
+import styles from "../../components/Text.module.css";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Pagination from '@mui/material/Pagination';
+import Checkbox from '@mui/material/Checkbox';
 
 const MngtContents = () => {
 
     const [lists, setLists] = useState([]);
     const [hideList, setHideList] = useState(Array(lists.length).fill(false));
     const [checkItems, setCheckItems] = useState([]);
+    const [selected, setSelected] = React.useState([]);
 
     const apiGetCategories = () => {
         axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/posts/1/1')
@@ -72,57 +82,53 @@ const MngtContents = () => {
         <div>
             <ManageTopSideBar Container={
                 <div>
-                    [글 관리 페이지]
-                    <Table striped style={{width: '100%', borderRadius: '10px' }} className={TableStyles.table}>
-                        <thead>
-                            <th style={{width: '5%'}}>
-                                <input type='checkbox' name='select-all' onChange={(e) => handleAllCheck(e.target.checked)}
-                                    checked={checkItems.length === lists.length ? true : false} />
-                            </th>
-                            <th style={{width: '5%'}}>
-                                번호
-                            </th>
-                            <th style={{width: '70%'}} colSpan={1}>
-                                제목
-                            </th>
-                            <th style={{width: '20%'}}></th>
-                        </thead>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 className={styles.h3}>글 관리</h3>
+                        <Button variant="outlined" sx={{marginRight:"10px"}}>글쓰기</Button>
+                    </div>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ width: '10%'}}>번호</TableCell>
+                                    <TableCell align="center" sx={{ width: '70%'}} colSpan={1}>제목</TableCell>
+                                    <TableCell align="center" sx={{ width: '20%'}}></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {lists.map((row, idx) => {
 
-                        <tbody>
-                        
-                        {lists.map((contents, idx) => (
-                            <tr onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}>
-                                <td>
-                                    <input type='checkbox' name={`select-${contents.postSeq}`}
-                                        onChange={(e) => handleSingleCheck(e.target.checked, contents.postSeq)}
-                                        checked={checkItems.includes(contents.postSeq) ? true : false} />
-                                </td>
-                                <td>
-                                    {idx + 1}
-                                </td>
-                                <td style={{textAlign: 'left'}}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between',  flexDirection: 'column' }}>
-                                        <p style={{ margin: '0'}}>{contents.name}</p>
-                                        <p style={{ margin: '0'}}>{contents.nickname} | {contents.postDate}</p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {hideList[idx] && (
-                                        <div style={{ marginTop: '10px' }}>
-                                            <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
-                                                수정
-                                            </Button>
-                                            <Button className="Conbtn" color="secondary" size="sm" style={{marginRight: '5px', color: 'black', backgroundColor: 'white', border: '1px solid black'}}>
-                                                삭제
-                                            </Button>
-                                        </div>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-
-                    </Table>
+                                    return (
+                                    <TableRow
+                                        key={row.themeSeq}
+                                        style={{height:'70px'}}
+                                        onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
+                                    >
+                                        <TableCell align="center">
+                                            {idx + 1}
+                                        </TableCell>
+                                        <TableCell align="left" colSpan={1}>
+                                            <p style={{ margin: '0'}}>{row.name}</p>
+                                            <p style={{ margin: '0'}}>{row.nickname} | {row.postDate}</p>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {hideList[idx] && (
+                                                <div>
+                                                    <Button variant="outlined" sx={{marginRight:"10px"}}>수정</Button>
+                                                    <Button variant="outlined">삭제</Button>
+                                                </div>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
+                        <Pagination count={10} variant="outlined" shape="rounded" />
+                    </div>
+                    
                 </div>
             } />
         </div>
