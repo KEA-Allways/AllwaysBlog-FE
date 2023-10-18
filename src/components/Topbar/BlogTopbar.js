@@ -10,7 +10,7 @@ const  BlogTopbar = () => {
   return (
     <Navbar className={classnames('justify-content-between', styles.topbar)}>
       <Navbar.Brand href='/'>
-          <img src="/img/logo.png" alt='Allways 로고'/>
+          <img src="/img/logo.png" className={styles.topbarLogo}/>
       </Navbar.Brand>
       <Navbar.Brand href='/blogs'>
         {/* <img src="/logo192.png" alt='Blog 로고'/> */}
