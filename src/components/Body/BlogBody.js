@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import {Card, Col, Row} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 import { useState } from "react";
 import styles from "./BlogBody.module.css";
-import {motion} from "framer-motion";
+import CardStyle from "../PostCard/CardStyle";
+import ListStyle from "../PostCard/ListStyle";
 
 const CardsData = [
   {
@@ -94,39 +95,6 @@ const BlogBody = () => {
     setShowContent(content)
   };
 
-  const Card1 = ({imgUrl, alt, imgHeight, title, subtitle, usericon, nickname}) => {
-    return (
-      <div  className={styles.cardStyle}>
-      <Card>
-        <Card.Img variant="top" alt={alt} src={imgUrl} height={imgHeight} />
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Card.Subtitle>{subtitle}</Card.Subtitle>
-        </Card.Body>
-        <Card.Footer>
-          <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
-        </Card.Footer>
-      </Card>
-      </div>
-    );
-  };
-  
-  const Card2 = ({title, subtitle, usericon, nickname}) => {
-    return (
-      <div className={styles.listStyle}>
-      <Card>
-        <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Card.Subtitle>{subtitle}</Card.Subtitle>
-        </Card.Body>
-        <Card.Footer>
-          <img src={usericon} alt="사용자아이콘" width="20px" height="20px" /> <small>by {nickname}</small>
-        </Card.Footer>
-      </Card>
-      </div>
-    );
-  };
-
   return (
     <div className={styles.mt5}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -151,10 +119,10 @@ const BlogBody = () => {
       <br></br>
 
       {showContent === "카드형" && (
-        <Row xs={1} md={5} className="g-4">
+        <Row xs={1} md={3} className="g-4">
         {CardsData.map((blg, index) => (
           <Col key={index}>
-            <Card1
+            <CardStyle
               imgUrl={blg.src}
               imgHeight="150px"
               title={blg.title}
@@ -171,7 +139,7 @@ const BlogBody = () => {
         <Row lg="1" xl="1">
         {CardsData.map((blg, index) => (
           <Col key={index}>
-            <Card2
+            <ListStyle
               title={blg.title}
               subtitle={blg.subtitle}
               usericon={blg.userIcon}
