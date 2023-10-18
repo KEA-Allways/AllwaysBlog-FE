@@ -253,60 +253,9 @@ input.input__field::placeholder {
 }
 
 /* BTN */
-
-.modal__btn {
-  width: 192px;
-  height: 40px;
-  margin-left: 20px;
-  border-radius: 20px;
-  border: none;
-  background-color: #f4f4f4;
-  color: #666666;
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.modal__btn:focus {
-  outline: none;
-}
-
-.modal__btn:active {
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__btn:hover {
-  background-color: #3b45ff;
-  color: #fff;
-}
-
-.modal__init__btn:active{
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__init__btn:hover{
-  background-color: red;
-  color:white
-}
-
-
-.modal__sucess__btn:active{
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__sucess__btn:hover{
-  background-color: green;
-  color:white
-}
-
+ 
+ 
+ 
 .modal__btns {
   display: flex;
   justify-content: flex-end; /* Center horizontally */
@@ -441,9 +390,13 @@ input.input__field::placeholder {
   display: none;
 }
  
-
-
-
+/* INPUT FIELDS */
+.inputFields {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* Align to the right */
+}
+ 
 
 
 /* CONTROL PANEL */
@@ -454,11 +407,6 @@ input.input__field::placeholder {
   float: right; /* Align to the right */
 }
 
-/* INPUT FIELDS */
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end; /* Align to the right */
-}
 
-/* BTN */
+
+
