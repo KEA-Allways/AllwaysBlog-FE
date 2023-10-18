@@ -3,9 +3,6 @@ import { Row, Col } from 'react-bootstrap';
 import BlogBody from "../../components/Body/BlogBody";
 import BlogTopbar from "../../components/Topbar/BlogTopbar";
 import BlogSidebar from "../../components/Sidebar/BlogSidebar";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import styles from "./BlogPage.module.css"
-
 
 const BlogPage = () => {
     return (

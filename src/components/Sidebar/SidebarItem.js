@@ -14,7 +14,7 @@ function SidebarItem({icon, name, path}){
     }
 
     const handleBtnClick = () => {
-        window.location.href = window.location.pathname + "/" + path;
+        window.location.href = path;
     }
 
     return (
