@@ -30,10 +30,10 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/post" element={<PostPage />} />
-          <Route path="/mngtTheme" element={<MngtTheme />} />
-          <Route path="/mngtTheme/:themeSeq" element={<MngtList />} />
-          <Route path="/mngtContent" element={<MngtContent/>} />
-          <Route path="/mngtTemplate" element={<MngtTemplate/>}/>
+          <Route path="/mngt/theme" element={<MngtTheme />} />
+          <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
+          <Route path="/mngt/content" element={<MngtContent/>} />
+          <Route path="/mngt/template" element={<MngtTemplate/>}/>
         </Routes>
       </BrowserRouter>
     </div>
