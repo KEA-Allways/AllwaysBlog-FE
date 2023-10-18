@@ -25,6 +25,12 @@
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+.topbarLogo {
+    width: 130px;
+    height: 50px;
+    padding-left: 10px; 
+    alt: 'Allways 로고';
+}
 
 
 
