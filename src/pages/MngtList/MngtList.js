@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import Topbar from "../../components/Topbar/Topbar";
+import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
@@ -49,31 +49,29 @@ const MngtList = (props) => {
 
     return (
         <div>
-            <Topbar />
-            요리 카테고리 목록 관리
-            <Button onClick={apiGetCategories}>Test API Request</Button>
-      
-            <div>
-                {lists && 
-                    lists.map((item, idx) => (
-                        <div key={idx} id={idx}
-                            style={{
-                                //backgroundColor: 'lightblue',
-                                border: '1px solid black',
-                                margin: '20px 25%',
-                                textAlign: 'center',
-                                fontSize: '20px',
-                            }}
-                            onDragStart={() => dragStart(idx)}
-                            onDragEnter={() => dragEnter(idx)}
-                            onDragOver={e => e.preventDefault()}
-                            onDragEnd={drop}
-                            draggable>
-                            {item.listName}
-                        </div>
-                    ))}
-            </div>
-
+            <ManageTopSideBar Container={
+                <div>
+                    [요리 카테고리 목록 관리]
+                    {lists && 
+                        lists.map((item, idx) => (
+                            <div key={idx} id={idx}
+                                style={{
+                                    //backgroundColor: 'lightblue',
+                                    border: '1px solid black',
+                                    margin: '20px 25%',
+                                    textAlign: 'center',
+                                    fontSize: '20px',
+                                }}
+                                onDragStart={() => dragStart(idx)}
+                                onDragEnter={() => dragEnter(idx)}
+                                onDragOver={e => e.preventDefault()}
+                                onDragEnd={drop}
+                                draggable>
+                                {item.listName}
+                            </div>
+                        ))}
+                </div>
+            } />
         </div>
     )
 }

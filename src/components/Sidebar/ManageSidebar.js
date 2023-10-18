@@ -4,7 +4,7 @@ import Item from './SidebarItem';
 import { useState } from 'react';
 import styles from "./Sidebar.module.css";
 
-function ManageSidebar() {
+function ManageSidebar({bodyContainer}) {
 
   const [open, setOpen] = useState(true);
 
@@ -106,7 +106,7 @@ function ManageSidebar() {
         
       </motion.div>
       <div className={styles.bodyContainer}>
-
+        {bodyContainer}
       </div>
     </div>
    

@@ -1,4 +1,4 @@
-import Topbar from "../../components/Topbar/Topbar";
+import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -25,33 +25,34 @@ const MngtTheme = (props) => {
 
     return (
         <div>
-            <Topbar />
-            [테마 및 목록 관리 페이지]
-            <div>
-                <Table style={{width: '100%'}}>
-                    <thead>
-                        <th style={{width: '10%'}}>
-                            번호
-                        </th>
-                        <th style={{width: '50%'}}>
-                            테마
-                        </th>
-                    </thead>
-                    <tbody>
-                    
-                    {themes.map((item, idx) => (
-                        <tr>
-                        <td>{idx + 1}</td>
-                        <td>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Link to={`/mngtTheme/${idx}`}>{item.themeName}</Link>
-                            </div>
-                        </td>
-                    </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
+            <ManageTopSideBar Container={
+                <div>
+                    [테마 및 목록 관리 페이지]
+                    <Table style={{width: '100%'}}>
+                        <thead>
+                            <th style={{width: '10%'}}>
+                                번호
+                            </th>
+                            <th style={{width: '50%'}}>
+                                테마
+                            </th>
+                        </thead>
+                        <tbody>
+                        
+                        {themes.map((item, idx) => (
+                            <tr>
+                            <td>{idx + 1}</td>
+                            <td>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Link to={`/mngtTheme/${idx}`}>{item.themeName}</Link>
+                                </div>
+                            </td>
+                        </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                </div>
+            } />
         </div>
     )
 }
