@@ -6,6 +6,7 @@ import ManagePage from "./pages/ManagePage/ManagePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage.js/SignUpPage";
 import PostPage from "./pages/PostPage/PostPage";
+import BlogCreationPage from "./pages/BlogPage/BlogCreationPage";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/mngt" element={<ManagePage />} />
           <Route path="/post" element={<PostPage />} />
+          <Route path="/blog-creation" element={<BlogCreationPage />} />
         </Routes>
       </BrowserRouter>
     </div>
