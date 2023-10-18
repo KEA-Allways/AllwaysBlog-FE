@@ -2,8 +2,7 @@ import React from "react";
 import {motion} from "framer-motion";
 import styles from "./SidebarItem.module.css";
 
-function SidebarItem({icon, name}){
-
+function SidebarItem({icon, name, path}){
     const subheading = {
         true : {
             opacity : 1
@@ -14,8 +13,12 @@ function SidebarItem({icon, name}){
         }
     }
 
+    const handleBtnClick = () => {
+        window.location.href = window.location.pathname + "/" + path;
+    }
+
     return (
-        <motion.div className={styles.item}
+        <motion.div className={styles.item} onClick={handleBtnClick}
             whileHover={{
               backgroundColor : "rgba(255,255,255,0.3)",
               boxShadow : "0 8px 32px 0 rgba(31, 38, 135, 0.37)",

@@ -95,10 +95,11 @@ function ManageSidebar() {
           {/* 그룹 1 */}
           <div className={styles.groups}>
             <div className={styles.group}>
-              <Item name="블로그관리홈" />  
-              <Item name="컨텐츠 관리" /> 
-              <Item name="서식관리" />  
-              <Item name="통계" /> 
+              <Item name="블로그관리홈" path="/mngt"/>  
+              <Item name="테마 관리" path="/mngtTheme"/>
+              <Item name="컨텐츠 관리" path="/mngtContent"/> 
+              <Item name="서식관리" path="/mngtTemplate"/>  
+              <Item name="통계" path="/mngtStatics"/> 
             </div>  
           </div>
         </motion.div>
