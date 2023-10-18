@@ -3,11 +3,11 @@ import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
 
 
-const ManageTopSideBar = () => {
+const ManageTopSideBar = ({Container}) => {
     return (
         <div>
             <Topbar />
-            <ManageSidebar />
+            <ManageSidebar bodyContainer={Container} />
         </div>
     )
 }
