@@ -51,7 +51,6 @@ const MngtList = (props) => {
         <div>
             <Topbar />
             요리 카테고리 목록 관리
-            <Button onClick={apiGetCategories}>Test API Request</Button>
       
             <div>
                 {lists && 
