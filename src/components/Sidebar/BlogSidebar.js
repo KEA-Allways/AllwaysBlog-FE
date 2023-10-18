@@ -12,7 +12,7 @@ function BlogSidebar() {
   }
 
   const handleBtn = (e) => {
-    window.location.href = window.location.pathname + "/" + e.target.id
+    window.location.href = "/blogs/" + e.target.id
   }
 
   const sideContainerVariants = {
@@ -111,8 +111,8 @@ function BlogSidebar() {
                 }}
                 onClick={handleBtn}
                 >테마1</motion.h3>
-              <Item name="카테고리1" path="theme1/category1"/>  
-              <Item name="카테고리2" path="theme1/category2"/>  
+              <Item name="카테고리1" path="/blogs/theme1/category1"/>  
+              <Item name="카테고리2" path="/blogs/theme1/category2"/>  
             </div>  
           </div>  
         </motion.div>
