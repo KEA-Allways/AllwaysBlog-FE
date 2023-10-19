@@ -14,8 +14,8 @@ import styled from '@emotion/styled';
 const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname}) => {
   
   return (
-      <div className={styles.cardStyle}>
-        <Card sx={{  borderRadius:"10px"}}
+      
+        <Card className={styles.cardStyle} sx={{  borderRadius:"10px" ,opacity:"90%" ,width:"400px" ,marginBottom:"100px"}}
          >
           <CardActionArea>
           <CardMedia
@@ -52,7 +52,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname})
           
           </CardActionArea>
         </Card>
-      </div>
+       
     );
   };
 

@@ -18,9 +18,9 @@ export const CommonButton = styled(Button)`
     transition: all 0.5s ease;
 
     &:hover {
-    transform: scale(1.05);
     background: cornflowerblue;
-    transition: 0.5s;
     }
 `; 
+
+
 
