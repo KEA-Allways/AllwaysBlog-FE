@@ -30,11 +30,13 @@ const MngtTheme = (props) => {
         apiGetCategories();
     }, []);
 
+    const HeaderTitle = "테마 관리";
+    const HeaderButton = "";
+
     return (
         <div>
-            <ManageTopSideBar Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    <h3 className={styles.h3}>테마 관리</h3>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead>

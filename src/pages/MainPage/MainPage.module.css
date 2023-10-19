@@ -2,6 +2,8 @@
     /* background-image: image("/img/banner1.png"); */
     /* background: linear-gradient(179deg, #176eb5, #d545d7); */
      
-    /* background-image:url("../../../public/img/Eiffel_Tower.jpg"); */
-    background-size: 100px 100px;
+    /* background-image:
+    url("C:\Users\suha hwang\Desktop\AllwaysBlog-FE\public\img\Eiffel_Tower.jpg"); */
+    background-color: rgba(0, 0, 0, 1);
+    background-size: 100% 100%;
 }
