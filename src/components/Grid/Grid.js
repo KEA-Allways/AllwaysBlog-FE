@@ -1,5 +1,6 @@
 import {Col, Row} from 'react-bootstrap';
 import CardStyle from '../PostCard/CardStyle';
+import styled from "@emotion/styled";
 
 const Grid = () => {
 
@@ -85,86 +86,7 @@ const Grid = () => {
       userIcon : "/img/usericon.png",
       nickname : "황수하"
     },
-    // {
-    //   src : "/img/mpc1.png",
-    //   alt : "HTML",
-    //   title : "HTML",
-    //   subtitle : "HTML에 대해 알아보자",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "김성준"
-    // },
-    // {
-    //   src : "/img/mpc2.png",
-    //   alt : "CSS",
-    //   title : "CSS",
-    //   subtitle : "CSS 는 어떨까?",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "김민준"
-    // },
-    // {
-    //   src : "/img/mpc3.jpeg",
-    //   alt : "js",
-    //   title : "JS ",
-    //   subtitle : "프론트의 꽃 JS",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "최다정"
-    // },
-    // {
-    //   src : "/img/mpc4.png",
-    //   alt : "react",
-    //   title : " React",
-    //   subtitle : "React는 쉬운가요?",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "류창민"
-    // },
-    // {
-    //   src : "/img/mpc5.svg",
-    //   alt : "nodejs",
-    //   title : "Node JS",
-    //   subtitle : "Node js 스프링부트 둘중에 뭐하지?",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "황수하"
-    // },
-    // {
-    //   src : "/img/mpc6.png",
-    //   alt : "springboot",
-    //   title : "Springboot",
-    //   subtitle : "Springboot 의 MVC 패턴",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "김성준"
-    // },
-    // {
-    //   src : "/img/mpc7.svg",
-    //   alt : "MYSQL",
-    //   title : "MYSQL",
-    //   subtitle : "RDBMS의 꽃",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "김민준"
-    // },
-    // {
-    //   src : "/img/mpc8.png",
-    //   alt : "mariaDB",
-    //   title : "mariaDB",
-    //   subtitle : "물개 귀여움 주의",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "최다정"
-    // },
-    // {
-    //   src : "/img/mpc9.png",
-    //   alt : "MongoDB",
-    //   title : "MongoDB",
-    //   subtitle : "NoSQL 의 꽃",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "류창민"
-    // },
-    // {
-    //   src : "/img/mpc10.png",
-    //   alt : "레디스",
-    //   title : "Redis",
-    //   subtitle : "인메모리 데이터 ",
-    //   userIcon : "/img/usericon.png",
-    //   nickname : "황수하"
-    // },
+   
   ]
 
 
@@ -172,11 +94,21 @@ const Grid = () => {
     <Row xs={1} md={3} className="g-4">
       {cardArr.map((v, idx) => (
         <Col key={idx}>
-            <CardStyle imgUrl={v.src} imgHeight="180px" imgWidth="180px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
+            <WrapCardStyle imgUrl={v.src} imgHeight="180px" imgWidth="180px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
         </Col>
       ))}
     </Row>
   );
+  
 }
+
+const WrapCardStyle = styled(CardStyle)`
+
+transition: all 0.5s ease;
+
+&:hover {
+    transform: scale(1.05);
+  }
+`;
 
 export default Grid;

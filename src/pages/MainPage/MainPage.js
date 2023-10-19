@@ -4,9 +4,8 @@ import NoLoginTopbar from "../../components/Topbar/NoLoginTopbar";
 import Banner from "../../components/Banner/Banner"
 import Grid from "../../components/Grid/Grid";
 import Footer from "../../components/Footer/Footer";
-import styles from "./MainPage.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import styled from "@emotion/styled";
 
 const MainPage = () => {
 
@@ -25,19 +24,31 @@ const MainPage = () => {
     }
     
     return (
-        <div>
+        <Layout>
             {login ? <Topbar/> : <NoLoginTopbar/>}
                 
             <Banner />
-            <div style={{marginBottom : "50px", marginTop : "50px"}}></div>
-            <div style={maxMarginStyle}>
+            
+            <CardContainer>
                 <Grid />
-            </div>
-            <div>
-                <Footer />
-            </div>
-        </div>
+            </CardContainer>
+            
+            <Footer />
+        </Layout>
     )
 }
+
+
+const Layout = styled.div`
+    transition: all 0.5s ease;
+`;
+
+const CardContainer = styled.div`
+    margin-top : 70px;
+    margin-left : 100px;
+`;
+
+
+
 
 export default MainPage;
