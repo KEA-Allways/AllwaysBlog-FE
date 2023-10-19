@@ -8,7 +8,7 @@ import styles from "./ListStyle.module.css";
 const ListStyle = ({title, subtitle, nickname}) => {
     return (
       <div className={styles.listStyle}>
-        <Card style={{borderRadius: '10px'}}>
+        <Card style={{borderRadius: '10px', marginBottom: "30px"}}>
           <CardHeader
             title={title}/>
               

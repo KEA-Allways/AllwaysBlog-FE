@@ -15,7 +15,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname})
   
   return (
       
-        <Card className={styles.cardStyle} sx={{  borderRadius:"10px" ,opacity:"80%" ,width:"400px" ,marginBottom:"50px"}}
+        <Card className={styles.cardStyle} sx={{  transition: "all 0.5s ease", borderRadius:"10px" ,opacity:"80%" ,marginBottom:"40px", marginRight: "10px",boxShadow:"1px 1px 15px -5px black"}}
          >
           <CardMedia
             component="img"
@@ -27,7 +27,6 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname})
             sx={{
               objectFit: 'cover',
               width: '100%',
-                
             }}
             /> 
               
