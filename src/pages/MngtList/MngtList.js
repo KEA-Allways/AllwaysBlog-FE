@@ -47,12 +47,13 @@ const MngtList = (props) => {
         apiGetCategories();
     }, []);
 
+    const HeaderTitle = "목록 관리";
+    const HeaderButton = "";
 
     return (
         <div>
-            <ManageTopSideBar Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    <h3 className={styles.h3}>목록 관리</h3>
                     {lists && 
                         lists.map((item, idx) => (
                             <div key={idx} id={idx}

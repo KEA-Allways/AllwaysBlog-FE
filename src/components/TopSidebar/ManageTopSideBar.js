@@ -3,11 +3,11 @@ import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
 
 
-const ManageTopSideBar = ({Container}) => {
+const ManageTopSideBar = ({ HeaderTitle, HeaderButton, Container }) => {
     return (
         <div>
             <Topbar />
-            <ManageSidebar bodyContainer={Container} />
+            <ManageSidebar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} BodyContainer={Container} />
         </div>
     )
 }
