@@ -2,7 +2,7 @@ import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as React from 'react';
-import TextStyles from "../../components/Text.module.css";
+import styles from "../../components/Text.module.css";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,27 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Pagination from '@mui/material/Pagination';
-import Checkbox from '@mui/material/Checkbox';
-import { CommonButton } from '../../common';
-import styled from "@emotion/styled";
-
-const SmallButton = styled(CommonButton)`
-    background-color:white;
-    color:black;
-    width: 40px;
-    height: 40px;
-    border-color:black;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    margin-right: 10px;
-    border-radius: 5px;
-
-    &:hover {
-    color: #fff;
-    background: black;
-    }
-`
+import { useNavigate } from 'react-router-dom';
 
 const MngtContents = () => {
 
@@ -40,9 +20,10 @@ const MngtContents = () => {
     const [hideList, setHideList] = useState(Array(lists.length).fill(false));
     const [checkItems, setCheckItems] = useState([]);
     const [selected, setSelected] = React.useState([]);
+    const navigate = useNavigate();
 
     const apiGetCategories = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
+        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/posts/1/1')
           .then((response) => {
             setLists(response.data.posts);
             console.log(lists)
@@ -94,57 +75,64 @@ const MngtContents = () => {
         else {
         // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
         setCheckItems([]);
-        }
+        } 
     }
 
-    const HeaderTitle = "글 관리";
-    const HeaderButton = "글쓰기";
+    const editButtonClicked = (postSeq) => {
+        // postSeq를 가지고 /post 페이지로 이동
+        navigate('/post', { state: { postSeq: postSeq } });
+    };
 
     return (
+        
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
+            <ManageTopSideBar Container={
                 <div>
-                    <div>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" sx={{ width: '10%'}}>번호</TableCell>
-                                        <TableCell align="center" sx={{ width: '70%'}} colSpan={1}>제목</TableCell>
-                                        <TableCell align="center" sx={{ width: '20%'}}></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {lists.map((row, idx) => {
-
-                                        return (
-                                        <TableRow
-                                            key={row.themeSeq}
-                                            style={{height:'70px'}}
-                                            onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
-                                        >
-                                            <TableCell align="center">
-                                                {idx + 1}
-                                            </TableCell>
-                                            <TableCell align="left" colSpan={1}>
-                                                <p style={{ margin: '0'}}>{row.name}</p>
-                                                <p style={{ margin: '0'}}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {hideList[idx] && (
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <SmallButton>수정</SmallButton>
-                                                        <SmallButton>삭제</SmallButton>
-                                                    </div>
-                                                )}
-                                            </TableCell>
-                                        </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 className={styles.h3}>글 관리</h3>
+                        <Button variant="outlined" sx={{marginRight:"10px"}}>글쓰기</Button>
                     </div>
+                    <TableContainer component={Paper}>
+                        <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center" sx={{ width: '10%'}}>번호</TableCell>
+                                    <TableCell align="center" sx={{ width: '70%'}} colSpan={1}>제목</TableCell>
+                                    <TableCell align="center" sx={{ width: '20%'}}></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {lists.map((row, idx) => {
+
+                                    return (
+                                    <TableRow
+                                        key={row.themeSeq}
+                                        style={{height:'70px'}}
+                                        onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
+                                    >
+                                        <TableCell align="center">
+                                            {idx + 1}
+                                        </TableCell>
+                                        <TableCell align="left" colSpan={1}>
+                                            <p style={{ margin: '0'}}>{row.name}</p>
+                                            <p style={{ margin: '0'}}>{row.nickname} | {row.postDate}</p>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            {hideList[idx] && (
+                                                <div>
+                                                    <Button variant="outlined"
+                                                            sx={{marginRight:"10px"}}
+                                                            onClick={() => editButtonClicked(row.postSeq)}>수정</Button>
+                                                    <Button variant="outlined">삭제</Button>
+                                                </div>
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
                         <Pagination count={10} variant="outlined" shape="rounded" />
                     </div>
