@@ -29,7 +29,7 @@ const LoginPage = () => {
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
   const loginBtnClicked = () => {
-     axios.post("http://private-06de82-bee3083.apiary-mock.com/api/users/login ", {
+     axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, {
         userId: userId,
         password: password
       })
@@ -130,10 +130,11 @@ const LoginSection = styled.div`
   width: 550px;
   height: 646px;
   background: #fff;
-   box-shadow: 1px 1px 15px -5px black;
+
+  box-shadow: 1px 1px 15px -5px black;
   border: solid;
   border-color: rgba(0, 0, 0, 0);
-  
+
   border-radius: 50px;
   text-align: center;
   display: flex;

@@ -15,7 +15,7 @@ const MngtTheme = (props) => {
     const [themes, setThemes] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
           .then((response) => {
             setThemes(response.data.themes);
             console.log(themes)
