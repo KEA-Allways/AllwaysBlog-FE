@@ -142,7 +142,8 @@ const BlogBody = () => {
           <Col key={index}>
             <CardStyle
               imgUrl={blg.src}
-              imgHeight="150px"
+              imgHeight="180px"
+              imgWidth="200px"
               title={blg.title}
               subtitle={blg.subtitle}
               usericon={blg.userIcon}

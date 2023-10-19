@@ -124,15 +124,16 @@ const Container = styled.div`
 `;
 
 const LoginSection = styled.div`
-  box-shadow: 1px 1px 15px -5px black;
+ 
   margin-top: 0px;
   padding-top: 59px;
   width: 550px;
   height: 646px;
   background: #fff;
+   box-shadow: 1px 1px 15px -5px black;
   border: solid;
   border-color: rgba(0, 0, 0, 0);
-  box-shadow: 5px rgba(1, 0, 0, 3);
+  
   border-radius: 50px;
   text-align: center;
   display: flex;
@@ -181,7 +182,7 @@ const Input = styled.input`
   font-size: 15px;
 
 
-  transition: all 0.3s ease 0s;
+  transition: all 0.5s ease 0s;
 `;
 
 const ReLoginContainer = styled.div`
