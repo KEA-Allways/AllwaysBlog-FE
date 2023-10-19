@@ -76,15 +76,14 @@ const MngtTemplate = () => {
         }
     }
 
+    const HeaderTitle = "템플릿 관리";
+    const HeaderButton = "템플릿 추가";
+
     return (
         
         <div>
-            <ManageTopSideBar Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 className={styles.h3}>템플릿 관리</h3>
-                        <Button variant="outlined" sx={{marginRight:"10px"}}>템플릿 추가</Button>
-                    </div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead>
