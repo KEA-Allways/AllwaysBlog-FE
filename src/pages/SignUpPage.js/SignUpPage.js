@@ -35,8 +35,7 @@ const SignUpPage = () => {
 
 
   const signUpBtnClicked = () => {
-     axios.post(
-        "http://private-06de82-bee3083.apiary-mock.com/api/users/new-user ",
+     axios.post(`${process.env.REACT_APP_API_URL}/api/users/new-user`,
         {
           profileImg: profileImage,
           userId: userId,

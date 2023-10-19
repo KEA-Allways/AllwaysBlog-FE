@@ -42,7 +42,7 @@ const MngtContents = () => {
     const [selected, setSelected] = React.useState([]);
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/posts/1/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
           .then((response) => {
             setLists(response.data.posts);
             console.log(lists)

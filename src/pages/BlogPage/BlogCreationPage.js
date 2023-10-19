@@ -16,10 +16,9 @@ const BlogCreationPage = () => {
 
   const [blogName, setBlogName] = useState("");
   const [description, setDescription] = useState("");
-
+  
   const loginBtnClicked = () => {
-    axios
-      .post("http://private-06de82-bee3083.apiary-mock.com/api/users/login ", {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
         blogName: blogName,
         pasdescriptionsword: description,
       })
