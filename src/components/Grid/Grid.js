@@ -94,7 +94,7 @@ const Grid = () => {
     <Row xs={1} md={3} className="g-4">
       {cardArr.map((v, idx) => (
         <Col key={idx}>
-            <WrapCardStyle imgUrl={v.src} imgHeight="180px" imgWidth="180px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
+            <CardStyle imgUrl={v.src} imgHeight="180px" imgWidth="180px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} /> 
         </Col>
       ))}
     </Row>
@@ -102,13 +102,10 @@ const Grid = () => {
   
 }
 
-const WrapCardStyle = styled(CardStyle)`
 
-transition: all 0.5s ease;
 
-&:hover {
-    transform: scale(1.05);
-  }
-`;
+
+
+
 
 export default Grid;

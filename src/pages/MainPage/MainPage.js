@@ -40,7 +40,7 @@ const MainPage = () => {
 
 
 const Layout = styled.div`
-    transition: all 0.5s ease;
+    
 `;
 
 const CardContainer = styled.div`
