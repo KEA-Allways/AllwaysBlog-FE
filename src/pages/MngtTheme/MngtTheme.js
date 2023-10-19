@@ -15,7 +15,7 @@ const MngtTheme = (props) => {
     const [themes, setThemes] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
           .then((response) => {
             setThemes(response.data.themes);
             console.log(themes)
@@ -30,11 +30,13 @@ const MngtTheme = (props) => {
         apiGetCategories();
     }, []);
 
+    const HeaderTitle = "테마 관리";
+    const HeaderButton = "";
+
     return (
         <div>
-            <ManageTopSideBar Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    <h3 className={styles.h3}>테마 관리</h3>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead>

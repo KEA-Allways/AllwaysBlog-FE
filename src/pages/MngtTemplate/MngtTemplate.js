@@ -22,7 +22,7 @@ const MngtTemplate = () => {
     const [checkItems, setCheckItems] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('https://private-bc2ca0-bee3083.apiary-mock.com/api/templates')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
           .then((response) => {
             setLists(response.data.templates);
           })
@@ -76,15 +76,14 @@ const MngtTemplate = () => {
         }
     }
 
+    const HeaderTitle = "템플릿 관리";
+    const HeaderButton = "템플릿 추가";
+
     return (
         
         <div>
-            <ManageTopSideBar Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 className={styles.h3}>템플릿 관리</h3>
-                        <Button variant="outlined" sx={{marginRight:"10px"}}>템플릿 추가</Button>
-                    </div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead>

@@ -1,10 +1,32 @@
 import {motion} from "framer-motion";
  
 import Item from './SidebarItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from "./Sidebar.module.css";
+import TextStyles from "../../components/Text.module.css";
+import { CommonButton } from '../../common';
+import styled from "@emotion/styled";
 
-function ManageSidebar({bodyContainer}) {
+const PlusButton = styled(CommonButton)`
+    background-color:white;
+    color:black;
+    width: 122px;
+    height: 40px;
+    border-color:black;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+
+    &:hover {
+    color: #fff;
+    background: black;
+    }
+`
+
+function ManageSidebar({ HeaderTitle, HeaderButton, BodyContainer}) {
 
   const [open, setOpen] = useState(true);
 
@@ -44,6 +66,15 @@ function ManageSidebar({bodyContainer}) {
       width : "3rem"
     },
   }
+
+  const [IsHeaderButton, setIsHeaderButton] = useState(false);
+
+  useEffect( () => {
+    if(HeaderButton != null && HeaderButton != ""){
+      setIsHeaderButton(true);
+    }
+  }, []);
+
 
   return (
     <div className={styles.App}>
@@ -105,8 +136,22 @@ function ManageSidebar({bodyContainer}) {
         </motion.div>
         
       </motion.div>
-      <div className={styles.bodyContainer}>
-        {bodyContainer}
+      <div className={styles.bodyContainer} style={{ marginRight: "50px", marginLeft: "50px", marginTop: "30px"}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 className={TextStyles.h3}>
+                {HeaderTitle}
+            </h3>
+            {IsHeaderButton && (
+              <PlusButton variant="contained" size="small">{HeaderButton}</PlusButton> 
+            )}
+            
+        </div>
+        <div style={{ marginBottom: "20px"}}>
+            <hr className={TextStyles.hr} />
+        </div>
+        <div>
+            {BodyContainer}
+        </div>
       </div>
     </div>
    

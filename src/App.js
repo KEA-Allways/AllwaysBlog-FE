@@ -11,7 +11,13 @@ import MngtTheme from "./pages/MngtTheme/MngtTheme";
 import MngtList from "./pages/MngtList/MngtList";
 import MngtContent from "./pages/MngtContent/MngtContent"
 import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
+import { ThemeProvider, createTheme } from "@mui/material";
 
+const theme = createTheme({
+  typography : {
+    fontFamily : "Yeongdeok Blueroad"
+  }
+})
 
 function App() {
 
@@ -22,23 +28,27 @@ function App() {
     
   return (
     
-    <div className={styles.App}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/blogs" element={<BlogPage />} />
-          <Route path="/blog-creation" element={<BlogCreationPage/>} />
-          <Route path="/mngt" element={<ManagePage />} />
-          <Route path="/post" element={<PostPage />} />
-          <Route path="/mngt/theme" element={<MngtTheme />} />
-          <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
-          <Route path="/mngt/content" element={<MngtContent/>} />
-          <Route path="/mngt/template" element={<MngtTemplate/>}/>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <ThemeProvider theme={theme}>
+      
+      <div className={styles.App}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/blogs" element={<BlogPage />} />
+            <Route path="/blog-creation" element={<BlogCreationPage/>} />
+            <Route path="/mngt" element={<ManagePage />} />
+            <Route path="/post" element={<PostPage />} />
+            <Route path="/mngt/theme" element={<MngtTheme />} />
+            <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
+            <Route path="/mngt/content" element={<MngtContent/>} />
+            <Route path="/mngt/template" element={<MngtTemplate/>}/>
+          </Routes>
+        </BrowserRouter>
+      </div>
+
+    </ThemeProvider>
   );
 }
 
