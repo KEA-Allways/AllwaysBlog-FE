@@ -22,7 +22,7 @@ const MngtTemplate = () => {
     const [checkItems, setCheckItems] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('https://private-bc2ca0-bee3083.apiary-mock.com/api/templates')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
           .then((response) => {
             setLists(response.data.templates);
           })
