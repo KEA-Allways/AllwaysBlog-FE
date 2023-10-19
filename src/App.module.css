@@ -4,6 +4,16 @@
      
     /* background-image:url("C:\Users\suha hwang\Desktop\AllwaysBlog-FE\public\img\soccer.jpg"); */
     /* background-color: rgba(0, 0, 0, 1); */
-    background-size: 100% 990px;
+    font-family: "Yeongdeok Snow Crab";
    
 } 
+@font-face {
+    font-family: "Yeongdeok Blueroad";
+    src: url("./fonts/Yeongdeok\ Blueroad.otf");
+}
+
+@font-face {
+    font-family: "Yeongdeok Snow Crab";
+    src: url("./fonts/Yeongdeok\ Snow\ Crab.ttf");
+}
+
