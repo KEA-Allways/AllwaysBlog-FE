@@ -7,6 +7,10 @@ import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
 import styled from "@emotion/styled";
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const PostButton = styled(CommonButton)`
   background-color:white;
@@ -110,6 +114,13 @@ const CardsData = [
 
 const BlogBody = () => {
 
+  const navigate = useNavigate();
+
+  const editButtonClicked = (postSeq) => {
+    navigate('/post', { state: { postSeq: postSeq } });
+  };
+  
+
   const [showContent, setShowContent] = useState("카드형");
   const handleButtonClick = (content) => {
     setShowContent(content)
@@ -135,9 +146,8 @@ const BlogBody = () => {
         {/* <Link to={`/post?initialContent=${encodeURIComponent("게시글 수정엔<br><br><br>엔터를 누른다는 내용<br><br>dㅇ")}`}>
           <PostButton>글 작성하기</PostButton>
         </Link> */}
-        <Link to={`/post?initialContent`}>
-          <PostButton>글 작성하기</PostButton>
-        </Link>
+         <CommonButton variant="outlined" sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
+         
       </div>
       <br></br>
 
