@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import {Button, Col, Row} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
+import axios from "axios";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
@@ -106,6 +107,7 @@ const CardsData = [
     nickname : "황수하"
   },
 ]
+
 const BlogBody = () => {
 
   const [showContent, setShowContent] = useState("카드형");
@@ -130,7 +132,10 @@ const BlogBody = () => {
             </div>
           )}
         </div>
-        <Link to="/post">
+        {/* <Link to={`/post?initialContent=${encodeURIComponent("게시글 수정엔<br><br><br>엔터를 누른다는 내용<br><br>dㅇ")}`}>
+          <PostButton>글 작성하기</PostButton>
+        </Link> */}
+        <Link to={`/post?initialContent`}>
           <PostButton>글 작성하기</PostButton>
         </Link>
       </div>
@@ -142,8 +147,7 @@ const BlogBody = () => {
           <Col key={index}>
             <CardStyle
               imgUrl={blg.src}
-              imgHeight="180px"
-              imgWidth="200px"
+              imgHeight="150px"
               title={blg.title}
               subtitle={blg.subtitle}
               usericon={blg.userIcon}
