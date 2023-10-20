@@ -138,13 +138,15 @@ const MngtContents = () => {
                                                 <p style={{ margin: '0'}}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
                                             </TableCell>
                                             <TableCell align="right">
-                                                {hideList[idx] && (
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <SmallButton>수정</SmallButton>
-                                                        <SmallButton>삭제</SmallButton>
-                                                    </div>
-                                                )}
-                                            </TableCell>
+                                            {hideList[idx] && (
+                                                <div>
+                                                    <Button variant="outlined"
+                                                            sx={{marginRight:"10px"}}
+                                                            onClick={() => editButtonClicked(row.postSeq)}>수정</Button>
+                                                    <Button variant="outlined">삭제</Button>
+                                                </div>
+                                            )}
+                                        </TableCell>
                                         </TableRow>
                                         );
                                     })}
