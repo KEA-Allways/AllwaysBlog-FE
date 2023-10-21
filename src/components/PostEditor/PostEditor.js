@@ -25,8 +25,6 @@ const PostEditor = ({ postSeq }) => {
   // 카테고리 리스트 상태 추가
   const [category_lists, setCategory_lists] = useState([]);
 
-  const list = [];
-
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
     ThumbnailModal(bool);
@@ -86,12 +84,13 @@ const PostEditor = ({ postSeq }) => {
   return (
     <>
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
-        <TextField
+      <TextField
           id="post-category"
           select
           label="게시글 카테고리"
-          style={{width: '20%'}}
-          defaultValue={postSeq === 0 ? '0이에요' : (category_lists.length > 0 ? category_lists[0].listName : '')}>
+          style={{ width: '20%' }}
+          defaultValue = {postSeq === 0 ? '게시글 카테고리' : (category_lists.length > 0 ? category_lists[0].listName : '')}
+        >
           {category_lists.map((option) => (
             <MenuItem key={option.listName} value={option.listName}>
               {option.listName}
@@ -106,6 +105,7 @@ const PostEditor = ({ postSeq }) => {
           label="게시글 제목"
           variant="outlined"
           value={postSeq === 0 ? '게시글 제목' : titleState}
+          onChange={(event) => setTitleState(event.target.value)}
           style={{ width: '100%' }}>
         </TextField>
       </div>
