@@ -1,0 +1,15 @@
+.cardStyle {
+    transition: all 0.5s ease;
+    border-color: rgba(0, 0, 0, 0);
+    border-radius: 10px;
+}
+
+
+.cardStyle:hover {
+    transition: all 0.5s ease;
+    box-shadow: -1px 10px 20px 0px rgba(0,0,0,0.4);
+    /* Hover 효과 스타일 */
+    opacity: 100%;
+    /* 확대 효과 */
+    transform: scale(1.05);
+}

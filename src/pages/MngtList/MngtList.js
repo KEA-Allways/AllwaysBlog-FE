@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import Topbar from "../../components/Topbar/Topbar";
+import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import styles from "../../components/Text.module.css";
 
 const MngtList = (props) => {
     const { themeSeq } = useParams();
@@ -10,7 +11,7 @@ const MngtList = (props) => {
     const [lists, setLists] = useState([]);
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/themes/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
           .then((response) => {
             setLists(response.data.themes[themeSeq].lists);
             console.log(lists)
@@ -46,34 +47,33 @@ const MngtList = (props) => {
         apiGetCategories();
     }, []);
 
+    const HeaderTitle = "목록 관리";
+    const HeaderButton = "";
 
     return (
         <div>
-            <Topbar />
-            요리 카테고리 목록 관리
-            <Button onClick={apiGetCategories}>Test API Request</Button>
-      
-            <div>
-                {lists && 
-                    lists.map((item, idx) => (
-                        <div key={idx} id={idx}
-                            style={{
-                                //backgroundColor: 'lightblue',
-                                border: '1px solid black',
-                                margin: '20px 25%',
-                                textAlign: 'center',
-                                fontSize: '20px',
-                            }}
-                            onDragStart={() => dragStart(idx)}
-                            onDragEnter={() => dragEnter(idx)}
-                            onDragOver={e => e.preventDefault()}
-                            onDragEnd={drop}
-                            draggable>
-                            {item.listName}
-                        </div>
-                    ))}
-            </div>
-
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
+                <div>
+                    {lists && 
+                        lists.map((item, idx) => (
+                            <div key={idx} id={idx}
+                                style={{
+                                    //backgroundColor: 'lightblue',
+                                    border: '1px solid black',
+                                    margin: '20px 25%',
+                                    textAlign: 'center',
+                                    fontSize: '20px',
+                                }}
+                                onDragStart={() => dragStart(idx)}
+                                onDragEnter={() => dragEnter(idx)}
+                                onDragOver={e => e.preventDefault()}
+                                onDragEnd={drop}
+                                draggable>
+                                {item.listName}
+                            </div>
+                        ))}
+                </div>
+            } />
         </div>
     )
 }

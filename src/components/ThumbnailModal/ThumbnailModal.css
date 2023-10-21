@@ -1,65 +1,39 @@
+
 .modal.fade {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+
   -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
   -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
   -o-transition: opacity 0.3s linear, left 0.3s ease-out;
   transition: opacity 0.3s linear, left 0.3s ease-out;
-
-  position: fixed;
  
 }
+ 
+.modal-content{
+
+  right: 115%;
+  
+  
+}
+
+
+ 
 
 .modal-title {
   width: auto;
 }
 
-.horizontal {
-  display: flex;
-  flex-direction: row;
-  padding-top: 10px;
-  
-}
 
-.horizontal li {
-  margin-right: 10px; /* Adjust margin as needed */
-}
 
-ul {
-  list-style: none;
-}
 
-a,
-a:active {
-  text-decoration: none;
-  color: #000;
-}
-
-body {
-  position: relative;
-  background: #f4f4f4;
-  height: 80vh;
-  min-height: 720px;
-  max-height: 1080px;
-  font-family: "Noto Sans KR", sans-serif;
-}
-
-body::after {
-  position: fixed;
-  content: "";
-  top: 0;
-  left: 0;
-  display: block;
-  height: 100%;
-  width: 100%;
-  z-index: -100;
-  backdrop-filter: blur(10px);
-}
 
 /* WRAPPER */
 
 section.wrapper {
-  margin: 0 auto;
    
-  display: flex;
+   
   width: 1024px;
   height: 540px;
   background-color: #fff;
@@ -67,15 +41,7 @@ section.wrapper {
   border-radius: 15px;
 }
 
-section.wrapper .content-left {
-  width: 50%; /* Left half takes up 50% of the wrapper */
-  padding: 20px; /* Adjust padding as needed */
-}
-
-section.wrapper .content-right {
-  flex: 1; /* Right half takes up remaining space */
-  padding: 20px; /* Adjust padding as needed */
-}
+ 
 
 article.contents {
   position: relative;
@@ -124,6 +90,48 @@ header {
     font-weight: 600;
   }
 
+  .horizontal {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    
+  }
+  
+  .horizontal li {
+    margin-right: 10px; /* Adjust margin as needed */
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  a,
+  a:active {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  body {
+    position: relative;
+    background: #f4f4f4;
+    height: 80vh;
+    min-height: 720px;
+    max-height: 1080px;
+    font-family: "Noto Sans KR", sans-serif;
+  }
+  
+  body::after {
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    display: block;
+    height: 100%;
+    width: 100%;
+    z-index: -100;
+    backdrop-filter: blur(10px);
+  }
+
 /* PREVIEW */
 /* 어떻게 하면 프리뷰에 딱 들어올까요요?  */
 .preview {
@@ -166,18 +174,6 @@ header {
 }
 
  
-
-/* COMPONENT OPTION 2 */
-
- 
-
- 
-
- 
-
- 
-
-/* COMPONENT OPTION 3 */
 
 #comp__opt3 {
   width: 100%;
@@ -253,60 +249,9 @@ input.input__field::placeholder {
 }
 
 /* BTN */
-
-.modal__btn {
-  width: 192px;
-  height: 40px;
-  margin-left: 20px;
-  border-radius: 20px;
-  border: none;
-  background-color: #f4f4f4;
-  color: #666666;
-  font-size: 16px;
-  font-weight: 400;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.4s ease,
-    transform 0.4s ease;
-}
-
-.modal__btn:focus {
-  outline: none;
-}
-
-.modal__btn:active {
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__btn:hover {
-  background-color: #3b45ff;
-  color: #fff;
-}
-
-.modal__init__btn:active{
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__init__btn:hover{
-  background-color: red;
-  color:white
-}
-
-
-.modal__sucess__btn:active{
-  transform: scale(1.05);
-  opacity: 0.2;
-}
-
-.modal__sucess__btn:hover{
-  background-color: green;
-  color:white
-}
-
+ 
+ 
+ 
 .modal__btns {
   display: flex;
   justify-content: flex-end; /* Center horizontally */
@@ -361,19 +306,7 @@ input.input__field::placeholder {
   z-index: 100;
 }
 
-.capture_modal::after {
-  position: absolute;
-  text-align: center;
-  content: "🎉 완성되었습니다 🎉";
-  width: 600px;
-  display: inline-block;
-  top: -80px;
-  color: #fff;
-  font-size: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
+ 
 .overlay {
   position: fixed;
   top: 0;
@@ -388,11 +321,7 @@ input.input__field::placeholder {
   opacity: 0;
 }
 
-.canvas {
-  position: relative;
-  border: 1px solid #fff;
-  /* box-shadow: 0 0 100px #fff; */
-}
+
 
 .inputFields {
   display: flex;
@@ -441,9 +370,13 @@ input.input__field::placeholder {
   display: none;
 }
  
-
-
-
+/* INPUT FIELDS */
+.inputFields {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; /* Align to the right */
+}
+ 
 
 
 /* CONTROL PANEL */
@@ -454,11 +387,6 @@ input.input__field::placeholder {
   float: right; /* Align to the right */
 }
 
-/* INPUT FIELDS */
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end; /* Align to the right */
-}
 
-/* BTN */
+
+

@@ -2,7 +2,8 @@ import React from 'react';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 import "./Footer.module.css";
 import styles from "./Footer.module.css";
-import Button from 'react-bootstrap/Button';
+import {CommonButton }from "../../common";
+import TextField from '@mui/material/TextField';
 
 import { FaGoogle } from "react-icons/fa";
 import {FaGithub} from "react-icons/fa"
@@ -18,6 +19,7 @@ import {BiPhone} from "react-icons/bi"
  
 
 export default function footer() {
+   
   return (
     <MDBFooter bgColor='#f4f4f4' className='text-center text-lg-start text-muted'>
       <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
@@ -58,7 +60,8 @@ export default function footer() {
                         <input type="email" name="email" placeholder="Your Email" className={styles.footerInput} />
                     </form>
                     </div>
-                    <Button variant="success">Dark</Button> 
+                    <CommonButton variant="contained" size="small">구독</CommonButton> 
+                     
                 </div>
             </MDBCol>
 
@@ -115,3 +118,5 @@ export default function footer() {
     </MDBFooter>
   );
 }
+
+
