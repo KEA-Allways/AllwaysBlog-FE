@@ -1,5 +1,4 @@
 import ManageSidebar from "../Sidebar/ManageSidebar";
-import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
 
 
