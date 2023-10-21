@@ -1,6 +1,5 @@
 import { Button } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
-import classnames from "classnames"
 import styles from "./Topbar.module.css";
 
 const  NoLoginTopbar = () => {
@@ -10,7 +9,7 @@ const  NoLoginTopbar = () => {
     }
     
     return (
-        <Navbar className={classnames('justify-content-between',styles.noLoginTopbar)}>
+        <Navbar className={(`justify-content-between ${styles.noLoginTopbar}`)}>
             <Navbar.Brand href='/'>
                 <img src="/img/logo.png" className={styles.topbarLogo}/>
             </Navbar.Brand>
