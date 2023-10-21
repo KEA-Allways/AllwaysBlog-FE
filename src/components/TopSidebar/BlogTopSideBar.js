@@ -5,7 +5,7 @@ import Topbar from "../Topbar/Topbar";
 const BlogTopSideBar = ({body}) => {
     return (
         <div>
-            <Topbar />
+            <Topbar page={"blog"} />
             <BlogSidebar body={body}/>
         </div>
     )

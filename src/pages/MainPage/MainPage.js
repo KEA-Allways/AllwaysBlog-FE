@@ -6,6 +6,7 @@ import Grid from "../../components/Grid/Grid";
 import Footer from "../../components/Footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "@emotion/styled";
+import DefaultTopbar from "../../components/Topbar/DefaultTopbar";
 
 const MainPage = () => {
 
@@ -25,7 +26,7 @@ const MainPage = () => {
     
     return (
         <Layout>
-            {login ? <Topbar/> : <NoLoginTopbar/>}
+            <Topbar page={"main"} />
                 
             <Banner />
             
