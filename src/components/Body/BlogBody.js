@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
 import {Col, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
-import axios from "axios";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";

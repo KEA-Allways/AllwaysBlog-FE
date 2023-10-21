@@ -22,6 +22,10 @@ const PostEditor = ({ postSeq }) => {
   const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
+  // 카테고리 리스트 상태 추가
+  const [category_lists, setCategory_lists] = useState([]);
+
+  const list = [];
 
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
@@ -41,26 +45,9 @@ const PostEditor = ({ postSeq }) => {
     console.log("이미지 업로드");
   };
 
-  // 임시 카테고리 목록들 저장된 리스트
-  const currencies = [
-    {
-      value: '카테고리1'
-    },
-    {
-      value: '카테고리2'
-    },
-    {
-      value: '카테고리3'
-    },
-    {
-      value: '카테고리4'
-    },
-  ];
-
   const apiGetPost = () => {
     axios.get('http://private-anon-474957104d-bee3083.apiary-mock.com/posts/postSeq')
     .then((response) => {
-      console.log(response.data);
       const blocksFromHTML = convertFromHTML(response.data.content);
       const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
       const initialEditorState  = EditorState.createWithContent(contentState);
@@ -72,12 +59,27 @@ const PostEditor = ({ postSeq }) => {
     });
   }
 
+  const apiGetCategories = () => {
+    axios.get('https://private-54744-bee3083.apiary-mock.com/api/themes/1/1')
+    .then((response) => {
+      console.log(response);
+      console.log(response.data);
+      console.log(response.data.category_lists);
+      setCategory_lists(response.data.category_lists);
+      console.log(category_lists[0]);
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+  }
+
   useEffect(() => {
-    if(postSeq == 0) {
-      setTitleState("게시글 제목")
+    if(postSeq === 0) {
+      setTitleState("postSeq = 0");
+      apiGetCategories();
     }
-    if(postSeq !== 0) {
+    else {
       apiGetPost();
+      apiGetCategories();
     }
   }, [postSeq]);
 
@@ -88,11 +90,11 @@ const PostEditor = ({ postSeq }) => {
           id="post-category"
           select
           label="게시글 카테고리"
-          value={postSeq === 0 ? '카테고리1' : titleState}
-          style={{ width: 'auto' }}>
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.value}
+          style={{width: '20%'}}
+          defaultValue={postSeq === 0 ? '0이에요' : (category_lists.length > 0 ? category_lists[0].listName : '')}>
+          {category_lists.map((option) => (
+            <MenuItem key={option.listName} value={option.listName}>
+              {option.listName}
             </MenuItem>
           ))}
         </TextField>
@@ -103,7 +105,7 @@ const PostEditor = ({ postSeq }) => {
           id="post-title"
           label="게시글 제목"
           variant="outlined"
-          value={postSeq === 0 ? '미리 지정한 제목' : titleState}
+          value={postSeq === 0 ? '게시글 제목' : titleState}
           style={{ width: '100%' }}>
         </TextField>
       </div>
