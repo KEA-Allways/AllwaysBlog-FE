@@ -6,6 +6,10 @@ import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
 import styled from "@emotion/styled";
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 const PostButton = styled(CommonButton)`
   background-color:white;
@@ -108,6 +112,13 @@ const CardsData = [
 ]
 
 const BlogBody = () => {
+
+  const navigate = useNavigate();
+
+  const editButtonClicked = (postSeq) => {
+    navigate('/post', { state: { postSeq: postSeq } });
+  };
+  
 
   const [showContent, setShowContent] = useState("카드형");
   const handleButtonClick = (content) => {
