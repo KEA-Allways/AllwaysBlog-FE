@@ -9,26 +9,30 @@ import ThumbnailModal from "../ThumbnailModal/ThumbnailModal.js";
 import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
 import { CommonButton } from "../../common";
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
 `;
 
 const PostEditor = ({ postSeq }) => {
-  // 에디터 상태(Content 상태) 추가
+  const navigate = useNavigate();
+  // 에디터 상태(Content 상태)
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  // 제목 상태 추가
+  // 제목 상태
   const [titleState, setTitleState] = useState("");
 
   const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
-  // 카테고리 리스트 상태 추가
+  // 카테고리 리스트 상태
   const [category_lists, setCategory_lists] = useState([]);
-  // 카테고리 리스트 상태 추가
+  // 카테고리 리스트 상태
   const [template_lists, setTemplate_lists] = useState([]);
-
+  // 카테고리 선택 상태
   const [selectedTemplate, setSelectedTemplate] = useState("");
+
+  const [showButton, setShowButton] = useState("");
 
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
@@ -99,11 +103,13 @@ const PostEditor = ({ postSeq }) => {
       setTitleState("postSeq = 0");
       apiGetCategories();
       apiGetTemplateList();
+      setShowButton("등록");
     }
     else {
       apiGetPost();
       apiGetCategories();
       apiGetTemplateList();
+      setShowButton("수정");
     }
   }, [postSeq]);
 
@@ -176,7 +182,17 @@ const PostEditor = ({ postSeq }) => {
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div></div>
-        <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
+        {/* 수정이 아니라 처음 작성하러 들어왔을 때는 버튼을 하나만 보여주고 작성 완료 버튼을 누르면 썸네일 생성 창이 뜬다 */}
+        {showButton === "등록" && (
+          <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
+        )}
+        {/* 수정하러 들어왔을 때는 버튼을 2개 보여준다, 작성 완료 버튼을 누르면 /mngt/content 페이지로 이동하게 해뒀는데 어느 유저의 mngt/page로 갈지는 차후에 설정해줘야 함 */}
+        {showButton === "수정" && (
+          <div>
+          <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>썸네일 변경</CommonButton>
+          <CommonButton style={{ marginTop: '30px' }} onClick={() => navigate('/mngt/content')}>작성 완료</CommonButton>
+          </div>
+        )}
       </div>
       <ThumbnailModal
         showModal={showModal}

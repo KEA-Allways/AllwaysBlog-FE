@@ -13,7 +13,26 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Pagination from '@mui/material/Pagination';
-import Checkbox from '@mui/material/Checkbox';
+import { CommonButton } from '../../common';
+import styled from "@emotion/styled";
+
+const SmallButton = styled(CommonButton)`
+    background-color:white;
+    color:black;
+    width: 40px;
+    height: 40px;
+    border-color:black;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    margin-right: 10px;
+    border-radius: 5px;
+
+    &:hover {
+    color: #fff;
+    background: black;
+    }
+`
 
 const MngtTemplate = () => {
 
@@ -110,9 +129,9 @@ const MngtTemplate = () => {
                                         </TableCell>
                                         <TableCell align="right">
                                             {hideList[idx] && (
-                                                <div>
-                                                    <Button variant="outlined" sx={{marginRight:"10px"}}>수정</Button>
-                                                    <Button variant="outlined">삭제</Button>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <SmallButton>수정</SmallButton>
+                                                    <SmallButton>삭제</SmallButton>
                                                 </div>
                                             )}
                                         </TableCell>
