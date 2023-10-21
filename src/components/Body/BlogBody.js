@@ -1,31 +1,10 @@
-import { Link } from "react-router-dom";
-import {Button, Col, Container, Row} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
-import styled from "@emotion/styled";
 import { useNavigate } from 'react-router-dom';
-
-
-
-
-const PostButton = styled(CommonButton)`
-  background-color:white;
-  color:black;
-  width: 122px;
-  height: 40px;
-  border-color:black;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    color: #fff;
-    }
-`
 
 const CardsData = [
 
