@@ -147,9 +147,7 @@ const BlogBody = () => {
                 </div>
               )}
             </div>
-            <Link to="/post">
-              <PostButton>글 작성하기</PostButton>
-            </Link>
+            <CommonButton variant="outlined" sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
           </div>
           <br></br>
 
