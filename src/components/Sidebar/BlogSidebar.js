@@ -176,13 +176,13 @@ function BlogSidebar({body}) {
                         </Link>
                         {menuStates[tal.themeName] && (
                           
-                          <ul style={{ width: "100%", height: "auto", textAlign: "center" }}>
+                          <ul style={{ width: "100%", height: "auto", textAlign: "start",}}>
                             {tal.lists.map((list) => (
                               // 카테고리
                               <li key={list.listSeq}>
                                 <Link
                                   to={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}`}
-                                  className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.active} ${styles.category}` : ""}
+                                  className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.active} ${styles.categoryText}` : styles.categoryText}
                                 >
                                   {list.listName}
                                 </Link>
