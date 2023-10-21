@@ -1,4 +1,4 @@
-import {Button, Col, Container, Row} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";

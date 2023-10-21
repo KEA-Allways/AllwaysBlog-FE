@@ -8,6 +8,7 @@ import draftjsToHtml from "draftjs-to-html";
 import ThumbnailModal from "../ThumbnailModal/ThumbnailModal.js";
 import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
+import { CommonButton } from "../../common";
 
 const Container = styled.div`
   width: 100%;
@@ -24,6 +25,10 @@ const PostEditor = ({ postSeq }) => {
   const [showModal, setShowModal] = useState(false);
   // 카테고리 리스트 상태 추가
   const [category_lists, setCategory_lists] = useState([]);
+  // 카테고리 리스트 상태 추가
+  const [template_lists, setTemplate_lists] = useState([]);
+
+  const [selectedTemplate, setSelectedTemplate] = useState("");
 
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
@@ -61,8 +66,6 @@ const PostEditor = ({ postSeq }) => {
     axios.get('https://private-54744-bee3083.apiary-mock.com/api/themes/1/1')
     .then((response) => {
       console.log(response);
-      console.log(response.data);
-      console.log(response.data.category_lists);
       setCategory_lists(response.data.category_lists);
       console.log(category_lists[0]);
     }).catch((error) => {
@@ -70,16 +73,45 @@ const PostEditor = ({ postSeq }) => {
     });
   }
 
+  const apiGetTemplateList = () => {
+    axios.get('https://private-54744-bee3083.apiary-mock.com/api/templates')
+    .then((response) => {
+      setTemplate_lists(response.data.templates)
+      console.log(template_lists);
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+  }
+
+  const apiGetTemplate = () => {
+    axios.get('https://private-54744-bee3083.apiary-mock.com/api/templates/1')
+    .then((response) => {
+      const blocksFromHTML = convertFromHTML(response.data.templateContent);
+      const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
+      const initialEditorState  = EditorState.createWithContent(contentState);
+      setEditorState(initialEditorState );
+      setTitleState(response.data.title);
+    })
+  }
+
   useEffect(() => {
     if(postSeq === 0) {
       setTitleState("postSeq = 0");
       apiGetCategories();
+      apiGetTemplateList();
     }
     else {
       apiGetPost();
       apiGetCategories();
+      apiGetTemplateList();
     }
   }, [postSeq]);
+
+  useEffect(() => {
+    if (selectedTemplate) {
+      apiGetTemplate(selectedTemplate);
+    }
+  }, [selectedTemplate]);
 
   return (
     <>
@@ -94,6 +126,21 @@ const PostEditor = ({ postSeq }) => {
           {category_lists.map((option) => (
             <MenuItem key={option.listName} value={option.listName}>
               {option.listName}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          id="post-template"
+          select
+          label="게시글 서식"
+          style={{ marginLeft: '5%' ,width: '20%' }}
+          defaultValue = {{}}
+          onChange={(event) => setSelectedTemplate(event.target.value)} 
+        >
+          {template_lists.map((option) => (
+            <MenuItem key={option.templateName} value={option.templateName}>
+              {option.templateName}
             </MenuItem>
           ))}
         </TextField>
@@ -129,7 +176,7 @@ const PostEditor = ({ postSeq }) => {
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div></div>
-        <button style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</button>
+        <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
       </div>
       <ThumbnailModal
         showModal={showModal}
