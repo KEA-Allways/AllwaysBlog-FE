@@ -2,7 +2,6 @@ import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import * as React from 'react';
-import TextStyles from "../../components/Text.module.css";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,7 +12,6 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Pagination from '@mui/material/Pagination';
 import { useNavigate } from 'react-router-dom';
-import Checkbox from '@mui/material/Checkbox';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
 
