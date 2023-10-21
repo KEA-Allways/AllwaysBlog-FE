@@ -1,4 +1,5 @@
-import {Col, Row} from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import {Button, Col, Container, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
@@ -125,63 +126,71 @@ const BlogBody = () => {
   };
 
   return (
-    <div className={styles.mt5}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          {showContent === "카드형" && (
-            <div>
-            <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-            <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
-            </div>
-          )}
-          {showContent === "리스트형" && (
-            <div>
-            <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-            <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
-            </div>
-          )}
-        </div>
-        {/* <Link to={`/post?initialContent=${encodeURIComponent("게시글 수정엔<br><br><br>엔터를 누른다는 내용<br><br>dㅇ")}`}>
-          <PostButton>글 작성하기</PostButton>
-        </Link> */}
-         <CommonButton variant="outlined" sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
-         
-      </div>
-      <br></br>
+      <Container>
+        <Row className="my-5">
+          <Col md={1}>
 
-      {showContent === "카드형" && (
-        <Row xs={1} md={3} className="g-6">
-        {CardsData.map((blg, index) => (
-          <Col key={index}>
-            <CardStyle
-              imgUrl={blg.src}
-              imgHeight="150px"
-              title={blg.title}
-              subtitle={blg.subtitle}
-              usericon={blg.userIcon}
-              nickname={blg.nickname}
-            />
           </Col>
-        ))}
-      </Row>
-      )}
-      
-      {showContent === "리스트형" && (
-        <Row lg="1" xl="1">
-        {CardsData.map((blg, index) => (
-          <Col key={index}>
-            <ListStyle
-              title={blg.title}
-              subtitle={blg.subtitle}
-              usericon={blg.userIcon}
-              nickname={blg.nickname}
-            />
+          <Col md={10}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              {showContent === "카드형" && (
+                <div>
+                <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+                <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                </div>
+              )}
+              {showContent === "리스트형" && (
+                <div>
+                <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+                <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                </div>
+              )}
+            </div>
+            <Link to="/post">
+              <PostButton>글 작성하기</PostButton>
+            </Link>
+          </div>
+          <br></br>
+
+          {showContent === "카드형" && (
+            <Row xs={1} md={3} className="g-6">
+            {CardsData.map((blg, index) => (
+              <Col key={index}>
+                <CardStyle
+                  imgUrl={blg.src}
+                  imgHeight="180px"
+                  imgWidth="200px"
+                  title={blg.title}
+                  subtitle={blg.subtitle}
+                  usericon={blg.userIcon}
+                  nickname={blg.nickname}
+                />
+              </Col>
+            ))}
+          </Row>
+          )}
+          
+          {showContent === "리스트형" && (
+            <Row lg="1" xl="1">
+            {CardsData.map((blg, index) => (
+              <Col key={index}>
+                <ListStyle
+                  title={blg.title}
+                  subtitle={blg.subtitle}
+                  usericon={blg.userIcon}
+                  nickname={blg.nickname}
+                />
+              </Col>
+            ))}
+          </Row>
+          )}
           </Col>
-        ))}
-      </Row>
-      )}
-      
-    </div>
+          <Col md={1}>
+          
+          </Col>
+        </Row>
+      </Container>
   );
 };
 

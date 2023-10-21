@@ -2,11 +2,11 @@ import BlogSidebar from "../Sidebar/BlogSidebar";
 import Topbar from "../Topbar/Topbar";
 
 
-const BlogTopSideBar = () => {
+const BlogTopSideBar = ({body}) => {
     return (
         <div>
             <Topbar />
-            <BlogSidebar />
+            <BlogSidebar body={body}/>
         </div>
     )
 }
