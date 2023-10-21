@@ -7,7 +7,8 @@ import html2canvas from "html2canvas";
 import {CommonButton }from "../../common";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
- 
+import { useNavigate } from 'react-router-dom';
+
 
 const ModalButton = styled(CommonButton)`
   background-color: #f4f4f4;
@@ -46,7 +47,7 @@ const SuccessButton = styled(ModalButton)`
 const ThumbnailModal = ({ showModal, onClose} ) => {
   //modal
    
-
+  const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
 
@@ -56,6 +57,9 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
   const [textColorStyle, setTextColorStyle] = useState(null);
 
   const [showSubtitle, setShowSubtitle] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+
 
 
 
@@ -69,15 +73,8 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     //cors 때문에 카카오에서막아둠 
     const handleKarloImage = async () => {
 
-       
-
-        
-        // let promptValue = prompt('프롬프트를 입력하세요 😇');
-        // if (promptValue === null) return;
       
-        // let negativePromptValue = prompt('부정적인 프롬프트를 입력하세요 😇');
-        // if (negativePromptValue === null) return;
-
+ 
         let promptValue;
         let  negativePromptValue;
 
@@ -104,7 +101,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     
             // 다음 프롬프트 대신 부정적인 프롬프트를 표시합니다.
             Swal.fire({
-              title: '부정적인 프롬프트를 입력하세요 ',
+              title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
               input: 'text',
               inputAttributes: {
                 autocapitalize: 'off'
@@ -124,7 +121,6 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                 const negativePromptValue = negativeResult.value;
                 if (negativePromptValue === null) return;
     
-                // 이제 두 개의 값이 모두 사용 가능합니다.
                  
               }
             });
@@ -142,11 +138,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
               'negative_prompt': negativePromptValue
             })
           });
-        //       const data = await response.json();
-        //   console.log(data);
-        // } catch (error) {
-        //   console.error('Error:', error);
-        // }
+        
         //cors 문제 예상 
           const data = await response.json();
           if (data.image_url) {
@@ -180,10 +172,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     }
   };
 
-
-  
    
-
   //inputFields 받은 값을 통해서 components 값 수정하기
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -234,11 +223,13 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setShowSubtitle(true)
   };
   //사진 윈도우에 저장하기
-  const handleExport = () => {
+  const handleExport =  () => {
+    
+
     if (previewRef.current) {
-      console.log(previewRef);
-      
-      html2canvas(previewRef.current, {
+
+
+        html2canvas(previewRef.current, {
         allowTaint: true,
         useCORS: true,
          
@@ -249,6 +240,15 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         link.href = imgData;
         link.click();
       });
+
+
+      Swal.fire ({
+        title:"게시글 제작",
+        timer:3000,
+        didOpen:()=>{
+          Swal.showLoading()
+        }
+      }).then(navigate("/blogs"))
     }
   };
 
@@ -403,6 +403,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                       onClick={handleExport}
                     >
                       완료 및 이미지화
+ 
                     </SuccessButton>
                   </div>
                 </div>
