@@ -42,7 +42,7 @@ const MngtContents = () => {
     const navigate = useNavigate();
 
     const apiGetCategories = () => {
-        axios.get('http://private-bc2ca0-bee3083.apiary-mock.com/api/posts/1/1')
+        axios.get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
           .then((response) => {
             setLists(response.data.posts);
             console.log(lists)
@@ -136,14 +136,12 @@ const MngtContents = () => {
                                                 <p style={{ margin: '0'}}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
                                             </TableCell>
                                             <TableCell align="right">
-                                            {hideList[idx] && (
-                                                <div>
-                                                    <Button variant="outlined"
-                                                            sx={{marginRight:"10px"}}
-                                                            onClick={() => editButtonClicked(row.postSeq)}>수정</Button>
-                                                    <Button variant="outlined">삭제</Button>
-                                                </div>
-                                            )}
+                                                {hideList[idx] && (
+                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
+                                                        <SmallButton>삭제</SmallButton>
+                                                    </div>
+                                                )}
                                         </TableCell>
                                         </TableRow>
                                         );
