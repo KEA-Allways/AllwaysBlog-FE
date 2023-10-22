@@ -36,8 +36,6 @@ const MngtContents = () => {
 
     const [lists, setLists] = useState([]);
     const [hideList, setHideList] = useState(Array(lists.length).fill(false));
-    const [checkItems, setCheckItems] = useState([]);
-    const [selected, setSelected] = React.useState([]);
     const navigate = useNavigate();
 
     const apiGetCategories = () => {
@@ -69,33 +67,6 @@ const MngtContents = () => {
         apiGetCategories();
     }, []);
 
-    
-
-    // 체크박스 단일 선택
-    const handleSingleCheck = (checked, id) => {
-        if (checked) {
-        // 단일 선택 시 체크된 아이템을 배열에 추가
-        setCheckItems(prev => [...prev, id]);
-        } else {
-        // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-        setCheckItems(checkItems.filter((el) => el !== id));
-        }
-    };
-
-    // 체크박스 전체 선택
-    const handleAllCheck = (checked) => {
-        if(checked) {
-        // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-        const idArray = [];
-        lists.forEach((el) => idArray.push(el.postSeq));
-        setCheckItems(idArray);
-        }
-        else {
-        // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
-        setCheckItems([]);
-        }
-    }
-
     const editButtonClicked = (postSeq) => {
         // postSeq를 가지고 /post 페이지로 이동
         navigate('/post', { state: { postSeq: postSeq } });
@@ -103,10 +74,13 @@ const MngtContents = () => {
     
     const HeaderTitle = "글 관리";
     const HeaderButton = "글쓰기";
+    const headerButtonClicked = () => {
+        navigate('/post', { state: { postSeq: 0 } });
+    };
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={headerButtonClicked} Container={
                 <div>
                     <div>
                         <TableContainer component={Paper}>

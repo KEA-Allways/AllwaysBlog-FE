@@ -7,7 +7,7 @@ import styles from "./Sidebar.module.css";
 
 
 
-function ManageSidebar({ HeaderTitle, HeaderButton, BodyContainer}) {
+function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}) {
   const pathName = useLocation().pathname;
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
 
@@ -44,6 +44,12 @@ function ManageSidebar({ HeaderTitle, HeaderButton, BodyContainer}) {
       };
 
       reader.readAsDataURL(e.target.files[0]);
+    };
+
+    const headerButtonClicked = () => {
+      if (HeaderAction) {
+        HeaderAction();
+      }
     };
   
 
@@ -135,7 +141,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, BodyContainer}) {
                     {HeaderTitle}
                 </h3>
                 {IsHeaderButton && (
-                  <PlusButton variant="contained" size="small">{HeaderButton}</PlusButton> 
+                  <PlusButton variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</PlusButton> 
                 )}
                 
             </div>
