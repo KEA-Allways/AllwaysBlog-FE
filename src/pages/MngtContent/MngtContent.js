@@ -1,5 +1,5 @@
 import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import * as React from 'react';
 import Table from '@mui/material/Table';
@@ -10,7 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
-import { CommonButton } from '../../common';
+import { CommonButton, PlusButton } from '../../common';
 import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
 
@@ -71,12 +71,14 @@ const MngtContents = () => {
         // postSeq를 가지고 /post 페이지로 이동
         navigate('/post', { state: { postSeq: postSeq } });
     };
+
     
     const HeaderTitle = "글 관리";
     const HeaderButton = "글쓰기";
     const headerButtonClicked = () => {
         navigate('/post', { state: { postSeq: 0 } });
     };
+    // const HeaderButton = <PlusButton variant="contained" size="small">글쓰기</PlusButton> 
 
     return (
         <div>

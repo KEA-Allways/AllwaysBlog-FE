@@ -3,8 +3,6 @@ import { useLocation ,useParams} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { TextField } from '@mui/material';
 import { CommonButton } from '../../common';
- 
-
 import ReactMarkdown from 'react-markdown'
 
 const  DetailPage=() => {

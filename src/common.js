@@ -22,5 +22,24 @@ export const CommonButton = styled(Button)`
     }
 `; 
 
+export const PlusButton = styled(CommonButton)`
+    background-color:white;
+    color:black;
+    width: 122px;
+    height: 40px;
+    border-color:black;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+
+    &:hover {
+    color: #fff;
+    background: black;
+    }
+`
+
 
 

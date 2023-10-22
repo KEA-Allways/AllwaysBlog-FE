@@ -142,6 +142,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                 </h3>
                 {IsHeaderButton && (
                   <PlusButton variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</PlusButton> 
+                  // HeaderButton
                 )}
                 
             </div>

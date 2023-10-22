@@ -19,6 +19,7 @@
     "font-awesome": "^4.7.0",
     "framer-motion": "^10.16.4",
     "html2canvas": "^1.4.1",
+    "immutable": "^5.0.0-beta.4",
     "mdb-react-ui-kit": "^6.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.0",

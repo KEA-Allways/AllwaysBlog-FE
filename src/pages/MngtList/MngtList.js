@@ -3,6 +3,7 @@ import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { PlusButton } from "../../common";
 import styles from "../../components/Text.module.css";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,8 +15,9 @@ import Paper from '@mui/material/Paper';
 
 const MngtList = (props) => {
     const { themeSeq } = useParams();
-
     const [lists, setLists] = useState([]);
+    const length = lists.length
+    const listSeq = useRef(length);
 
     const apiGetCategories = () => {
         axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
@@ -54,8 +56,22 @@ const MngtList = (props) => {
         apiGetCategories();
     }, []);
 
+    const handleAddList = () => {
+        const listName = prompt("새로 추가할 목록 이름을 입력하세요")
+        if(listName !== null && listName !== ""){
+          listSeq.current += 1;
+          const newList = {
+            listSeq : listSeq.current, 
+            listName: listName,
+            listOrder : listSeq.current, 
+          };
+          setLists([...lists, newList]);
+        }
+  }
+
     const HeaderTitle = "목록 관리";
     const HeaderButton = "변경사항 저장";
+    // const HeaderButton = <PlusButton variant="contained" size="small" onClick={handleAddList}>목록 추가</PlusButton> 
 
     return (
         <div>
