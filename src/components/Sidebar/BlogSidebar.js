@@ -97,6 +97,7 @@ function BlogSidebar({body}) {
     }
     updatedMenuStates[menu] = !menuStates[menu];
     setMenuStates(updatedMenuStates);
+    setShowInputBox(false);
   };
 
   // 버튼을 눌렀을 때 하위 메뉴를 추가하게 하는 함수
