@@ -5,6 +5,7 @@ import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
 import { useNavigate } from 'react-router-dom';
+import Paging from '../../components/Paging/Paging';
 
 const CardsData = [
 
@@ -167,6 +168,11 @@ const BlogBody = () => {
           
           </Col>
         </Row>
+        
+        {/* paging 추가 */}
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+            <Paging />
+        </div>
       </Container>
   );
 };
