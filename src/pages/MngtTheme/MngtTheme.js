@@ -1,5 +1,5 @@
 import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../../components/Text.module.css";
@@ -25,13 +25,34 @@ const MngtTheme = (props) => {
           });
     };
 
+    const dragItem = useRef();
+    const dragOverItem = useRef();
+
+    const dragStart = idx => {
+        dragItem.current = idx;
+    };
+    
+    const dragEnter = idx => {
+        dragOverItem.current = idx;
+    };
+    
+    const drop = () => {
+        const copyListItems = [...themes];
+        const dragItemConotent = copyListItems[dragItem.current];
+        copyListItems.splice(dragItem.current, 1);
+        copyListItems.splice(dragOverItem.current, 0, dragItemConotent);
+        dragItem.current = null;
+        dragOverItem.current = null;
+        setThemes(copyListItems);
+    };
+
     useEffect(() => {
         // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
         apiGetCategories();
     }, []);
 
     const HeaderTitle = "테마 관리";
-    const HeaderButton = "";
+    const HeaderButton = "변경사항 저장";
 
     return (
         <div>
@@ -46,9 +67,14 @@ const MngtTheme = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {themes.map((row, idx) => (
+                                {themes && themes.map((row, idx) => (
                                     <TableRow
-                                        key={row.themeSeq}
+                                        key={row.themeSeq} themeOrder={idx}
+                                        onDragStart={() => dragStart(idx)}
+                                        onDragEnter={() => dragEnter(idx)}
+                                        onDragOver={e => e.preventDefault()}
+                                        onDragEnd={drop}
+                                        draggable
                                     >
                                         <TableCell align="center">
                                             {idx + 1}
