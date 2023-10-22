@@ -9,11 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Pagination from '@mui/material/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
+import Paging from '../../components/Paging/Paging';
 
 const SmallButton = styled(CommonButton)`
     background-color:white;
@@ -150,10 +149,9 @@ const MngtContents = () => {
                             </Table>
                         </TableContainer>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
-                        <Pagination count={10} variant="outlined" shape="rounded" />
+                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                        <Paging />
                     </div>
-                    
                 </div>
             } />
         </div>
