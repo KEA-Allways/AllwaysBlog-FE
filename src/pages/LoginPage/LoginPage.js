@@ -8,6 +8,7 @@ import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
+import Topbar from "../../components/Topbar/Topbar";
 
 
 
@@ -62,8 +63,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <LoginPageTopbar></LoginPageTopbar>
-      
+      <Topbar page={"login"} />
       <Container>
         <LoginSection>
           <LoginTitle>Login</LoginTitle>
