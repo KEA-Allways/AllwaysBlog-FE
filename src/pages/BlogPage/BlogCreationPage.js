@@ -1,4 +1,4 @@
-import LoginPageTopbar from "../../components/Topbar/LoginPageTopbar";
+import Topbar from "../../components/Topbar/Topbar";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -45,7 +45,7 @@ const BlogCreationPage = () => {
 
   return (
     <>
-      <BlogTopbar></BlogTopbar>
+      <Topbar page={"mngt"} />
 
       <Container>
         <BlogSection>
