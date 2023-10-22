@@ -1,6 +1,7 @@
 import {Col, Row} from 'react-bootstrap';
 import CardStyle from '../PostCard/CardStyle';
 import styled from "@emotion/styled";
+import { Link } from 'react-router-dom'; 
 
 const Grid = () => {
 
@@ -105,7 +106,18 @@ const Grid = () => {
     <Row xs={1} md={3} className="g-4">
       {cardArr.map((v, idx) => (
         <Col key={idx}>
-            <CardStyle imgUrl={v.src} imgHeight="180px" imgWidth="180px" title={v.title} subtitle={v.subtitle} usericon={v.userIcon} nickname={v.nickname} date={v.date}/> 
+          {/* card 누르면 이동하기  */}
+          <Link to={`/post/${v.title}?imgUrl=${v.src}`}>
+            <CardStyle 
+            imgUrl={v.src} 
+            imgHeight="180px" 
+            imgWidth="180px" 
+            title={v.title}
+            subtitle={v.subtitle} 
+            usericon={v.userIcon} 
+            nickname={v.nickname} 
+            date={v.date}/> 
+            </Link>
         </Col>
       ))}
     </Row>
