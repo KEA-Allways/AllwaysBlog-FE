@@ -4,6 +4,13 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styles from "../../components/Text.module.css";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const MngtList = (props) => {
     const { themeSeq } = useParams();
@@ -48,31 +55,34 @@ const MngtList = (props) => {
     }, []);
 
     const HeaderTitle = "목록 관리";
-    const HeaderButton = "";
+    const HeaderButton = "변경사항 저장";
 
     return (
         <div>
             <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
-                    {lists && 
-                        lists.map((item, idx) => (
-                            <div key={idx} id={idx}
-                                style={{
-                                    //backgroundColor: 'lightblue',
-                                    border: '1px solid black',
-                                    margin: '20px 25%',
-                                    textAlign: 'center',
-                                    fontSize: '20px',
-                                }}
-                                onDragStart={() => dragStart(idx)}
-                                onDragEnter={() => dragEnter(idx)}
-                                onDragOver={e => e.preventDefault()}
-                                onDragEnd={drop}
-                                draggable>
-                                {item.listName}
-                            </div>
-                        ))}
-                </div>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                        <TableBody>
+                            {lists && lists.map((item, idx) => (
+                                <TableRow
+                                    key={idx} id={idx} listOrder={idx}
+                                    onDragStart={() => dragStart(idx)}
+                                    onDragEnter={() => dragEnter(idx)}
+                                    onDragOver={e => e.preventDefault()}
+                                    onDragEnd={drop}
+                                    draggable>
+                                    <TableCell align="center">
+                                        {item.listName}
+                                    </TableCell>
+                                    
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+                
             } />
         </div>
     )

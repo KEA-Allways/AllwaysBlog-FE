@@ -12,6 +12,7 @@ import MngtList from "./pages/MngtList/MngtList";
 import MngtContent from "./pages/MngtContent/MngtContent"
 import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
+import DetailPage from "./pages/DetailPage/DetailPage";
 
 const theme = createTheme({
   typography : {
@@ -37,6 +38,8 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/blogs" element={<BlogPage />} />
+            <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
+            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
             <Route path="/blog-creation" element={<BlogCreationPage/>} />
             <Route path="/mngt" element={<ManagePage />} />
             <Route path="/post" element={<PostPage />} />
@@ -44,6 +47,7 @@ function App() {
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent/>} />
             <Route path="/mngt/template" element={<MngtTemplate/>}/>
+            <Route path="/post/:title" element={<DetailPage/>} />
           </Routes>
         </BrowserRouter>
       </div>

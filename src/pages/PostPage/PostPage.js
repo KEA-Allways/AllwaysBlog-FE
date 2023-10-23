@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from "react-router-dom";
-import BlogTopbar from "../../components/Topbar/BlogTopbar"
+import Topbar from "../../components/Topbar/Topbar"
 import PostEditor from "../../components/PostEditor/PostEditor"
 import { Row, Col } from 'react-bootstrap';
 
@@ -11,7 +11,7 @@ const PostPage = () => {
 
     return (
       <div>
-        <BlogTopbar />
+        <Topbar page={"blog"} />
         <Row>
           <Col md={1}></Col>
           <Col md={10}>

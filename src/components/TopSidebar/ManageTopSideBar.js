@@ -1,13 +1,13 @@
 import ManageSidebar from "../Sidebar/ManageSidebar";
-import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
 
 
-const ManageTopSideBar = ({ HeaderTitle, HeaderButton, Container }) => {
+const ManageTopSideBar = ({ HeaderTitle, HeaderButton, HeaderAction, Container }) => {
+
     return (
         <div>
-            <Topbar />
-            <ManageSidebar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} BodyContainer={Container} />
+            <Topbar page={"mngt"} />
+            <ManageSidebar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={HeaderAction} BodyContainer={Container} />
         </div>
     )
 }

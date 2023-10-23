@@ -11,7 +11,7 @@ import styled from '@emotion/styled';
 
  
 
-const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname}) => {
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date}) => {
   
   return (
       
@@ -39,13 +39,19 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname})
             </Typography>
             
             </CardContent>
-            <CardActions>
-              <hr/>
+            <CardActions sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>
+              <div>
               <IconButton aria-label="user-icon" width="20px" height="10px" >
                 <AccountCircleIcon />
               </IconButton>
               {nickname}
+              </div>
+              <div style={{textAlign : "right", fontSize : "12px"}}>
+                {date}
+              </div>
+               
             </CardActions>
+            
             
           
         </Card>

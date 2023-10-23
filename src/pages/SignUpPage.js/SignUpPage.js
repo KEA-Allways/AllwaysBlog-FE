@@ -1,4 +1,4 @@
-import LoginPageTopbar from "../../components/Topbar/Topbar"
+import Topbar from "../../components/Topbar/Topbar"
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
@@ -90,8 +90,8 @@ const SignUpPage = () => {
 
   return (
     <>
-      <LoginPageTopbar></LoginPageTopbar>
-
+      <Topbar page={"login"} />
+      
       <Container>
         <SignUpSection>
           <SignUpTitle>회원가입</SignUpTitle>
@@ -200,7 +200,7 @@ const Container = styled.div`
 
   padding-top: 30px;
 
-  background: #fff;
+  // background: #fff;
 `;
 
 const SignUpSection = styled.div`

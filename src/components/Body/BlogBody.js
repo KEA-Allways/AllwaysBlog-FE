@@ -1,28 +1,11 @@
-import { Link } from "react-router-dom";
-import {Col, Row} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import { useState } from "react";
 import { CommonButton } from "../../common";
-import axios from "axios";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
-import styled from "@emotion/styled";
-
-const PostButton = styled(CommonButton)`
-  background-color:white;
-  color:black;
-  width: 122px;
-  height: 40px;
-  border-color:black;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    color: #fff;
-    }
-`
+import { useNavigate } from 'react-router-dom';
+import Paging from '../../components/Paging/Paging';
 
 const CardsData = [
 
@@ -110,70 +93,87 @@ const CardsData = [
 
 const BlogBody = () => {
 
+  const navigate = useNavigate();
+
+  const editButtonClicked = (postSeq) => {
+    navigate('/post', { state: { postSeq: postSeq } });
+  };
+  
+
   const [showContent, setShowContent] = useState("카드형");
   const handleButtonClick = (content) => {
     setShowContent(content)
   };
 
   return (
-    <div className={styles.mt5}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          {showContent === "카드형" && (
-            <div>
-            <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-            <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
-            </div>
-          )}
-          {showContent === "리스트형" && (
-            <div>
-            <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-            <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
-            </div>
-          )}
-        </div>
-        {/* <Link to={`/post?initialContent=${encodeURIComponent("게시글 수정엔<br><br><br>엔터를 누른다는 내용<br><br>dㅇ")}`}>
-          <PostButton>글 작성하기</PostButton>
-        </Link> */}
-        <Link to={`/post?initialContent`}>
-          <PostButton>글 작성하기</PostButton>
-        </Link>
-      </div>
-      <br></br>
+      <Container>
+        <Row className="my-5">
+          <Col md={1}>
 
-      {showContent === "카드형" && (
-        <Row xs={1} md={3} className="g-6">
-        {CardsData.map((blg, index) => (
-          <Col key={index}>
-            <CardStyle
-              imgUrl={blg.src}
-              imgHeight="150px"
-              title={blg.title}
-              subtitle={blg.subtitle}
-              usericon={blg.userIcon}
-              nickname={blg.nickname}
-            />
           </Col>
-        ))}
-      </Row>
-      )}
-      
-      {showContent === "리스트형" && (
-        <Row lg="1" xl="1">
-        {CardsData.map((blg, index) => (
-          <Col key={index}>
-            <ListStyle
-              title={blg.title}
-              subtitle={blg.subtitle}
-              usericon={blg.userIcon}
-              nickname={blg.nickname}
-            />
+          <Col md={10}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              {showContent === "카드형" && (
+                <div>
+                <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+                <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                </div>
+              )}
+              {showContent === "리스트형" && (
+                <div>
+                <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
+                <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                </div>
+              )}
+            </div>
+            <CommonButton variant="outlined" sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
+          </div>
+          <br></br>
+
+          {showContent === "카드형" && (
+            <Row xs={1} md={3} className="g-6">
+            {CardsData.map((blg, index) => (
+              <Col key={index}>
+                <CardStyle
+                  imgUrl={blg.src}
+                  imgHeight="180px"
+                  imgWidth="200px"
+                  title={blg.title}
+                  subtitle={blg.subtitle}
+                  usericon={blg.userIcon}
+                  nickname={blg.nickname}
+                />
+              </Col>
+            ))}
+          </Row>
+          )}
+          
+          {showContent === "리스트형" && (
+            <Row lg="1" xl="1">
+            {CardsData.map((blg, index) => (
+              <Col key={index}>
+                <ListStyle
+                  title={blg.title}
+                  subtitle={blg.subtitle}
+                  usericon={blg.userIcon}
+                  nickname={blg.nickname}
+                />
+              </Col>
+            ))}
+          </Row>
+          )}
           </Col>
-        ))}
-      </Row>
-      )}
-      
-    </div>
+          <Col md={1}>
+          
+          </Col>
+        </Row>
+        
+        {/* paging 추가 */}
+        <div style={{ display: 'flex', justifyContent: 'center'}}>
+            <Paging />
+        </div>
+      </Container>
   );
 };
 

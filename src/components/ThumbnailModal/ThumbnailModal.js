@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 // bootstrap css 적용
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -6,6 +6,9 @@ import "./ThumbnailModal.css";
 import html2canvas from "html2canvas";
 import {CommonButton }from "../../common";
 import styled from "@emotion/styled";
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+
 
 const ModalButton = styled(CommonButton)`
   background-color: #f4f4f4;
@@ -43,10 +46,8 @@ const SuccessButton = styled(ModalButton)`
 
 const ThumbnailModal = ({ showModal, onClose} ) => {
   //modal
-//   const [showModal, setShowModal] = useState();
-//   const handleModalClose = () => setShowModal(false);
-//   const handleModalOpen = () => setShowModal(true);
-
+   
+  const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
 
@@ -57,16 +58,74 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
 
   const [showSubtitle, setShowSubtitle] = useState(true);
 
+  const [loading, setLoading] = useState(false);
+
+
+
+
+
   const previewRef = useRef(null);
+  const bootstrapModalRef = useRef(null);
+
+ 
 
   //fastApi에 요청 보내기 
     //cors 때문에 카카오에서막아둠 
     const handleKarloImage = async () => {
-        let promptValue = prompt('프롬프트를 입력하세요 😇');
-        if (promptValue === null) return;
+
       
-        let negativePromptValue = prompt('부정적인 프롬프트를 입력하세요 😇');
-        if (negativePromptValue === null) return;
+ 
+        let promptValue;
+        let  negativePromptValue;
+
+        Swal.fire({
+          title: '키워드를 입력해주세요',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: '확인',
+          cancelButtonText: '취소',
+          showLoaderOnConfirm: true,
+          preConfirm: (promptValue) => {
+            if (!promptValue) {
+              Swal.showValidationMessage('키워드');
+            }
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+          if (result.isConfirmed) {
+            const promptValue = result.value;
+            if (promptValue === null) return;
+    
+            // 다음 프롬프트 대신 부정적인 프롬프트를 표시합니다.
+            Swal.fire({
+              title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
+              input: 'text',
+              inputAttributes: {
+                autocapitalize: 'off'
+              },
+              showCancelButton: true,
+              confirmButtonText: '확인',
+              cancelButtonText: '취소',
+              showLoaderOnConfirm: true,
+              preConfirm: (negativePromptValue) => {
+                if (!negativePromptValue) {
+                  Swal.showValidationMessage('부정적인 키워드');
+                }
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then((negativeResult) => {
+              if (negativeResult.isConfirmed) {
+                const negativePromptValue = negativeResult.value;
+                if (negativePromptValue === null) return;
+    
+                 
+              }
+            });
+          }
+        });
       
         try {
           const response = await fetch('http://localhost:8000/generate_image/', {
@@ -79,11 +138,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
               'negative_prompt': negativePromptValue
             })
           });
-        //       const data = await response.json();
-        //   console.log(data);
-        // } catch (error) {
-        //   console.error('Error:', error);
-        // }
+        
         //cors 문제 예상 
           const data = await response.json();
           if (data.image_url) {
@@ -98,22 +153,26 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
           console.error('Error:', error);
         }
       };
-
+   
   //url 통해서 프리뷰 변경하기
-  const handleImageBackground = () => {
-    const regex =
-      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(:[0-9]+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-
-    let imgUrl = prompt("이미지 주소를 입력하세요 😇");
-    if (imgUrl === null) return;
-
-    if (!imgUrl.match(regex)) {
-      alert("올바르지 않은 URL입니다 😨");
-      return;
+  const handleImageModal =   async() => {
+    
+    //input url 로 자동 체크 
+    const {value:imgUrl}= await Swal.fire({
+      title: '이미지 URL 입력',
+      input: 'url',
+      inputPlaceholder: '이미지 주소를 입력하세요',
+      showCancelButton: true,
+      confirmButtonText: '확인',
+    }) 
+    
+    //imgUrl 유효하면 배경 설정 
+    if (imgUrl) {      
+      setBackgroundImage(imgUrl);
     }
-
-    setBackgroundImage(imgUrl);
   };
+
+   
   //inputFields 받은 값을 통해서 components 값 수정하기
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -164,11 +223,13 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setShowSubtitle(true)
   };
   //사진 윈도우에 저장하기
-  const handleExport = () => {
+  const handleExport =  () => {
+    
+
     if (previewRef.current) {
-      console.log(previewRef);
-      
-      html2canvas(previewRef.current, {
+
+
+        html2canvas(previewRef.current, {
         allowTaint: true,
         useCORS: true,
          
@@ -179,25 +240,31 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         link.href = imgData;
         link.click();
       });
+
+
+      Swal.fire ({
+        title:"게시글 제작",
+        timer:3000,
+        didOpen:()=>{
+          Swal.showLoading()
+        }
+      }).then(navigate("/blogs"))
     }
   };
 
   return (
-    <div className="container demo">
-      {/* <div className="text-center">
-        <Button variant="primary" onClick={handleModalOpen}>
-          Modal
-        </Button>
-      </div> */}
-
+     
+       //enforceFocus 로 모달 위에 모달 TEXT 입력 가능 
       <Modal
         show={showModal}
         onHide={onClose}
-        className="modal fade"
-        size="lg"
-            
+        style={{top: "50px" }}
+        size="sm"
+        data-bs-focus="false"
+        enforceFocus={false}
       >
-        <section className="wrapper">
+      
+        <section className="wrapper"  >
           <Container fluid className="wrapper">
             <Row className="contents">
                
@@ -242,7 +309,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                 <div className="control__panel">
                   <div className="inputFields horizontal">
                     
-                    <Form.Group controlId="title" className="me-4">
+                    <Form.Group controlId="title" className="me-3">
                       <Form.Control
                         type="text"
                         placeholder="제목을 입력하세요"
@@ -250,7 +317,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         style={{ width: '200px', height: '40px', marginRight: '10px' }}
                       />
                     </Form.Group>
-                    <Form.Group controlId="subtitle"className="me-3" >
+                    <Form.Group controlId="subtitle"className="me-5" >
                       <Form.Control
                         type="text"
                         placeholder="내용을 입력하세요"
@@ -271,7 +338,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                       </ModalButton>
                       <ModalButton
                         className="img__url  me-3"
-                        onClick={handleImageBackground}
+                        onClick={handleImageModal}
                         style={{width: '160px', height: '40px'}}
                       >
                         이미지 URL
@@ -293,7 +360,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         제목 / 내용
                       </ModalButton>
                       <ModalButton
-                        className="me-3"
+                        className="me-5"
                         onClick={() => setShowSubtitle(false)}
                       >
                         제목만
@@ -310,7 +377,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         텍스트 색상 반전
                       </ModalButton>
                       <ModalButton
-                        className="me-3"
+                        className="me-5"
                         onClick={() => handleTextColorChange()}
                       >
                         텍스트 색상 랜덤
@@ -325,21 +392,18 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         
                        }}
                       onClick={handleReset}
-                       
-
-                      
                     >
-                      
                       초기화
                     </ResetButton>
                      
                     <SuccessButton
-                      className="modal__sucess__btn me-3"
+                      className="modal__sucess__btn me-5"
                       id="export"
                       style={{ height: "60px"}}
                       onClick={handleExport}
                     >
                       완료 및 이미지화
+ 
                     </SuccessButton>
                   </div>
                 </div>
@@ -350,7 +414,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         <section className="mod capture_modal hidden"></section>
         <div className="mod overlay hidden"></div>
       </Modal>
-    </div>
+     
   );
 };
 
