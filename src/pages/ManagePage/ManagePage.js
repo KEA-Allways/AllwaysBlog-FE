@@ -8,69 +8,96 @@ import Swal from "sweetalert2";
 const ManagePage = () => {
   const HeaderTitle = "블로그 관리";
 
-  const [nickname,setNickname] = useState();  
+  const [nickname, setNickname] = useState();
   const [blogName, setBlogName] = useState();
   const [description, setDescription] = useState();
   const [password, setPassword] = useState();
-  const [repeatPassword, setRepeatPassword] =useState();
+  const [repeatPassword, setRepeatPassword] = useState();
 
   const fileInput = useRef(null);
   const [file, setFile] = useState("");
-  const [profileImage, setProfileImage] = useState();
+  const [profileImg, setProfileImg] = useState();
   useEffect(() => {
     // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
     apiGetUserInfo();
-}, []);
+  }, []);
 
   const apiGetUserInfo = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/users/detail`, {
-     })
-     .then((response) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/users/detail`, {})
+      .then((response) => {
+        setProfileImg(response.data.profileImg);
+        setNickname(response.data.nickname);
+        setBlogName(response.data.blogName);
+        setDescription(response.data.description);
+        setPassword(response.data.password);
+        setRepeatPassword(response.data.password);
+      });
+  };
 
-      setProfileImage(response.data.profileImg);
-      setNickname(response.data.nickname);
-      setBlogName(response.data.blogName);
-      setDescription(response.data.description);
-      setPassword(response.data.password);
-      setRepeatPassword(response.data.password);
+  const apiPutModifiedUserInfo = () => {
+    axios
+      .put(`${process.env.REACT_APP_API_URL}/api/blogs`, {
+        profileImg : profileImg,
+        blogName : blogName,
+        description : description,
+        nickname : nickname,
+        password : password
+      })
+      .then((response) => {
+        alert(response.status)
+      });
+  };
 
-     });
- };
+  const apiDeleteUser = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/api/users`, {
 
- const modifyBtnClicked = () => {
+      })
+      .then((response) => {
+        alert(response.status)
+      });
+  };
 
+  const modifyBtnClicked = () => {
     Swal.fire({
-      title: '회원정보를 수정하시겠습니까?',
-      icon: 'question',
+      title: "회원정보를 수정하시겠습니까?",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonColor: '#00b4ef',
-      cancelButtonColor: '#ec5353',
-      confirmButtonText: '수정',
-      cancelButtonText: '취소'
-    })
+      confirmButtonColor: "#00b4ef",
+      cancelButtonColor: "#ec5353",
+      confirmButtonText: "수정",
+      cancelButtonText: "취소",
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        apiPutModifiedUserInfo();
+      }
+    });
+  };
 
-};
-
-  const DeleteBtnClicked = () => {
+  const deleteBtnClicked = () => {
     Swal.fire({
-      title: '회원탈퇴를 하시겠습니까?',
+      title: "회원탈퇴를 하시겠습니까?",
       text: "다시 되돌릴 수 없습니다. 신중해주세요.",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#00b4ef',
-      cancelButtonColor: '#ec5353',
-      confirmButtonText: '탈퇴',
-      cancelButtonText: '취소'
-  })
-
-  }
+      confirmButtonColor: "#00b4ef",
+      cancelButtonColor: "#ec5353",
+      confirmButtonText: "탈퇴",
+      cancelButtonText: "취소",
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        apiDeleteUser();
+      }
+    });
+  };
 
   const selectFile = (e) => {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setProfileImage(
+      setProfileImg(
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       );
       return;
@@ -81,7 +108,7 @@ const ManagePage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setProfileImage(reader.result);
+        setProfileImg(reader.result);
         alert(reader.result);
       }
     };
@@ -96,7 +123,7 @@ const ManagePage = () => {
         <WrapContainer>
           <WrapProfileBox>
             <Profile
-              src={profileImage}
+              src={profileImg}
               style={{ margin: "10px", cursor: "pointer" }}
               onClick={() => {
                 fileInput.current.click();
@@ -175,8 +202,10 @@ const ManagePage = () => {
           <Line />
 
           <BtnsContainer>
-            <Btn onClick={modifyBtnClicked} style={{marginRight : 30}}>블로그 수정</Btn>
-            <DeleteBtn onClick={DeleteBtnClicked}>회원탈퇴</DeleteBtn>
+            <Btn onClick={modifyBtnClicked} style={{ marginRight: 30 }}>
+              블로그 수정
+            </Btn>
+            <DeleteBtn onClick={deleteBtnClicked}>회원탈퇴</DeleteBtn>
           </BtnsContainer>
         </WrapContainer>
       }
@@ -222,7 +251,7 @@ const TextInputContainer = styled.div`
   display: flex;
   margin-top: 23px;
   transition: all 0.5s ease;
-  
+
   &:hover {
     transform: scale(1.05);
   }
