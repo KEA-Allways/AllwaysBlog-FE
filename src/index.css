@@ -12,3 +12,9 @@ code {
     monospace;
 }
 
+@font-face {
+  font-family: 'YeongdeokBlueroad';
+  src: url('fonts/Yeongdeok\ Blueroad.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

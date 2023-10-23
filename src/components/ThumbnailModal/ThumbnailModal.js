@@ -8,6 +8,9 @@ import {CommonButton }from "../../common";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+// App.js 또는 원하는 컴포넌트 파일에서
+import '../../index.css';
+
 
 
 const ModalButton = styled(CommonButton)`
@@ -268,12 +271,13 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
           <Container fluid className="wrapper">
             <Row className="contents">
                
-                <header>
-                  <h1>Thumbnail Maker</h1>
+                <header style={{background:"#f4f4f4", textAlign:"center"}}>
+                  <h1 style={{fontFamily: 'YeongdeokBlueroad',color:"black"}}>썸네일 생성기</h1>
                 </header>
                 {/* preview 에 배경단색 설정과 배경 이미지 설정  ref를 통해서 dom에 접근할수 있다.*/}
                  
                 <div
+                   
                   id="capture"
                   className="preview"
                   ref={previewRef}
@@ -283,23 +287,21 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
-                    
                     float:"left",
-                    paddingLeft:"5px"
-                     
-                    
+                    paddingLeft:"5px",
+                    width:"450px"
                   }}
                 >
                   <ul className="components" id="comp__opt1">
                     <li
                       className="render title"
-                      style={{ color: textColorStyle }}
+                      style={{ color: textColorStyle, fontSize:"40px",fontFamily: 'YeongdeokBlueroad' } }
                     >
                       {title}
                     </li>
                     {showSubtitle && (<li
                       className="render subtitle"
-                      style={{ color: textColorStyle }}
+                      style={{ color: textColorStyle ,fontFamily: 'YeongdeokBlueroad'}}
                     >
                       {content}
                     </li>)}
