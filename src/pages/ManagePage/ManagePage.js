@@ -8,18 +8,15 @@ import Swal from "sweetalert2";
 const ManagePage = () => {
   const HeaderTitle = "블로그 관리";
 
-  const [nickname,setNickname] = useState("");  
-  const [blogName, setBlogName] = useState("");
-  const [description, setDescription] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] =useState("");
+  const [nickname,setNickname] = useState();  
+  const [blogName, setBlogName] = useState();
+  const [description, setDescription] = useState();
+  const [password, setPassword] = useState();
+  const [repeatPassword, setRepeatPassword] =useState();
 
   const fileInput = useRef(null);
   const [file, setFile] = useState("");
-  const [profileImage, setProfileImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-
+  const [profileImage, setProfileImage] = useState();
   useEffect(() => {
     // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
     apiGetUserInfo();
@@ -29,7 +26,8 @@ const ManagePage = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/users/detail`, {
      })
      .then((response) => {
-      setProfileImage(response.data.profileImage);
+
+      setProfileImage(response.data.profileImg);
       setNickname(response.data.nickname);
       setBlogName(response.data.blogName);
       setDescription(response.data.description);
@@ -119,8 +117,9 @@ const ManagePage = () => {
 
             <BlogNameInput
               placeholder=""
+              value={nickname}
               onChange={(e) => {
-                setBlogName(e.target.value);
+                setNickname(e.target.value);
               }}
             />
           </TextInputContainer>
@@ -130,6 +129,7 @@ const ManagePage = () => {
 
             <BlogNameInput
               placeholder=""
+              value={blogName}
               onChange={(e) => {
                 setBlogName(e.target.value);
               }}
@@ -141,6 +141,7 @@ const ManagePage = () => {
 
             <BlogDescriptionInput
               placeholder=""
+              value={description}
               onChange={(e) => {
                 setDescription(e.target.value);
               }}
@@ -152,8 +153,9 @@ const ManagePage = () => {
 
             <PasswordInput
               placeholder=""
+              value={password}
               onChange={(e) => {
-                setDescription(e.target.value);
+                setPassword(e.target.value);
               }}
             />
           </TextInputContainer>
@@ -163,8 +165,9 @@ const ManagePage = () => {
 
             <PasswordInput
               placeholder=""
+              value={password}
               onChange={(e) => {
-                setDescription(e.target.value);
+                setPassword(e.target.value);
               }}
             />
           </TextInputContainer>
@@ -219,6 +222,7 @@ const TextInputContainer = styled.div`
   display: flex;
   margin-top: 23px;
   transition: all 0.5s ease;
+  
   &:hover {
     transform: scale(1.05);
   }
@@ -288,7 +292,7 @@ const PasswordInput = styled.input`
 
   font-weight: 400;
   font-size: 15px;
-
+  cursor: pointer;
   transition: all 0.3s ease 0s;
 `;
 
@@ -307,7 +311,7 @@ const BlogNameInput = styled.input`
 
   font-weight: 400;
   font-size: 15px;
-
+  cursor: pointer;
   transition: all 0.3s ease 0s;
 `;
 
@@ -327,7 +331,7 @@ const BlogDescriptionInput = styled.textarea`
 
   font-weight: 400;
   font-size: 15px;
-
+  cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease 0s;
 `;
