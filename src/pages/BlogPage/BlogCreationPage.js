@@ -12,12 +12,11 @@ import BlogTopbar from "../../components/Topbar/BlogTopbar";
 const BlogCreationPage = () => {
   const navigate = useNavigate();
 
-  const [response, setResponse] = useState("");
-
+  const [response, setResponse] = useState("1");
   const [blogName, setBlogName] = useState("");
   const [description, setDescription] = useState("");
   
-  const loginBtnClicked = () => {
+  const createBtnClicked = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
         blogName: blogName,
         pasdescriptionsword: description,
@@ -84,7 +83,7 @@ const BlogCreationPage = () => {
           <Line />
 
           <BtnsContainer>
-            <CreationBtn onClick={loginBtnClicked}>블로그 생성</CreationBtn>
+            <CreationBtn onClick={createBtnClicked}>블로그 생성</CreationBtn>
           </BtnsContainer>
         </BlogSection>
       </Container>
@@ -246,18 +245,11 @@ const Text = styled.div`
   float : left;
   margin-bottom : 10px;
   width: 200px;
-  
-
   display: block;
-
   font-size: 15px;
-
   font-weight: 700;
-
   text-align: left;
-
   margin-left: 10px;
-
   float: left;
 `;
 
