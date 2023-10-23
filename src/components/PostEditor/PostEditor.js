@@ -34,6 +34,8 @@ const PostEditor = ({ postSeq }) => {
 
   const [showButton, setShowButton] = useState("");
 
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
     ThumbnailModal(bool);
@@ -53,7 +55,7 @@ const PostEditor = ({ postSeq }) => {
   };
 
   const apiGetPost = () => {
-    axios.get('http://private-anon-474957104d-bee3083.apiary-mock.com/api/posts/postSeq')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/posts/postSeq`)
     .then((response) => {
       const blocksFromHTML = convertFromHTML(response.data.content);
       const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
@@ -67,46 +69,43 @@ const PostEditor = ({ postSeq }) => {
   }
 
   const apiGetCategories = () => {
-    axios.get('https://private-54744-bee3083.apiary-mock.com/api/themes/1/1')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1/1`)
     .then((response) => {
-      console.log(response);
       setCategory_lists(response.data.category_lists);
-      console.log(category_lists[0]);
     }).catch((error) => {
       console.error('API GET request error:', error);
     });
   }
 
   const apiGetTemplateList = () => {
-    axios.get('https://private-54744-bee3083.apiary-mock.com/api/templates')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
     .then((response) => {
       setTemplate_lists(response.data.templates)
-      console.log(template_lists);
     }).catch((error) => {
       console.error('API GET request error:', error);
     });
   }
 
   const apiGetTemplate = () => {
-    axios.get('https://private-54744-bee3083.apiary-mock.com/api/templates/1')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/templates/1`)
     .then((response) => {
       const blocksFromHTML = convertFromHTML(response.data.templateContent);
       const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
       const initialEditorState  = EditorState.createWithContent(contentState);
       setEditorState(initialEditorState );
+      console.log(response.data.title)
       setTitleState(response.data.title);
     })
   }
 
   useEffect(() => {
     if(postSeq === 0) {
-      setTitleState("postSeq = 0");
       apiGetCategories();
       apiGetTemplateList();
       setShowButton("등록");
     }
-    else {
-      apiGetPost();
+    else if(postSeq !== 0) {
+      apiGetPost()
       apiGetCategories();
       apiGetTemplateList();
       setShowButton("수정");
@@ -119,15 +118,22 @@ const PostEditor = ({ postSeq }) => {
     }
   }, [selectedTemplate]);
 
+  useEffect(() => {
+    if (category_lists.length > 0) {
+      setSelectedCategory(category_lists[0].listName);
+    }
+  }, [category_lists]);
+
   return (
     <>
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
-      <TextField
+        <TextField
           id="post-category"
           select
           label="게시글 카테고리"
           style={{ width: '20%' }}
-          defaultValue = {postSeq === 0 ? '게시글 카테고리' : (category_lists.length > 0 ? category_lists[0].listName : '')}
+          value={selectedCategory}
+          onChange={(event) => setSelectedCategory(event.target.value)}
         >
           {category_lists.map((option) => (
             <MenuItem key={option.listName} value={option.listName}>
@@ -157,7 +163,7 @@ const PostEditor = ({ postSeq }) => {
           id="post-title"
           label="게시글 제목"
           variant="outlined"
-          value={postSeq === 0 ? '게시글 제목' : titleState}
+          value={postSeq === 0 ? "게시글 제목" : titleState}
           onChange={(event) => setTitleState(event.target.value)}
           style={{ width: '100%' }}>
         </TextField>
