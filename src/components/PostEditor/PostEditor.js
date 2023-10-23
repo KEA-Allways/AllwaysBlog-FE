@@ -58,7 +58,7 @@ const PostEditor = ({ postSeq }) => {
   ];
 
   const apiGetPost = () => {
-    axios.get('http://private-anon-474957104d-bee3083.apiary-mock.com/posts/postSeq')
+    axios.get('http://private-anon-474957104d-bee3083.apiary-mock.com/api/posts/postSeq')
     .then((response) => {
       console.log(response.data);
       const blocksFromHTML = convertFromHTML(response.data.content);
