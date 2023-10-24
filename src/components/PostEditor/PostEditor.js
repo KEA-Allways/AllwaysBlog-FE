@@ -10,17 +10,26 @@ import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
 import { CommonButton } from "../../common";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import TextStyles from "../../components/Text.module.css";
 
 const Container = styled.div`
   width: 100%;
 `;
 
-const PostEditor = ({ postSeq }) => {
+const PostEditor = () => {
+  const location = useLocation();
+
+  const postSeq = location.state.postSeq;
+  const theme = location.state.theme;
+
   const navigate = useNavigate();
   // 에디터 상태(Content 상태)
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   // 제목 상태
   const [titleState, setTitleState] = useState("");
+
+  const [themeState, setThemeState] = useState("");
 
   const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
@@ -99,6 +108,7 @@ const PostEditor = ({ postSeq }) => {
   }
 
   useEffect(() => {
+    setThemeState(theme);
     if(postSeq === 0) {
       apiGetCategories();
       apiGetTemplateList();
@@ -127,6 +137,14 @@ const PostEditor = ({ postSeq }) => {
   return (
     <>
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
+        <h3 className={TextStyles.h3}>
+          {theme}
+        </h3>
+      </div>
+      <div style={{ marginBottom: "20px"}}>
+        <hr className={TextStyles.hr} />
+      </div>
+      <div style={{ marginBottom: '15px' }}>
         <TextField
           id="post-category"
           select
@@ -163,7 +181,7 @@ const PostEditor = ({ postSeq }) => {
           id="post-title"
           label="게시글 제목"
           variant="outlined"
-          value={postSeq === 0 ? "게시글 제목" : titleState}
+          value={titleState}
           onChange={(event) => setTitleState(event.target.value)}
           style={{ width: '100%' }}>
         </TextField>

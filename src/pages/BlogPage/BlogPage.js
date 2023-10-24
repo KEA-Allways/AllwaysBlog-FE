@@ -10,7 +10,7 @@ import BlogTopSideBar from '../../components/TopSidebar/BlogTopSideBar';
 const BlogPage = ({ match, location, history}) => {
     return (
         <>
-            <BlogTopSideBar body={<BlogBody2 />}/>
+            <BlogTopSideBar body={<BlogBody />}/>
             {/* <Routes>
                 <Route path="/blogs/themes/:theme_id" element={<BlogTopSideBar body={<BlogBody />} /> } />
                 <Route path="/blogs/themes/1/list/1" element={<BlogTopSideBar body={<BlogBody />} /> } />
