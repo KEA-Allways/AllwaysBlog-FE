@@ -69,18 +69,16 @@ const MngtContents = () => {
 
     const editButtonClicked = (postSeq) => {
         // postSeq를 가지고 /post 페이지로 이동
-        navigate('/post', { state: { postSeq: postSeq } });
+        const theme = '선택된 테마';
+        navigate('/post', { state: { postSeq: postSeq, theme: theme } });
     };
     
     const HeaderTitle = "글 관리";
     const HeaderButton = "글쓰기";
-    const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: 0 } });
-    };
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={headerButtonClicked} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} Container={
                 <div>
                     <div>
                         <TableContainer component={Paper}>
