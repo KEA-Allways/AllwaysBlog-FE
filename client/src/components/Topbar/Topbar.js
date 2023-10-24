@@ -5,7 +5,7 @@ import BlogTopbar from "./BlogTopbar";
 
 const  Topbar = ({page, isLogin, hasBlog, username}) => {
   const [PageType, setPageType] = useState(null);
-  const pageArr = ["", "main", "login", "blog"];
+  const pageArr = ["", "main", "login", "blog", "mngt"];
 
   useEffect( () => {
     if (page != null && page != ""){
@@ -24,6 +24,7 @@ const  Topbar = ({page, isLogin, hasBlog, username}) => {
           "" : <DefaultTopbar/>,
           null : <DefaultTopbar />,
           blog : <BlogTopbar isLogin={isLogin} hasBlog={hasBlog} username={username}/>,
+          mngt : <BlogTopbar isLogin={isLogin} hasBlog={hasBlog} username={username}/>,
           main : <DefaultTopbar page="main" isLogin={isLogin}/>,
           login : <LoginPageTopbar/>
           

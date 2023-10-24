@@ -74,16 +74,16 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/blogs" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
-            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
-            <Route path="/blog-creation" element={<BlogCreationPage/>} />
-            <Route path="/mngt" element={<ManagePage />} />
+            <Route path="/blogs/themes/:themeId" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/blog-creation" element={<BlogCreationPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/mngt" element={<ManagePage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
             <Route path="/post" element={<PostPage />} />
-            <Route path="/mngt/theme" element={<MngtTheme />} />
-            <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
-            <Route path="/mngt/content" element={<MngtContent/>} />
-            <Route path="/mngt/template" element={<MngtTemplate/>}/>
-            <Route path="/post/:title" element={<DetailPage/>} />
+            <Route path="/mngt/theme" element={<MngtTheme isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/mngt/theme/:themeSeq" element={<MngtList isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/mngt/content" element={<MngtContent isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/mngt/template" element={<MngtTemplate isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>}/>
+            <Route path="/post/:title" element={<DetailPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
           </Routes>
         </BrowserRouter>
       </div>

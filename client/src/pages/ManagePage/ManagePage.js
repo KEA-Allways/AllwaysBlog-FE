@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ManagePage = () => {
+const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
 
   const [nickname, setNickname] = useState();
@@ -118,6 +118,9 @@ const ManagePage = () => {
 
   return (
     <ManageTopSideBar
+      isLogin={isLogin}
+      hasBlog={hasBlog}
+      username={username}
       HeaderTitle={HeaderTitle}
       Container={
         <WrapContainer>
