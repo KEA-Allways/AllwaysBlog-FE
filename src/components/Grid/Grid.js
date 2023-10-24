@@ -17,6 +17,14 @@ const Grid = () => {
       date : "2023. 10. 21"
     },
     {
+      src : "/img/hamburger.jpg",
+      alt : "hamburger",
+      title : "햄버거",
+      subtitle : "햄버거",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    },
+    {
       src : "/img/busan.jpg",
       alt : "busan",
       title : "부산",
@@ -45,6 +53,22 @@ const Grid = () => {
       date : "2023. 10. 18"
     },
     {
+      src : "/img/tomato_pasta.jpg",
+      alt : "tomato_pasta",
+      title : "토마토 파스타",
+      subtitle : "토마토 파스타",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    },
+    {
+      src : "/img/pizza.jpg",
+      alt : "pizza",
+      title : " 도미노 피자",
+      subtitle : "도미노 피자 ",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    },
+    {
       src : "/img/Hong_Kong.jpg",
       alt : "Hong_Kong",
       title : "홍콩 거리",
@@ -62,6 +86,7 @@ const Grid = () => {
       nickname : "김성준",
       date : "2023. 10. 05"
     },
+    
     {
       src : "/img/thailand.jpg",
       alt : "thailand",
@@ -81,6 +106,14 @@ const Grid = () => {
       date : "2023. 09. 30"
     },
     {
+      src : "/img/chicken.jpg",
+      alt : "chicken",
+      title : "양념 치킨",
+      subtitle : "치킨 먹방",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    },
+    {
       src : "/img/Tokyo.jpg",
       alt : "Tokyo",
       title : "도쿄",
@@ -98,6 +131,27 @@ const Grid = () => {
       nickname : "황수하",
       date : "2023. 09. 25"
     },
+
+    
+    {
+      src : "/img/kebab.jpg",
+      alt : "kebab",
+      title : "케밥",
+      subtitle : "이태원 케밥",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    },
+    
+    
+   
+    {
+      src : "/img/udon.jpg",
+      alt : "udon",
+      title : "udon",
+      subtitle : "일본식 우동",
+      userIcon : "/img/usericon.png",
+      nickname : "김성준"
+    } 
    
   ]
 
