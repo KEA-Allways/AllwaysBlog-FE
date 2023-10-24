@@ -5,7 +5,7 @@ function Banner() {
   return (
     <Carousel fade>
       <Carousel.Item>
-        <ExampleCarouselImage text="First slide" imageUrl="/img/banner1.png"/>
+        <ExampleCarouselImage text="First slide" imageUrl="/img/banner4.png"/>
       </Carousel.Item>
       <Carousel.Item>
         <ExampleCarouselImage text="Second slide" imageUrl="/img/banner2.webp"/>
