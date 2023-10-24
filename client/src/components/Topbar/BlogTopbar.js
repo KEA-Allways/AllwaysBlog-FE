@@ -3,9 +3,22 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import classnames from "classnames"
 import styles from "./Topbar.module.css"
 import { NavbarCollapse } from 'react-bootstrap';
+import axios from 'axios';
 
 const  BlogTopbar = ({hasBlog, username}) => {
   const image = <img src='/img/usericon.png' width="50px" height="50px" />
+
+  const logout = () => {
+    axios({
+      url: "/logout",
+      method: "POST",
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open("/", "_self");
+      }
+    });
+  };
 
   return (
     <Navbar className={classnames('justify-content-between', styles.topbar)}>
@@ -34,7 +47,7 @@ const  BlogTopbar = ({hasBlog, username}) => {
       >
             <NavDropdown.Item href="/blogs">내 블로그</NavDropdown.Item>
             <NavDropdown.Item href="/mngt">계정 설정</NavDropdown.Item>
-            <NavDropdown.Item href="/">로그아웃</NavDropdown.Item>
+            <NavDropdown.Item onClick={logout}>로그아웃</NavDropdown.Item>
       </NavDropdown>
     </Navbar>
   );
