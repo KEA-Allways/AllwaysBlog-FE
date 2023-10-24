@@ -1,0 +1,19 @@
+.App {
+    /* background-image: image("/img/banner1.png"); */ 
+    /* background: linear-gradient(179deg, #176eb5, #d545d7); */
+     
+    /* background-image:url("C:\Users\suha hwang\Desktop\AllwaysBlog-FE\public\img\soccer.jpg"); */
+    /* background-color: rgba(0, 0, 0, 1); */
+    font-family: "Yeongdeok Blueroad";
+   
+} 
+@font-face {
+    font-family: "Yeongdeok Blueroad";
+    src: url("./fonts/Yeongdeok\ Blueroad.ttf");
+}
+
+@font-face {
+    font-family: "Yeongdeok Snow Crab";
+    src: url("./fonts/Yeongdeok\ Snow\ Crab.ttf");
+}
+
