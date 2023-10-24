@@ -11,11 +11,11 @@ import styled from '@emotion/styled';
 
  
 
-const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date}) => {
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue}) => {
   
   return (
       
-        <Card className={styles.cardStyle} sx={{  transition: "all 0.5s ease", borderRadius:"10px" ,opacity:"80%" ,marginBottom:"40px", marginRight: "10px",boxShadow:"1px 1px 15px -5px black"}}
+        <Card className={styles.cardStyle} sx={{  transition: "all 0.5s ease", borderRadius:"10px" ,opacity:opacityValue ,marginBottom:"40px", marginRight: "10px",boxShadow:"1px 1px 15px -5px black"}}
          >
           <CardMedia
             component="img"

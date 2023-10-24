@@ -143,6 +143,8 @@ const BlogBody = () => {
                   subtitle={blg.subtitle}
                   usericon={blg.userIcon}
                   nickname={blg.nickname}
+                  opacityValue="80%"
+
                 />
               </Col>
             ))}
