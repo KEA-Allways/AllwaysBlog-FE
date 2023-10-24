@@ -116,6 +116,7 @@ const Grid = () => {
             subtitle={v.subtitle} 
             usericon={v.userIcon} 
             nickname={v.nickname} 
+            opacityValue="100%"
             date={v.date}/> 
             </Link>
         </Col>
