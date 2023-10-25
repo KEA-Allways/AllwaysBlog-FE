@@ -1,11 +1,11 @@
 import BlogSidebar from "../Sidebar/BlogSidebar";
-import Topbar from "../Topbar/Topbar";
+import SungjunTopbar from "../Topbar/SungjunTopbar";
 
 
-const BlogTopSideBar = ({isLogin, hasBlog, username, body}) => {
+const BlogTopSideBar = ({body}) => {
     return (
         <div>
-            <Topbar page={"blog"} isLogin={isLogin} hasBlog={hasBlog} username={username}/>
+            <SungjunTopbar/>
             <BlogSidebar body={body}/>
         </div>
     )

@@ -1,4 +1,3 @@
-import LoginPageTopbar from "../../components/Topbar/LoginPageTopbar"
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState ,useEffect} from "react";
@@ -8,7 +7,8 @@ import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-import Topbar from "../../components/Topbar/Topbar";
+import loginStore from "../../store/store";
+import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
 
 
 
@@ -17,9 +17,10 @@ import Topbar from "../../components/Topbar/Topbar";
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const {userId, password, setUserId, setPassword } = loginStore();
   const [response, setResponse] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [password, setPassword] = useState("");
   const [isShowPw, setShowPwState] = useState(false);
 
   const login = () => {
@@ -33,7 +34,7 @@ const LoginPage = () => {
       },
     }).then((result) => {
       if (result.status === 200) {
-        window.open('/', '_self')
+        navigate("/");
       }
     })
     .catch((err) => {
@@ -82,7 +83,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Topbar page={"login"} />
+      <SungjunTopbar />
       <Container>
         <LoginSection>
           <LoginTitle>Login</LoginTitle>

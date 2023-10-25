@@ -1,13 +1,12 @@
-import Topbar from "../../components/Topbar/Topbar"
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import React from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
+import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -90,7 +89,7 @@ const SignUpPage = () => {
 
   return (
     <>
-      <Topbar page={"login"} />
+      <SungjunTopbar />
       
       <Container>
         <SignUpSection>

@@ -1,4 +1,3 @@
-import Topbar from "../../components/Topbar/Topbar";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -7,7 +6,7 @@ import React from "react";
 import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
-import BlogTopbar from "../../components/Topbar/BlogTopbar";
+import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
@@ -44,7 +43,7 @@ const BlogCreationPage = () => {
 
   return (
     <>
-      <Topbar page={"mngt"} />
+      <SungjunTopbar />
 
       <Container>
         <BlogSection>
