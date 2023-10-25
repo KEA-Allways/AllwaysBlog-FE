@@ -1,8 +1,6 @@
 .App {
     font-family: 'IBM Plex Sana Thai Looped' sans-serif;
     color: black;
-    /* background: linear-gradient(179deg, #176eb5, #d545d7); */
-    /* text-shadow: 1px 0px 2px #8dc4f0; */
 }
 
 .topbar {
@@ -14,30 +12,8 @@
     /* border-radius: 10px; */
     border-bottom: 1px solid rgba(0, 0, 0, 0.18);
     height: 70px;
-}
-
-.loginTopbar {
-    display: flex;
-    align-items: start;
-    /* box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.37); */
-    backdrop-filter: blur(5.5px); 
-    /* border-radius: 10px; */
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    height: 70px;
-}
-
-.noLoginTopbar {
-    display: flex;
-    align-items: start;
-    background-color: rgba(255,255,255,0.3);
-    backdrop-filter: blur(5.5px);
-    /* border-radius: 10px; */
-    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
-    height: 70px;
-}
-
-.main {
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    position: relative; 
+    z-index: 999;
 }
 
 .topbarLogo {
@@ -45,6 +21,28 @@
     /*height: 50px;*/
     margin-left: 10px; 
     alt: 'Allways 로고';
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.leftSideContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height : 100%;
+}
+
+.rightSideContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height : 100%;
+    margin-right: 20px;
 }
 
 

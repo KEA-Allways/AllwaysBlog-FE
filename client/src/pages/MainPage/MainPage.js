@@ -1,12 +1,10 @@
 import { useState } from "react";
-import Topbar from "../../components/Topbar/Topbar";
-import NoLoginTopbar from "../../components/Topbar/NoLoginTopbar";
 import Banner from "../../components/Banner/Banner"
 import Grid from "../../components/Grid/Grid";
 import Footer from "../../components/Footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "@emotion/styled";
-import DefaultTopbar from "../../components/Topbar/DefaultTopbar";
+import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
 
 const MainPage = ({isLogin}) => {
 
@@ -26,7 +24,7 @@ const MainPage = ({isLogin}) => {
     
     return (
         <Layout>
-            <Topbar page={"main"} isLogin={isLogin}/>
+            <SungjunTopbar />
                 
             <Banner />
             

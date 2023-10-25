@@ -14,7 +14,8 @@ import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import loginStore from "./store/store";
 
 const theme = createTheme({
   typography : {
@@ -23,24 +24,23 @@ const theme = createTheme({
 })
 
 function App() {
-  const [user, setUser] = useState({});
-  const [isLogin, setIsLogin] = useState(false);
+  const {setIsLogin, setHasBlog, setUsername} = loginStore();
 
-  const accessToken = () => {
-    axios({
-      url: "/accesstoken",
-      method: "GET",
-      withCredentials: true,
-    });
-  };
+  // const accessToken = () => {
+  //   axios({
+  //     url: "/accesstoken",
+  //     method: "GET",
+  //     withCredentials: true,
+  //   });
+  // };
 
-  const refreshToken = () => {
-    axios({
-      url: "/refreshtoken",
-      method: "GET",
-      withCredentials: true,
-    });
-  };
+  // const refreshToken = () => {
+  //   axios({
+  //     url: "/refreshtoken",
+  //     method: "GET",
+  //     withCredentials: true,
+  //   });
+  // };
 
   useEffect(() => {
     try {
@@ -51,8 +51,9 @@ function App() {
       })
         .then((result) => {
           if (result.data) {
-            setIsLogin(true);
-            setUser(result.data);
+            setIsLogin(result.data.id);
+            setHasBlog(result.data.hasBlog)
+            setUsername(result.data.username)
           }
         })
         .catch((error) => {
@@ -70,20 +71,20 @@ function App() {
       <div className={styles.App}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<MainPage isLogin={isLogin}/>} />
+            <Route path="/" element={<MainPage/>} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/blogs" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/blogs/themes/:themeId" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/blog-creation" element={<BlogCreationPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/mngt" element={<ManagePage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/blogs" element={<BlogPage/>} />
+            <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
+            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
+            <Route path="/blog-creation" element={<BlogCreationPage />} />
+            <Route path="/mngt" element={<ManagePage />} />
             <Route path="/post" element={<PostPage />} />
-            <Route path="/mngt/theme" element={<MngtTheme isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/mngt/theme/:themeSeq" element={<MngtList isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/mngt/content" element={<MngtContent isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
-            <Route path="/mngt/template" element={<MngtTemplate isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>}/>
-            <Route path="/post/:title" element={<DetailPage isLogin={isLogin} hasBlog={user.hasBlog} username={user.username}/>} />
+            <Route path="/mngt/theme" element={<MngtTheme />} />
+            <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
+            <Route path="/mngt/content" element={<MngtContent />} />
+            <Route path="/mngt/template" element={<MngtTemplate />}/>
+            <Route path="/post/:title" element={<DetailPage />} />
           </Routes>
         </BrowserRouter>
       </div>
