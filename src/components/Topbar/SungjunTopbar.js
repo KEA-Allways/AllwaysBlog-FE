@@ -9,7 +9,6 @@ import loginStore from "../../store/store";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
-/// 왜 dev랑 다른게 없다고 뜨지?
 function SungjunTopbar() {
     const image = <img src='/img/usericon.png' width="50px" height="50px" />
 

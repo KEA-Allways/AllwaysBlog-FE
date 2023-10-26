@@ -97,9 +97,10 @@ const BlogBody = () => {
   const [showContent, setShowContent] = useState('카드형');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
     const theme = '현재 페이지 테마';
-    navigate('/post', { state: { postSeq, templateSeq: null, theme } });
+    navigate('/post', { state: { postSeq: postSeq, templateSeq: undefined, theme } });
   };
 
   const handleButtonClick = (content) => {

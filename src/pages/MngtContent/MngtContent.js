@@ -74,7 +74,7 @@ const MngtContents = () => {
 
   const editButtonClicked = (postSeq) => {
     const theme = '선택된 테마';
-    navigate('/post', { state: { postSeq: postSeq, theme: theme } });
+    navigate('/post', { state: { postSeq: postSeq, themplateSeq: undefined, theme: theme } });
   };
 
   const HeaderTitle = "글 관리";
