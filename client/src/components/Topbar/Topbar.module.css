@@ -40,11 +40,10 @@
 .rightSideContainer {
     display: flex;
     justify-content: center;
-    text-align: center;
     height : 100%;
-    margin-right: 20px;
+    margin-right: 40px;
+    width: 5px;
 }
-
 
 
   

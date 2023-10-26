@@ -135,7 +135,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
             
           </div> {/*사이드바 컨테이너 끝 */}
           {/* 바디 컨테이너 시작 */}
-          <div className={styles.bodyContainer} style={{ marginRight: "50px", marginLeft: "50px", marginTop: "30px"}}>
+          <div className={styles.bodyContainer} style={{ marginRight: "160px", marginLeft: "150px", marginTop: "30px"}}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 className={TextStyles.h3}>
                     {HeaderTitle}
