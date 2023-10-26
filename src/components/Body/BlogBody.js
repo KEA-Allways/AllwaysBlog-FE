@@ -4,7 +4,7 @@ import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 import { Link } from 'react-router-dom'; 
 
@@ -149,7 +149,6 @@ const BlogBody = () => {
             {displayedData.map((blg, index) => (
               <Col key={index}>
                 <Link to={`/post/${blg.title}?imgUrl=${blg.src}`}>
-
                 <CardStyle
                   imgUrl={blg.src}
                   imgHeight="180px"
@@ -159,8 +158,7 @@ const BlogBody = () => {
                   usericon={blg.userIcon}
                   nickname={blg.nickname}
                   opacityValue="80%"
-
-                />
+                  date={blg.date}/>
                 </Link>
               </Col>
             ))}
@@ -172,13 +170,12 @@ const BlogBody = () => {
             {displayedData.map((blg, index) => (
               <Col key={index}>
                 <Link to={`/post/${blg.title}?imgUrl=${blg.src}`}>
-
-                <ListStyle
-                  title={blg.title}
-                  subtitle={blg.subtitle}
-                  usericon={blg.userIcon}
-                  nickname={blg.nickname}
-                />
+                  <ListStyle
+                    title={blg.title}
+                    subtitle={blg.subtitle}
+                    usericon={blg.userIcon}
+                    nickname={blg.nickname}
+                  />
                 </Link>
               </Col>
             ))}
