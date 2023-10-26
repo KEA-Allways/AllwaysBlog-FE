@@ -70,8 +70,11 @@ const MngtTemplate = () => {
     const HeaderTitle = "템플릿 관리";
     const HeaderButton = "템플릿 추가";
     const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: 0 } });
+        navigate('/post', { state: { postSeq: null, templateSeq: 0 } });
     };
+    const editButtonClicked = (templateSeq) => {
+        navigate('/post', { state: { postSeq: null, templateSeq: templateSeq } });
+    }
 
     return (
         
@@ -92,7 +95,7 @@ const MngtTemplate = () => {
 
                                     return (
                                     <TableRow
-                                        key={row.themeSeq}
+                                        key={row.templateSeq}
                                         style={{height:'70px'}}
                                         onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
                                     >
@@ -105,7 +108,7 @@ const MngtTemplate = () => {
                                         <TableCell align="right">
                                             {hideList[idx] && (
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <SmallButton>수정</SmallButton>
+                                                    <SmallButton onClick={ () => editButtonClicked(row.templateSeq)}>수정</SmallButton>
                                                     <SmallButton>삭제</SmallButton>
                                                 </div>
                                             )}

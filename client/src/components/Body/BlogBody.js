@@ -97,7 +97,7 @@ const BlogBody = () => {
 
   const editButtonClicked = (postSeq) => {
     const theme = '현재 페이지 테마'
-    navigate('/post', { state: { postSeq: postSeq, theme: theme } });
+    navigate('/post', { state: { postSeq: postSeq, templateSeq: null, theme: theme } });
   };
   
 

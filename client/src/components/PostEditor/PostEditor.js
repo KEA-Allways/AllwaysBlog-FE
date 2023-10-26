@@ -22,14 +22,13 @@ const PostEditor = () => {
 
   const postSeq = location.state.postSeq;
   const theme = location.state.theme;
+  const templateSeq = location.state.templateSeq;
 
   const navigate = useNavigate();
   // 에디터 상태(Content 상태)
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   // 제목 상태
   const [titleState, setTitleState] = useState("");
-
-  const [themeState, setThemeState] = useState("");
 
   const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
@@ -44,6 +43,8 @@ const PostEditor = () => {
   const [showButton, setShowButton] = useState("");
 
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const [templateShowState, setTemplateShowState] = useState(true);
 
   const handleModalToggle = (bool) => {
     setShowModal(!showModal);
@@ -108,19 +109,32 @@ const PostEditor = () => {
   }
 
   useEffect(() => {
-    setThemeState(theme);
-    if(postSeq === 0) {
-      apiGetCategories();
-      apiGetTemplateList();
-      setShowButton("등록");
+    if (postSeq !== null) {
+      // postSeq와 관련된 로직
+      if (postSeq === 0) {
+        apiGetCategories();
+        apiGetTemplateList();
+        setShowButton("등록");
+      } else {
+        apiGetPost();
+        apiGetCategories();
+        apiGetTemplateList();
+        setShowButton("수정");
+      }
     }
-    else if(postSeq !== 0) {
-      apiGetPost()
-      apiGetCategories();
-      apiGetTemplateList();
-      setShowButton("수정");
+  
+    if (templateSeq !== null) {
+      // templateSeq와 관련된 로직
+      if (templateSeq === 0) {
+        setTemplateShowState(false);
+        setShowButton("등록");
+      } else {
+        setTemplateShowState(false);
+        setShowButton("수정");
+        apiGetTemplate();
+      }
     }
-  }, [postSeq]);
+  }, [postSeq, templateSeq]);
 
   useEffect(() => {
     if (selectedTemplate) {
@@ -136,44 +150,51 @@ const PostEditor = () => {
 
   return (
     <>
+    {templateShowState === true && (
+      <>
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
         <h3 className={TextStyles.h3}>
           {theme}
         </h3>
       </div>
+
       <div style={{ marginBottom: "20px"}}>
         <hr className={TextStyles.hr} />
       </div>
-      <div style={{ marginBottom: '15px' }}></div>
-      <div style={{ marginTop: '30px', marginBottom: '15px' }}>
-      <TextField
-        id="post-category"
-        select
-        label="게시글 카테고리"
-        style={{ width: '20%' }}
-        value={selectedCategory}
-        onChange={(event) => setSelectedCategory(event.target.value)}>
-          {category_lists.map((option) => (
-            <MenuItem key={option.listName} value={option.listName}>
-              {option.listName}
-            </MenuItem>
-          ))}
-      </TextField>
 
-      <TextField
-        id="post-template"
-        select
-        label="게시글 서식"
-        style={{ marginLeft: '5%' ,width: '20%' }}
-        defaultValue = {{}}
-        onChange={(event) => setSelectedTemplate(event.target.value)} >
-        {template_lists.map((option) => (
-          <MenuItem key={option.templateName} value={option.templateName}>
-            {option.templateName}
-          </MenuItem>
-        ))}
-      </TextField>
+      <div style={{ marginBottom: '15px' }}></div>
+      
+      <div style={{ marginTop: '30px', marginBottom: '15px' }}>
+        <TextField
+          id="post-category"
+          select
+          label="게시글 카테고리"
+          style={{ width: '20%' }}
+          value={selectedCategory}
+          onChange={(event) => setSelectedCategory(event.target.value)}>
+            {category_lists.map((option) => (
+              <MenuItem key={option.listName} value={option.listName}>
+                {option.listName}
+              </MenuItem>
+            ))}
+        </TextField>
+
+        <TextField
+          id="post-template"
+          select
+          label="게시글 서식"
+          style={{ marginLeft: '5%' ,width: '20%' }}
+          value={selectedTemplate}
+          onChange={(event) => setSelectedTemplate(event.target.value)} >
+            {template_lists.map((option) => (
+              <MenuItem key={option.templateName} value={option.templateName}>
+                {option.templateName}
+              </MenuItem>
+            ))}
+        </TextField>
       </div>
+      </>
+      )}
 
       <div style={{ marginTop: '15px', marginBottom: '30px' }}>
         <TextField
