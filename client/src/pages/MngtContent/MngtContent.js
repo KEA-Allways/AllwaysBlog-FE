@@ -74,11 +74,11 @@ const MngtContents = () => {
     };
     
     const HeaderTitle = "글 관리";
-    const HeaderButton = "글쓰기";
+    const HeaderButton = "";
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
                 <div>
                     <div>
                         <TableContainer component={Paper}>
@@ -96,7 +96,7 @@ const MngtContents = () => {
                                         return (
                                         <TableRow
                                             key={row.themeSeq}
-                                            style={{height:'70px'}}
+                                            style={{height:'80px'}}
                                             onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
                                         >
                                             <TableCell align="center">
@@ -106,9 +106,9 @@ const MngtContents = () => {
                                                 <p style={{ margin: '0'}}>{row.name}</p>
                                                 <p style={{ margin: '0'}}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
                                             </TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">
                                                 {hideList[idx] && (
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }}>
                                                         <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
                                                         <SmallButton>삭제</SmallButton>
                                                     </div>

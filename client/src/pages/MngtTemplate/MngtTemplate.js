@@ -93,7 +93,7 @@ const MngtTemplate = () => {
                                     return (
                                     <TableRow
                                         key={row.themeSeq}
-                                        style={{height:'70px'}}
+                                        style={{height:'80px'}}
                                         onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
                                     >
                                         <TableCell align="center">
@@ -111,7 +111,7 @@ const MngtTemplate = () => {
                                             )}
                                         </TableCell>
                                     </TableRow>
-                                    );
+                                                                        );
                                 })}
                             </TableBody>
                         </Table>
