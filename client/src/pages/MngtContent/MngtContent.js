@@ -1,7 +1,6 @@
 import ManageTopSideBar from '../../components/TopSidebar/ManageTopSideBar';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,119 +14,124 @@ import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
 
 const SmallButton = styled(CommonButton)`
-    background-color:white;
-    color:black;
-    width: 40px;
-    height: 40px;
-    border-color:black;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    margin-right: 10px;
-    border-radius: 5px;
+  background-color:white;
+  color:black;
+  width: 40px;
+  height: 40px;
+  border-color:black;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  margin-right: 10px;
+  border-radius: 5px;
 
-    &:hover {
+  &:hover {
     color: #fff;
     background: black;
-    }
+  }
 `
 
 const MngtContents = () => {
+  const [lists, setLists] = useState([]);
+  const [hideList, setHideList] = useState(Array(lists.length).fill(false));
+  const navigate = useNavigate();
 
-    const [lists, setLists] = useState([]);
-    const [hideList, setHideList] = useState(Array(lists.length).fill(false));
-    const navigate = useNavigate();
+  const itemsPerPage = 2;
+  const [currentPage, setCurrentPage] = useState(1);
 
-    const apiGetCategories = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
-          .then((response) => {
-            setLists(response.data.posts);
-            console.log(lists)
-          })
-          .catch((error) => {
-            console.error('API GET request error:', error);
-          });
-    };
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedData = lists.slice(startIndex, endIndex);
 
-    const setRowHideState = (idx, value) => {
-        const updatedHideList = [];
-        updatedHideList[idx] = value;
-        setHideList(updatedHideList);
-    };
+  const apiGetPosts = (page, itemsPerPage) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/posts/${page}/${itemsPerPage}`)
+      .then((response) => {
+        setLists(response.data.posts);
+      })
+      .catch((error) => {
+        console.error('API GET request error:', error);
+      });
+  };
 
-    const mouseOn = (idx) => {
-        setRowHideState(idx, true);
-    }
-    const mouseOff = (idx) => {
-        setRowHideState(idx, false);
-    }
+  useEffect(() => {
+    apiGetPosts(currentPage, itemsPerPage);
+  }, [currentPage]);
 
-    useEffect(() => {
-        // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
-        apiGetCategories();
-    }, []);
+  const setRowHideState = (idx, value) => {
+    const updatedHideList = [...hideList];
+    updatedHideList[idx] = value;
+    setHideList(updatedHideList);
+  };
 
-    const editButtonClicked = (postSeq) => {
-        // postSeq를 가지고 /post 페이지로 이동
-        const theme = '선택된 테마';
-        navigate('/post', { state: { postSeq: postSeq, theme: theme } });
-    };
-    
-    const HeaderTitle = "글 관리";
-    const HeaderButton = "글쓰기";
+  const mouseOn = (idx) => {
+    setRowHideState(idx, true);
+  };
 
-    return (
+  const mouseOff = (idx) => {
+    setRowHideState(idx, false);
+  };
+
+  const editButtonClicked = (postSeq) => {
+    const theme = '선택된 테마';
+    navigate('/post', { state: { postSeq: postSeq, theme: theme } });
+  };
+
+  const HeaderTitle = "글 관리";
+
+  return (
+    <div>
+      <ManageTopSideBar HeaderTitle={HeaderTitle} Container={
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} Container={
-                <div>
-                    <div>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell align="center" sx={{ width: '10%'}}>번호</TableCell>
-                                        <TableCell align="center" sx={{ width: '70%'}} colSpan={1}>제목</TableCell>
-                                        <TableCell align="center" sx={{ width: '20%'}}></TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {lists.map((row, idx) => {
-
-                                        return (
-                                        <TableRow
-                                            key={row.themeSeq}
-                                            style={{height:'70px'}}
-                                            onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
-                                        >
-                                            <TableCell align="center">
-                                                {idx + 1}
-                                            </TableCell>
-                                            <TableCell align="left" colSpan={1}>
-                                                <p style={{ margin: '0'}}>{row.name}</p>
-                                                <p style={{ margin: '0'}}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {hideList[idx] && (
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
-                                                        <SmallButton>삭제</SmallButton>
-                                                    </div>
-                                                )}
-                                        </TableCell>
-                                        </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'center'}}>
-                        <Paging />
-                    </div>
-                </div>
-            } />
+            <div>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 500 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" sx={{ width: '10%' }}>번호</TableCell>
+                    <TableCell align="center" sx={{ width: '70%' }} colSpan={1}>제목</TableCell>
+                    <TableCell align="center" sx={{ width: '20%' }}></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {displayedData.map((row, idx) => (
+                    <TableRow
+                      key={row.postSeq}
+                      style={{ height: '70px' }}
+                      onMouseEnter={() => mouseOn(idx)}
+                      onMouseLeave={() => mouseOff(idx)}
+                    >
+                      <TableCell align="center">{idx + 1}</TableCell>
+                      <TableCell align="left" colSpan={1}>
+                        <p style={{ margin: '0' }}>{row.name}</p>
+                        <p style={{ margin: '0' }}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
+                      </TableCell>
+                      <TableCell align="right">
+                        {hideList[idx] && (
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
+                            <SmallButton>삭제</SmallButton>
+                          </div>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Paging
+              activePage={currentPage}
+              totalItemsCount={lists.length} // 전체 아이템 수
+              itemsPerPage={itemsPerPage}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </div>
-    )
-}
+      } />
+    </div>
+  );
+};
 
 export default MngtContents;
