@@ -6,6 +6,7 @@ import { EditorState, ContentState, convertFromHTML, convertToRaw } from "draft-
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftjsToHtml from "draftjs-to-html";
 import ThumbnailModal from "../ThumbnailModal/ThumbnailModal.js";
+import ThemeModal from "../ThemeModal/ThemeModal.js"
 import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
 import { CommonButton } from "../../common";
@@ -241,7 +242,7 @@ const PostEditor = () => {
           </div>
         )}
       </div>
-      <ThumbnailModal
+      <ThemeModal
         showModal={showModal}
         onClose={() => setShowModal(false)} />
     </>
