@@ -1,0 +1,50 @@
+.App {
+    font-family: 'IBM Plex Sana Thai Looped' sans-serif;
+    color: black;
+}
+
+.topbar {
+    display: flex;
+    align-items: start;
+    background-color: rgba(255,255,255,0.3);
+    /* box-shadow: 0 8px 20px 0 rgba(31, 38, 135, 0.37); */
+    backdrop-filter: blur(5.5px); 
+    /* border-radius: 10px; */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    height: 70px;
+    position: relative; 
+    z-index: 999;
+}
+
+.topbarLogo {
+    width: 150px;
+    /*height: 50px;*/
+    margin-left: 10px; 
+    alt: 'Allways 로고';
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.leftSideContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height : 100%;
+}
+
+.rightSideContainer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height : 100%;
+    margin-right: 20px;
+}
+
+
+
+  
