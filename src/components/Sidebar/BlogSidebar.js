@@ -4,8 +4,6 @@ import {CommonButton } from "../../common"
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { common } from "@mui/material/colors";
 
 
 function BlogSidebar({body}) {
@@ -21,34 +19,6 @@ function BlogSidebar({body}) {
   const [profiles, setProfiles] = useState([]);
   const [themeAndLists, setThemeAndLists] = useState([]);
   const [listSeq, setListSeq] = useState(4);
-
-  const fileInput = useRef(null);
-  const [file, setFile] = useState("");
-  const [profileImage, setProfileImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-
-  const selectFile = (e) => {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-    } else {
-      //업로드 취소할 시
-      setProfileImage(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
-      return;
-    }
-
-    const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setProfileImage(reader.result);
-          alert(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    };
 
   const apiGetProfile = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/1`)
@@ -141,18 +111,9 @@ function BlogSidebar({body}) {
               
               {/* 프로필 이미지 */}
               <Profile
-                src={profileImage}
-                onClick={() => {
-                  fileInput.current.click();
-                }}
+                src="/img/usericon.png"
               />
-              <ProfileUpload
-                type="file"
-                accept="image/*"
-                name="profile_img"
-                onChange={selectFile}
-                ref={fileInput}
-              />
+              
               
               {/* 블로그 소개, 이메일 */}
               <ProfileBox>
@@ -167,7 +128,7 @@ function BlogSidebar({body}) {
                   <ul style={{ width: "100%", height: "auto" }}>
                     {themeAndLists.map((tal) => (
                       // 테마
-                      <li key={tal.themeSeq} style={{width : "100%"}}>
+                      <li key={tal.themeSeq} style={{width : "100%", marginLeft:"20px"}}>
                         <Link
                           to={`/blogs/themes/${tal.themeSeq}`}
                           className={`/blogs/themes/${tal.themeSeq}` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
@@ -177,13 +138,13 @@ function BlogSidebar({body}) {
                         </Link>
                         {menuStates[tal.themeName] && (
                           
-                          <ul style={{ width: "100%", height: "auto", textAlign: "start",}}>
+                          <ul style={{ width: "100%", height: "auto", textAlign: "start", marginLeft:"10px"}}>
                             {tal.lists.map((list) => (
                               // 카테고리
                               <li key={list.listSeq}>
                                 <Link
                                   to={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}`}
-                                  className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.active} ${styles.categoryText}` : styles.categoryText}
+                                  className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.categoryActive} ${styles.categoryText}` : styles.categoryText}
                                 >
                                   {list.listName}
                                 </Link>
@@ -194,9 +155,9 @@ function BlogSidebar({body}) {
                               {/* 입력창 */}
                               {showInputBox ? (
                                 <form>
-                                  <input
+                                  <Input
                                   type="text"
-                                  style={{width : "80%"}}
+                                  style={{width : "60%"}}
                                   placeholder="하위 메뉴 이름"
                                   value={newMenuItemName}
                                   autoFocus
@@ -243,13 +204,7 @@ const ProfileBox = styled.div`
   border-bottom: 1px solid rgba(0,0,0,0.18);
 `;
 
-const ProfileUpload = styled.input`
-  display: none;
-`;
-
 const Profile = styled.img`
-  box-shadow: 1px 1px 15px -5px black;
-
   border-radius: 50%;
 
   cursor: pointer;
@@ -272,23 +227,41 @@ const Profile = styled.img`
 `;
 
 const PlusButton = styled.button`
-  background-color:white;
-  color:black;
+  background-color : rgba(50,50,50,0.2);
+  color:rgba(25,25,25,0.7);
+  outline: none;
+  border: none;
   width: 30px;
   height: 30px;
   border-color:black;
-  font-size: 16px;
+  font-size: 20px;
   display: flex;
   text-align : center;
   justify-content: center;
   align-items: center;
   &:hover {
-    color: red;
+    background-color : rgba(50,50,50,0.7);
   }
 `;
 
+const Input = styled.input`
+  width: 60%;
+  outline : none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+`;
+
 const SaveButton = styled.button`
+  background-color:black;
+  color:white;
+  outline : none;
+  border: none;
   width : 20%;
+  &:hover {
+    background-color : white;
+    color: black;
+  }
 `
 
 
