@@ -71,10 +71,10 @@ const MngtTemplate = () => {
     const HeaderTitle = "템플릿 관리";
     const HeaderButton = "템플릿 추가";
     const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: null, templateSeq: 0 } });
+        navigate('/post', { state: { postSeq: undefined, templateSeq: 0 } });
     };
     const editButtonClicked = (templateSeq) => {
-        navigate('/post', { state: { postSeq: null, templateSeq: templateSeq } });
+        navigate('/post', { state: { postSeq: undefined, templateSeq: templateSeq } });
     }
 
     // 페이지네이션 관련

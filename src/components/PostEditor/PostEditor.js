@@ -20,9 +20,12 @@ const Container = styled.div`
 const PostEditor = () => {
   const location = useLocation();
 
+  // navigate할 떄 담아오는 변수들
   const postSeq = location.state.postSeq;
   const theme = location.state.theme;
   const templateSeq = location.state.templateSeq;
+  console.log("postSeq: " + postSeq);
+  console.log("TemplateSeq: " + templateSeq);
 
   const navigate = useNavigate();
   // 에디터 상태(Content 상태)
@@ -109,13 +112,13 @@ const PostEditor = () => {
   }
 
   useEffect(() => {
-    if (postSeq !== null) {
+    if (postSeq !== undefined) {
       // postSeq와 관련된 로직
-      if (postSeq === 0) {
+      if (postSeq === 0) { // postSeq가 0이면 새로운 게시글 등록
         apiGetCategories();
         apiGetTemplateList();
         setShowButton("등록");
-      } else {
+      } else {  // postSeq가 0이 아니면 해당 postSeq 게시글 수정
         apiGetPost();
         apiGetCategories();
         apiGetTemplateList();
@@ -123,15 +126,15 @@ const PostEditor = () => {
       }
     }
   
-    if (templateSeq !== null) {
+    if (templateSeq !== undefined) {
       // templateSeq와 관련된 로직
       if (templateSeq === 0) {
         setTemplateShowState(false);
         setShowButton("등록");
       } else {
+        apiGetTemplate();
         setTemplateShowState(false);
         setShowButton("수정");
-        apiGetTemplate();
       }
     }
   }, [postSeq, templateSeq]);
