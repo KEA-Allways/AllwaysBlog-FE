@@ -6,7 +6,6 @@ import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
 import { useNavigate, Link } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
-import { Link } from 'react-router-dom'; 
 
 const CardsData = [
   {
