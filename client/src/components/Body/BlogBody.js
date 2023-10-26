@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 
 const CardsData = [
-
   {
     src : "/img/Gyeongbokgung.jpg",
     alt : "Gyeongbokgung",
@@ -91,20 +90,31 @@ const CardsData = [
   },
 ]
 
-const BlogBody = () => {
+const itemsPerPage = 3;
 
+const BlogBody = () => {
   const navigate = useNavigate();
+  const [showContent, setShowContent] = useState('카드형');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const editButtonClicked = (postSeq) => {
-    const theme = '현재 페이지 테마'
-    navigate('/post', { state: { postSeq: postSeq, templateSeq: null, theme: theme } });
+    const theme = '현재 페이지 테마';
+    navigate('/post', { state: { postSeq, templateSeq: null, theme } });
   };
-  
 
-  const [showContent, setShowContent] = useState("카드형");
   const handleButtonClick = (content) => {
-    setShowContent(content)
+    setShowContent(content);
   };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Calculate the index range for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const displayedData = CardsData.slice(startIndex, endIndex);
 
   return (
       <Container>
@@ -134,7 +144,7 @@ const BlogBody = () => {
 
           {showContent === "카드형" && (
             <Row xs={1} md={3} className="g-6">
-            {CardsData.map((blg, index) => (
+            {displayedData.map((blg, index) => (
               <Col key={index}>
                 <CardStyle
                   imgUrl={blg.src}
@@ -154,7 +164,7 @@ const BlogBody = () => {
           
           {showContent === "리스트형" && (
             <Row lg="1" xl="1">
-            {CardsData.map((blg, index) => (
+            {displayedData.map((blg, index) => (
               <Col key={index}>
                 <ListStyle
                   title={blg.title}
@@ -174,7 +184,11 @@ const BlogBody = () => {
         
         {/* paging 추가 */}
         <div style={{ display: 'flex', justifyContent: 'center'}}>
-            <Paging />
+          <Paging
+          activePage={currentPage}
+          totalItemsCount={CardsData.length}
+          onPageChange={handlePageChange}
+          itemsPerPage = {itemsPerPage}/>
         </div>
       </Container>
   );
