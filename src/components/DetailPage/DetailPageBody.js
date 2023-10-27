@@ -60,6 +60,7 @@ const  DetailPage=() => {
      
 
     return (
+      <div style={{background : "rgba(255,255,255,0.3)", backdropFilter: "blur(5.5px)" }}>
       <Grid container spacing={1}>
         {/* 빈공간 */}
         <Grid item xs={2}>
@@ -192,7 +193,7 @@ const  DetailPage=() => {
         </Grid>
       </Grid>
              
-            
+      </div>
          
     );
 }
