@@ -89,8 +89,10 @@ const  DetailPage=() => {
         <Grid item xs={2}>
         </Grid>
       </Grid>
+ 
       </div>
             
+ 
          
     );
 }

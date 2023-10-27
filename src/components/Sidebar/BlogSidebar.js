@@ -16,14 +16,14 @@ function BlogSidebar({body}) {
   const [isAddingSubMenu, setIsAddingSubMenu] = useState(false);
   const [selectedParentMenu, setSelectedParentMenu] = useState(null);
   const [showInputBox, setShowInputBox] = useState(false);
-  const [profiles, setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState({});
   const [themeAndLists, setThemeAndLists] = useState([]);
   const [listSeq, setListSeq] = useState(4);
 
   const apiGetProfile = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/1`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
       .then((response) => {
-        setProfiles([response.data.blogName, response.data.email]);
+        setProfiles(response.data);
       })
       .catch((error) => {
         console.error('API GET request error:', error);
@@ -101,6 +101,7 @@ function BlogSidebar({body}) {
     setShowInputBox(true); // Show the input box
   };
 
+
   return (
     <>
       <div className={styles.App}>
@@ -108,17 +109,16 @@ function BlogSidebar({body}) {
         <div className={styles.sidebarContainer}>
           {/* 사이드바 박스 */}
           <div className={styles.sidebar}>
-              
               {/* 프로필 이미지 */}
               <Profile
-                src="/img/usericon.png"
+                src={profiles.profileImg}
               />
-              
               
               {/* 블로그 소개, 이메일 */}
               <ProfileBox>
-                <p className={styles.blogName}>{profiles[0]}</p>
-                <small className={styles.emailName}>{profiles[1]}</small> 
+                <p className={styles.blogName}>{profiles.nickname}의 {profiles.blogName}</p>
+                <small>{profiles.description}</small><br/>
+                <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link> 
               </ProfileBox>
               
               {/* 테마 1 */} 
@@ -194,36 +194,20 @@ function BlogSidebar({body}) {
 
 const ProfileBox = styled.div`
   text-align: center;
-
   padding-bottom: 20px;
-
   margin-bottom: 10px;
-
   width: 100%;
-
-  border-bottom: 1px solid rgba(0,0,0,0.18);
+  border-bottom: 2px solid rgba(0,0,0,0.18);
 `;
 
 const Profile = styled.img`
   border-radius: 50%;
-
   cursor: pointer;
-
   width: 120px;
-
   margin: 60px 10px 30px 10px; 
-
   cursor: pointer;
-
   height: 120px;
-
   transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.1);
-
-    transition: 0.5s;
-  }
 `;
 
 const PlusButton = styled.button`
