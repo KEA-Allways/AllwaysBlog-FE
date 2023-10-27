@@ -83,10 +83,11 @@ function SungjunTopbar() {
                             title={image}
                             id="basic-nav-dropdown" 
                             drop="drop" 
-                            align="end">
-                                <NavDropdown.Item href="/blogs">내 블로그</NavDropdown.Item>
-                                <NavDropdown.Item href="/mngt">계정 설정</NavDropdown.Item>
-                                <NavDropdown.Item onClick={logout}>로그아웃</NavDropdown.Item>
+                            align="end"
+                            className={styles.rightSideContainer} >
+                                <NavDropdown.Item href="/blogs" style={{width: "100px", marginRight: "50px"}} >내 블로그</NavDropdown.Item>
+                                <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>
                         </NavDropdown>
                     ) : <Button variant='dark' onClick={handleButtonClick}>로그인</Button>}
                     </div>
