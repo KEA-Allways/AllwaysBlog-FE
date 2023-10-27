@@ -107,6 +107,7 @@ const BlogSection = styled.div`
   width: 550px;
   height: 700px;
   background: #fff;
+  backdrop-filter: blur(5.5px);
   border: solid;
   border-color: rgba(0, 0, 0, 0);
   box-shadow: 5px rgba(1, 0, 0, 3);
