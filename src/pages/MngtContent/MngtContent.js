@@ -18,7 +18,7 @@ const SmallButton = styled(CommonButton)`
   color:black;
   width: 40px;
   height: 40px;
-  border-color:black;
+  border: 1px solid black;
   font-size: 16px;
   cursor: pointer;
   display: flex;
@@ -59,7 +59,7 @@ const MngtContents = () => {
   }, [currentPage]);
 
   const setRowHideState = (idx, value) => {
-    const updatedHideList = [...hideList];
+    const updatedHideList = [];
     updatedHideList[idx] = value;
     setHideList(updatedHideList);
   };
@@ -78,10 +78,11 @@ const MngtContents = () => {
   };
 
   const HeaderTitle = "글 관리";
+  const HeaderButton = "글쓰기";
 
   return (
     <div>
-      <ManageTopSideBar HeaderTitle={HeaderTitle} Container={
+      <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
         <div>
             <div>
             <TableContainer component={Paper}>
@@ -89,7 +90,7 @@ const MngtContents = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell align="center" sx={{ width: '10%' }}>번호</TableCell>
-                    <TableCell align="center" sx={{ width: '70%' }} colSpan={1}>제목</TableCell>
+                    <TableCell align="center" sx={{ width: '70%' }}>제목</TableCell>
                     <TableCell align="center" sx={{ width: '20%' }}></TableCell>
                   </TableRow>
                 </TableHead>
@@ -97,7 +98,7 @@ const MngtContents = () => {
                   {displayedData.map((row, idx) => (
                     <TableRow
                       key={row.postSeq}
-                      style={{ height: '70px' }}
+                      style={{ height: '80px' }}
                       onMouseEnter={() => mouseOn(idx)}
                       onMouseLeave={() => mouseOff(idx)}
                     >
@@ -106,9 +107,9 @@ const MngtContents = () => {
                         <p style={{ margin: '0' }}>{row.name}</p>
                         <p style={{ margin: '0' }}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="center">
                         {hideList[idx] && (
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
                             <SmallButton>삭제</SmallButton>
                           </div>

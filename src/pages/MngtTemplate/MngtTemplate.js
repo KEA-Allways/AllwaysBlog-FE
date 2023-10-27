@@ -19,7 +19,7 @@ const SmallButton = styled(CommonButton)`
     color:black;
     width: 40px;
     height: 40px;
-    border-color:black;
+    border: 1px solid black;
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -105,7 +105,7 @@ const MngtTemplate = () => {
                                     return (
                                     <TableRow
                                         key={row.templateSeq}
-                                        style={{height:'70px'}}
+                                        style={{height:'80px'}}
                                         onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
                                     >
                                         <TableCell align="center">
