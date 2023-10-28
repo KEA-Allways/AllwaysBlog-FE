@@ -6,6 +6,8 @@ import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
 import { useNavigate, Link } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
+import ViewList from '@mui/icons-material/ViewList';
+import ViewModule from '@mui/icons-material/ViewModule';
 
 const CardsData = [
   {
@@ -94,7 +96,7 @@ const itemsPerPage = 3;
 
 const BlogBody = () => {
   const navigate = useNavigate();
-  const [showContent, setShowContent] = useState('카드형');
+  const [showContent, setShowContent] = useState('gridList');
   const [currentPage, setCurrentPage] = useState(1);
 
   // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
@@ -104,7 +106,7 @@ const BlogBody = () => {
   };
 
   const handleButtonClick = (content) => {
-    setShowContent(content);
+        setShowContent(content);
   };
 
   const handlePageChange = (page) => {
@@ -118,24 +120,24 @@ const BlogBody = () => {
   const displayedData = CardsData.slice(startIndex, endIndex);
 
   return (
-      <Container>
+    <Container>
         <Row className="my-5">
           <Col md={1}>
 
           </Col>
           <Col md={10}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              {showContent === "카드형" && (
+              {showContent === "gridList" && (
                 <div>
-                <img className={styles.buttonStyle} src="/img/selected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-                <img className={styles.buttonStyle} src="/img/unselected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                  <ViewModule fontSize="large" onClick={() => handleButtonClick("gridList")} />
+                  <ViewList fontSize="large" color="disabled" onClick={() => handleButtonClick("lineList")} />
                 </div>
               )}
-              {showContent === "리스트형" && (
+              {showContent === "lineList" && (
                 <div>
-                <img className={styles.buttonStyle} src="/img/unselected-card-style.png" alt="cardStyle" onClick={() => handleButtonClick("카드형")}/>
-                <img className={styles.buttonStyle} src="/img/selected-list-style.png" alt="listStyle" onClick={() => handleButtonClick("리스트형")}/>
+                  <ViewModule fontSize="large" color="disabled" onClick={() => handleButtonClick("gridList")} />
+                  <ViewList fontSize="large" onClick={() => handleButtonClick("lineList")} />
                 </div>
               )}
             </div>
@@ -143,7 +145,7 @@ const BlogBody = () => {
           </div>
           <br></br>
 
-          {showContent === "카드형" && (
+          {showContent === "gridList" && (
             <Row xs={1} md={3} className="g-6">
             {displayedData.map((blg, index) => (
               <Col key={index}>
@@ -164,7 +166,7 @@ const BlogBody = () => {
           </Row>
           )}
           
-          {showContent === "리스트형" && (
+          {showContent === "lineList" && (
             <Row lg="1" xl="1">
             {displayedData.map((blg, index) => (
               <Col key={index}>
@@ -180,10 +182,10 @@ const BlogBody = () => {
             ))}
           </Row>
           )}
-          </Col>
+</Col>
           <Col md={1}>
-          
-          </Col>
+
+</Col>
         </Row>
         
         {/* paging 추가 */}
@@ -194,7 +196,7 @@ const BlogBody = () => {
           onPageChange={handlePageChange}
           itemsPerPage = {itemsPerPage}/>
         </div>
-      </Container>
+    </Container>
   );
 };
 
