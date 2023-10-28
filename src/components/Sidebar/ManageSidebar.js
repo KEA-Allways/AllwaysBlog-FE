@@ -110,7 +110,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                     {HeaderTitle}
                 </h3>
                 {IsHeaderButton && (
-                  <PlusButton variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</PlusButton> 
+                  <CommonButton variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</CommonButton> 
                 )}
                 
             </div>
@@ -163,24 +163,7 @@ const Profile = styled.img`
   }
 `;
 
-const PlusButton = styled(CommonButton)`
-    background-color:white;
-    color:black;
-    width: 122px;
-    height: 40px;
-    border-color:black;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 20px;
 
-    &:hover {
-    color: #fff;
-    background: black;
-    }
-`
 
 
 export default ManageSidebar;

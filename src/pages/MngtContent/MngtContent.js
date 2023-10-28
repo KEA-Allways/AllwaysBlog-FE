@@ -78,7 +78,7 @@ const MngtContents = () => {
   };
 
   const HeaderTitle = "글 관리";
-  const HeaderButton = "글쓰기";
+  const HeaderButton = "";
 
   return (
     <div>
