@@ -7,6 +7,7 @@ import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
@@ -14,11 +15,12 @@ const BlogCreationPage = () => {
   const [response, setResponse] = useState("1");
   const [blogName, setBlogName] = useState("");
   const [description, setDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
   
   const createBtnClicked = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
         blogName: blogName,
-        pasdescriptionsword: description,
+        paswordDescriptions: description,
       })
       .then((response) => {
         //setResponse(response);
@@ -82,10 +84,14 @@ const BlogCreationPage = () => {
           <Line />
 
           <BtnsContainer>
-            <CreationBtn onClick={createBtnClicked}>블로그 생성</CreationBtn>
+            <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn>
           </BtnsContainer>
         </BlogSection>
       </Container>
+      <ThumbnailModal
+        showModal={showModal}
+        onClose={() => setShowModal(false)} 
+      />
     </>
   );
 };
