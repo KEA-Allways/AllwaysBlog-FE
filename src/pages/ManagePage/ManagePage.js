@@ -110,7 +110,6 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImg(reader.result);
-        alert(reader.result);
       }
     };
 
