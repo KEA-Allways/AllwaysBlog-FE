@@ -1,5 +1,6 @@
 import {Col, Container, Row} from 'react-bootstrap';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
@@ -16,7 +17,8 @@ const CardsData = [
     title : "경복궁",
     subtitle : "경복궁 나들이",
     userIcon : "/img/usericon.png",
-    nickname : "김성준"
+    nickname : "김성준",
+    postDate : "2023-10-29"
   },
   {
     src : "/img/busan.jpg",
@@ -98,6 +100,7 @@ const BlogBody = () => {
   const navigate = useNavigate();
   const [showContent, setShowContent] = useState('gridList');
   const [currentPage, setCurrentPage] = useState(1);
+  const [list, setLists] = useState([]);
 
   // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
@@ -112,6 +115,22 @@ const BlogBody = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const apiGetPosts = (page, itemsPerPage) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/posts/main`)
+      .then((response) => {
+        setLists(response.data.posts);
+        console.log(list)
+      })
+      .catch((error) => {
+        console.error('API GET request error:', error);
+      });
+  };
+
+  useEffect(() => {
+    //apiGetPosts(currentPage);
+  }, [currentPage]);
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -159,7 +178,7 @@ const BlogBody = () => {
                   usericon={blg.userIcon}
                   nickname={blg.nickname}
                   opacityValue="80%"
-                  date={blg.date}/>
+                  date={blg.postDate}/>
                 </Link>
               </Col>
             ))}
@@ -167,25 +186,29 @@ const BlogBody = () => {
           )}
           
           {showContent === "lineList" && (
-            <Row lg="1" xl="1">
+            <Row lg="1" xl="1" className="g-6">
             {displayedData.map((blg, index) => (
               <Col key={index}>
                 <Link to={`/post/${blg.title}?imgUrl=${blg.src}`}>
                   <ListStyle
+                    imgUrl={blg.src}
+                    imgHeight="180px"
+                    imgWidth="200px"
                     title={blg.title}
                     subtitle={blg.subtitle}
                     usericon={blg.userIcon}
                     nickname={blg.nickname}
-                  />
+                    opacityValue="80%"
+                    date={blg.postDate}/>
                 </Link>
               </Col>
             ))}
           </Row>
           )}
-</Col>
+          </Col>
           <Col md={1}>
 
-</Col>
+          </Col>
         </Row>
         
         {/* paging 추가 */}
