@@ -121,7 +121,7 @@ const SignUpPage = () => {
                 }}
               />
 
-              <EmailBtn>인증하기</EmailBtn>
+              {/* <EmailBtn>인증하기</EmailBtn> */}
             </TextInputContainer>
             
             <SignUpText>아이디</SignUpText>
