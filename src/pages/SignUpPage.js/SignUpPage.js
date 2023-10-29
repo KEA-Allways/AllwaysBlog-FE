@@ -16,14 +16,10 @@ const SignUpPage = () => {
 
   const [file, setFile] = useState("");
 
-  // const [profileImage, setProfileImage] = useState(
-  //   "/img/usericon.png"
-  // );
-
   const [response, setResponse] = useState("");
 
   const [form,setForm] = useState({
-    profileImage: "/img/usericon.png",
+    profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     userId: '',
     email: '',
     nickname: '',
@@ -31,12 +27,6 @@ const SignUpPage = () => {
     repeatPassword: ''
 
   });
-
-  // const [userId, setUserId] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [nickname, setNickname] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [repeatPassword, setRepeatPassword] = useState("");
 
   const [isShowPw, setShowPwState] = useState(false);
   
@@ -79,7 +69,7 @@ const SignUpPage = () => {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setForm({...form, profileImage :  "/img/usericon.png"}
+      setForm({...form, profileImage :  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
       );
       return;
     }
@@ -287,7 +277,6 @@ const Profile = styled.img`
 
   &:hover {
     transform: scale(1.1);
-
     transition: 0.5s;
   }
 `;
