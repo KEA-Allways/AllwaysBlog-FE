@@ -98,9 +98,7 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setProfileImg(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
+      
       return;
     }
 
