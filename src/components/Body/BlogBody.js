@@ -100,7 +100,8 @@ const BlogBody = () => {
   const navigate = useNavigate();
   const [showContent, setShowContent] = useState('gridList');
   const [currentPage, setCurrentPage] = useState(1);
-  
+  const [list, setLists] = useState([]);
+
   // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
     const theme = '현재 페이지 테마';
@@ -114,6 +115,22 @@ const BlogBody = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const apiGetPosts = (page, itemsPerPage) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/posts/main`)
+      .then((response) => {
+        setLists(response.data.posts);
+        console.log(list)
+      })
+      .catch((error) => {
+        console.error('API GET request error:', error);
+      });
+  };
+
+  useEffect(() => {
+    //apiGetPosts(currentPage);
+  }, [currentPage]);
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
