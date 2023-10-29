@@ -361,7 +361,8 @@ const Icon = styled.div`
   position: absolute;
   top: 7px;
   bottom: 0px;
-  left: 64%;
+  /* left: 64%; */
+  left : 85%;
   height: 20px;
   cursor: pointer;
 `;
