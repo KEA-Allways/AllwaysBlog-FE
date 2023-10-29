@@ -1,6 +1,6 @@
 import {create} from "zustand";
 
-const loginStore = create(set =>({
+export const loginStore = create(set =>({
     userId : "",
     password : "",
     isLogin : false,
@@ -16,4 +16,9 @@ const loginStore = create(set =>({
     setUser : (user) => set({user}),
 }))
 
-export default loginStore;
+export const themeListStore = create(set =>({
+    themeSeq : 0,
+    themeNames : [],
+    setThemeNames : (themeName) => set({ themeNames : themeName}),
+    addTheme: (newTheme) => set((state) => ({ themeNames: [...state.themeNames, newTheme] })),
+}))
