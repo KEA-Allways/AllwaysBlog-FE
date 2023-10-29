@@ -39,14 +39,14 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, 
             </Typography>
             
             </CardContent>
-            <CardActions sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>
+            <CardActions className={styles.cardDetail} sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>
               <div>
               <IconButton aria-label="user-icon" width="20px" height="10px" >
                 <AccountCircleIcon />
               </IconButton>
               {nickname}
               </div>
-              <div style={{textAlign : "right", fontSize : "12px"}}>
+              <div style={{textAlign : "right", fontSize : "12px", marginRight: "20px"}}>
                 {date}
               </div>
                

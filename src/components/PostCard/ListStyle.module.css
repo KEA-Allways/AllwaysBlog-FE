@@ -1,11 +1,18 @@
 .listStyle {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.5s ease;
+    border-radius: 10px;
     margin-bottom: 10px;
+    opacity: 80%;
 }
 
 .listStyle:hover {
     transition: all 0.5s ease;
     border-radius: 10px;
     box-shadow: -1px 10px 20px 0px rgba(0,0,0,0.4);
+    opacity: 100%;
+}
+
+.cardDetail {
+    font-family: "YeongdeokBlueroad";
 }
