@@ -4,6 +4,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { CommonColorButton } from '../../common';
 
 const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
@@ -268,29 +269,10 @@ const BtnsContainer = styled.div`
   height: 48px;
 `;
 
-const Btn = styled.div`
+const Btn = styled(CommonColorButton)`
   width: 170px;
   height: 48px;
-  line-height: 48px;
-  background: #00b4ef;
-  border: 1px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  color: white;
-  justify-content: center;
   text-align: center;
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-  &:hover {
-    transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
-    transition: 0.5s;
-  }
 `;
 
 const ProfileUpload = styled.input`
@@ -373,27 +355,15 @@ const Line = styled.hr`
   width: 335px;
 `;
 
-const DeleteBtn = styled.div`
+const DeleteBtn = styled(CommonColorButton)`
   width: 170px;
   height: 48px;
-  line-height: 48px;
-  background: #ec5353;
-  border: 1px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  color: white;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer;
-
-  transition: all 0.5s ease;
+  background: rgba(236, 83, 83);
+  margin-right: 0px;
+  
   &:hover {
     transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
+    background: rgba(216, 63, 63);
     transition: 0.5s;
   }
 `;

@@ -70,12 +70,16 @@ h3 {
 }
 
 .active {
-    color : red;
-    border-left: 3px solid red;
+    color : white;
+    border-left: 6px solid white;
+}
+
+.categoryActive {
+    color : white;
+    border-left: 4px solid white;
 }
 
 .themeText {
-    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 18px;
     display: block;
     margin : 10px 0;
@@ -84,16 +88,18 @@ h3 {
 }
 
 .themeText:hover {
-    color :red;
+    color :white;
 }
 
 .categoryText {
-    font-family: Georgia, 'Times New Roman', Times, serif;
     display: block;
     padding-left: 20px;
 }
 
 .categoryText:hover {
-    color : red;
+    color : white;
 }
 
+.emailName {
+    text-decoration: underline;
+}

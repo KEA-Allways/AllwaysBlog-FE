@@ -4,12 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import TextStyles from "../../components/Text.module.css";
 import { CommonButton } from '../../common';
 import styles from "./Sidebar.module.css";
+import axios from "axios";
 
 
 
 function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}) {
   const pathName = useLocation().pathname;
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
+  const [profiles, setProfiles] = useState({});
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton != ""){
@@ -17,41 +19,25 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
     }
   }, []);
 
-
-  const fileInput = useRef(null);
-  const [file, setFile] = useState("");
-  const [profileImage, setProfileImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-
-  const selectFile = (e) => {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-    } else {
-      //업로드 취소할 시
-      setProfileImage(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
-      return;
-    }
-
-    const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setProfileImage(reader.result);
-          alert(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    };
-
     const headerButtonClicked = () => {
       if (HeaderAction) {
         HeaderAction();
       }
     };
+
+    const apiGetProfile = () => {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
+        .then((response) => {
+          setProfiles(response.data);
+        })
+        .catch((error) => {
+          console.error('API GET request error:', error);
+        });
+    };
   
+    useEffect(() =>{
+      apiGetProfile();
+    },[])
 
     return (
       <>
@@ -60,33 +46,25 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
           <div className={styles.sidebarContainer}>
             {/* 사이드바 박스 */}
             <div className={styles.sidebar}>
-                
+              {console.log(profiles)}
                 {/* 프로필 이미지 */}
                 <Profile
-                  src={profileImage}
-                  onClick={() => {
-                    fileInput.current.click();
-                  }}
+                  src={profiles.profileImg}
                 />
-                <ProfileUpload
-                  type="file"
-                  accept="image/*"
-                  name="profile_img"
-                  onChange={selectFile}
-                  ref={fileInput}
-                />
+               
                 
                 {/* 블로그 소개, 이메일 */}
                 <ProfileBox>
-                  <p className={styles.blogName}>우당탕탕 블로그</p>
-                  <small className={styles.emailName}>testEmail</small> 
+                  <p className={styles.blogName}>{profiles.nickname}의 {profiles.blogName}</p>
+                  <small>{profiles.description}</small><br/>
+                  <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link> 
                 </ProfileBox>
                 
                 {/* 사이드바 메뉴 */} 
                 <div className={styles.groups}>
                   <div className={styles.group}>
                     {/* 각 메뉴들 */}
-                    <ul style={{ width: "100%", height: "auto" }}>
+                    <ul style={{ width: "100%", height: "auto", marginLeft : "20px"}}>
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt`}
@@ -118,16 +96,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                         >
                           템플릿 관리
                         </Link>
-                      </li>
-                      <li style={{width : "100%"}}>
-                        <Link
-                          to={`/mngt/static`}
-                          className={`/mngt/static` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
-                        >
-                          통계
-                        </Link>
-                      </li>
-                                        
+                      </li>             
                     </ul>
                   </div>
                 </div> 
@@ -135,7 +104,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
             
           </div> {/*사이드바 컨테이너 끝 */}
           {/* 바디 컨테이너 시작 */}
-          <div className={styles.bodyContainer} style={{ marginRight: "50px", marginLeft: "50px", marginTop: "30px"}}>
+          <div className={styles.bodyContainer} style={{ marginRight: "160px", marginLeft: "150px", marginTop: "30px"}}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h3 className={TextStyles.h3}>
                     {HeaderTitle}
@@ -168,10 +137,6 @@ const ProfileBox = styled.div`
   width: 100%;
 
   border-bottom: 1px solid rgba(0,0,0,0.18);
-`;
-
-const ProfileUpload = styled.input`
-  display: none;
 `;
 
 const Profile = styled.img`

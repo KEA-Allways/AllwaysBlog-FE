@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
 import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import { CommonColorButton } from '../../common';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SignUpPage = () => {
   const [file, setFile] = useState("");
 
   const [profileImage, setProfileImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    "/img/usericon.png"
   );
 
   const [response, setResponse] = useState("");
@@ -45,7 +46,6 @@ const SignUpPage = () => {
         }
       )
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           Swal.fire({
             title: "회원가입 성공!",
@@ -69,7 +69,7 @@ const SignUpPage = () => {
     } else {
       //업로드 취소할 시
       setProfileImage(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+        "/img/usericon.png"
       );
       return;
     }
@@ -80,7 +80,6 @@ const SignUpPage = () => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImage(reader.result);
-        alert(reader.result);
       }
     };
 
@@ -124,7 +123,6 @@ const SignUpPage = () => {
 
               <EmailBtn>인증하기</EmailBtn>
             </TextInputContainer>
-
             
             <SignUpText>아이디</SignUpText>
             <TextInputContainer>
@@ -346,88 +344,22 @@ const Input = styled.input`
   }
 `;
 
-const EmailBtn = styled.div`
+const EmailBtn = styled(CommonColorButton)`
   width: 100px;
-
   height: 38px;
-
   margin-left: 15px;
-
+  margin-right: 0px;
   line-height: 38px;
-
-  background: #00b4ef;
-
-  border: 1px solid #dadada;
-
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
-  border-radius: 15px;
-
-  font-style: normal;
-
-  font-weight: 400;
-
   font-size: 14px;
-
-  color: white;
-
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.05);
-
-    background: cornflowerblue;
-
-    transition: 0.5s;
-  }
 `;
 
-const SignUpBtn = styled.div`
-
-
-
+const SignUpBtn = styled(CommonColorButton)`
   text-align: center;
-
-  width: 156px;
-
-  height: 48px;
-
-  line-height: 48px;
-
-  background: #00b4ef;
-
-  border: 1px solid #dadada;
-
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
-  border-radius: 15px;
-
-  font-style: normal;
-
-  font-weight: 400;
-
-  font-size: 18px;
-
-  color: white;
-
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.05);
-
-    background: cornflowerblue;
-
-    transition: 0.5s;
-  }
 `;
 
 const Icon = styled.div`
   position: absolute;
-  top: 11px;
+  top: 7px;
   bottom: 0px;
   left: 64%;
   height: 20px;

@@ -4,7 +4,7 @@ import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 
 const CardsData = [
@@ -97,9 +97,10 @@ const BlogBody = () => {
   const [showContent, setShowContent] = useState('카드형');
   const [currentPage, setCurrentPage] = useState(1);
 
+  // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
     const theme = '현재 페이지 테마';
-    navigate('/post', { state: { postSeq, templateSeq: null, theme } });
+    navigate('/post', { state: { postSeq: postSeq, templateSeq: undefined, theme } });
   };
 
   const handleButtonClick = (content) => {
@@ -146,6 +147,7 @@ const BlogBody = () => {
             <Row xs={1} md={3} className="g-6">
             {displayedData.map((blg, index) => (
               <Col key={index}>
+                <Link to={`/post/${blg.title}?imgUrl=${blg.src}`}>
                 <CardStyle
                   imgUrl={blg.src}
                   imgHeight="180px"
@@ -155,8 +157,8 @@ const BlogBody = () => {
                   usericon={blg.userIcon}
                   nickname={blg.nickname}
                   opacityValue="80%"
-
-                />
+                  date={blg.date}/>
+                </Link>
               </Col>
             ))}
           </Row>
@@ -166,12 +168,14 @@ const BlogBody = () => {
             <Row lg="1" xl="1">
             {displayedData.map((blg, index) => (
               <Col key={index}>
-                <ListStyle
-                  title={blg.title}
-                  subtitle={blg.subtitle}
-                  usericon={blg.userIcon}
-                  nickname={blg.nickname}
-                />
+                <Link to={`/post/${blg.title}?imgUrl=${blg.src}`}>
+                  <ListStyle
+                    title={blg.title}
+                    subtitle={blg.subtitle}
+                    usericon={blg.userIcon}
+                    nickname={blg.nickname}
+                  />
+                </Link>
               </Col>
             ))}
           </Row>
