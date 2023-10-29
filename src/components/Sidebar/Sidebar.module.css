@@ -69,6 +69,12 @@ h3 {
     margin: 0;
 }
 
+.mngtActive {
+    color : black;
+    font-weight: bold;
+    border-left: 6px solid black;
+}
+
 .active {
     color : white;
     border-left: 6px solid white;
@@ -84,6 +90,18 @@ h3 {
     display: block;
     margin : 10px 0;
     padding-left: 10px;
+    font-weight: bold;
+}
+
+.mngtText {
+    font-size: 18px;
+    display: block;
+    margin : 10px 0;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+.mngtText:hover {
     font-weight: bold;
 }
 

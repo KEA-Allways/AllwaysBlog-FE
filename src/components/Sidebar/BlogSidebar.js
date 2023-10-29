@@ -157,7 +157,7 @@ function BlogSidebar({body}) {
                                 <form>
                                   <Input
                                   type="text"
-                                  style={{width : "60%"}}
+                                  style={{width : "50%", marginLeft : "18px"}}
                                   placeholder="하위 메뉴 이름"
                                   value={newMenuItemName}
                                   autoFocus
@@ -168,7 +168,7 @@ function BlogSidebar({body}) {
                                 </form>
                                 
                               ) : (
-                                <PlusButton onClick={() => handleAddSubMenu(tal.themeName)}>+</PlusButton> 
+                                <PlusButton style={{marginLeft : "40px"}} onClick={() => handleAddSubMenu(tal.themeName)}>+</PlusButton> 
                               )}
                   
                             </li>

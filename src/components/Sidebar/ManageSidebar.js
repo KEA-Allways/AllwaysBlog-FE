@@ -68,7 +68,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt`}
-                          className={`/mngt` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
+                          className={`/mngt` === pathName ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
                         >
                           블로그 관리 홈
                         </Link>
@@ -76,7 +76,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt/content`}
-                          className={`/mngt/content` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
+                          className={`/mngt/content` === pathName ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
                         >
                           글 관리
                         </Link>
@@ -84,7 +84,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt/theme`}
-                          className={`/mngt/theme` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
+                          className={`/mngt/theme` === pathName ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
                         >
                           테마 관리
                         </Link>
@@ -92,7 +92,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt/template`}
-                          className={`/mngt/template` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
+                          className={`/mngt/template` === pathName ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
                         >
                           템플릿 관리
                         </Link>

@@ -5,7 +5,7 @@ import { TextField ,Typography,Divider,Button,List,ListItem
 ,ListItemAvatar,Avatar,ListItemText} from '@mui/material';
 import { CommonButton } from '../../common';
 import axios from "axios";
- 
+import styles from "./DetailPageBody.module.css";
 
 import ReactMarkdown from 'react-markdown'
 const apiUrl=`${process.env.REACT_APP_API_URL}/api/posts/post_id/replys`
@@ -60,23 +60,25 @@ const  DetailPage=() => {
      
 
     return (
-      <div style={{background : "rgba(255,255,255,0.3)", backdropFilter: "blur(5.5px)" }}>
+      <div>
       <Grid container spacing={1}>
         {/* 빈공간 */}
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
-        <Grid item xs={8}>
-          {/* 썸네일 보여주기 */}
+        <Grid item xs={10}>
+        {/* 썸네일 보여주기 */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '100px', marginRight:"100px" }}>
           <img src={imgUrl} alt="상세 이미지" style={{ width: '700px', height: '500px', borderRadius: '15px' }} />
         </div>
-        <div style={{marginTop:"50px"}}>
+        <div style={{marginTop:"50px", backgroundColor : "white", padding : "20px 0", textAlign : "center"}}>
            <h1>{title}</h1>
            {/* 날짜 수정 삭제  */}
-           <div  >
+           <div style={{alignItems : "end"}}>
              2023-10-22 
-             <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}} >수정 </CommonButton> 
-             <CommonButton style={{width:"20px", height:"30px",marginLeft:"10px"}}>삭제</CommonButton>
+             <div>
+              <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}}>수정 </CommonButton> 
+              <CommonButton style={{width:"20px", height:"30px",marginLeft:"10px"}}>삭제</CommonButton>
+             </div>
            </div>
            <hr/>
            {/* 메인 내용 보여주기  */}
@@ -189,7 +191,7 @@ const  DetailPage=() => {
         </Grid>
 
         {/* 빈공간 */}
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
       </Grid>
              
