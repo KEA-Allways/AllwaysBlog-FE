@@ -272,7 +272,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
             <Row className="contents">
                
                 <header style={{background:"#f4f4f4", textAlign:"center"}}>
-                  <h1 style={{fontFamily: 'YeongdeokBlueroad',color:"black"}}>썸네일 생성기</h1>
+                  <h1 style={{fontFamily: 'YeongdeokBlueroad',color:"black"}}>테마 생성기</h1>
                 </header>
                 {/* preview 에 배경단색 설정과 배경 이미지 설정  ref를 통해서 dom에 접근할수 있다.*/}
                  
