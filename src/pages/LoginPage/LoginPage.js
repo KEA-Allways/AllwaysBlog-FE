@@ -7,7 +7,7 @@ import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-import loginStore from "../../store/store";
+import {loginStore} from "../../store/store";
 import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
 import { CommonColorButton } from '../../common';
 
@@ -35,7 +35,7 @@ const LoginPage = () => {
       },
     }).then((result) => {
       if (result.status === 200) {
-        navigate("/");
+        window.open('/', '_self')
       }
     })
     .catch((err) => {

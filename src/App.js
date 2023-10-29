@@ -15,7 +15,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import axios from "axios";
 import { useEffect } from "react";
-import loginStore from "./store/store";
+import {loginStore} from "./store/store";
 
 const theme = createTheme({
   typography : {

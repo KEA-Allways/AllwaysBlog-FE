@@ -6,7 +6,7 @@ export const CommonButton = styled(Button)`
     color:white;
     width: 122px;
     height: 40px;
-    // border: 1px solid black;
+    border : none;
     font-size: 16px;
     cursor: pointer;
     display: flex;

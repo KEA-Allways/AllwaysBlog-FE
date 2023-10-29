@@ -68,10 +68,10 @@ const  DetailPage=() => {
      
 
     return (
-      <div style={{background : "rgba(255,255,255,0.3)", backdropFilter: "blur(5.5px)" }}>
+      <div>
       <Grid container spacing={1}>
         {/* 빈공간 */}
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
         <Grid item xs={8}>
           {/* 썸네일 과 본문 보여주기  */}
@@ -86,14 +86,12 @@ const  DetailPage=() => {
         </Grid>
 
         {/* 빈공간 */}
-        <Grid item xs={2}>
+        <Grid item xs={1}>
         </Grid>
       </Grid>
  
       </div>
             
- 
-         
     );
 }
 
