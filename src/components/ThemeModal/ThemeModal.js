@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./ThemeModal.css";
 import html2canvas from "html2canvas";
 import {CommonButton }from "../../common";
+import { CommonColorButton } from "../../common";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
@@ -16,33 +17,36 @@ import '../../index.css';
 
 
 const ModalButton = styled(CommonButton)`
-  background-color: #f4f4f4;
-  
-  color: #666666;
-  width: 192px;
-  height: 40px;
+   
+  width: 226px;
+  height: 70px;
   font-size: 16px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    color: #fff;
+  margin-right:0px;
+
+  &:hover{
+    color: white;
+      background: white;
+       
+       
     }
+   
 `
 
-const ResetButton = styled(ModalButton)`
-&:hover {
-      background-color: red;
-      color:white
-    }
-`
 
-const SuccessButton = styled(ModalButton)`
+
+ 
+
+const SuccessButton = styled(CommonColorButton)`
+
+    font-size:14px;
+
+    width:120px;
 
     &:hover{
-      background-color: green;
-      color:white
+      transform: scale(1.02);
+        background: rgba(0,170,234);
+        transition: 0.5s;
     }
 `
 
@@ -239,12 +243,12 @@ const ThemeModal = ({ showModal, onClose} ) => {
             <Row className="contents">
                
             <header style={{  display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h2 style={{ fontFamily: 'YeongdeokBlueroad', color: "black", textAlign: "center", marginLeft: "350px" }}>테마 이미지 생성기</h2>
+              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "350px",marginTop:"5px" }}>테마 이미지 생성기</h3>
               <div style={{ textAlign: "right" }}>
                 <SuccessButton
                   className="modal__sucess__btn me-3"
                   id="export"
-                  style={{width:"150px"  }}
+                   
                   onClick={handleExport}
                 >
                   완료 및 이미지화
@@ -273,8 +277,8 @@ const ThemeModal = ({ showModal, onClose} ) => {
                     <AutorenewOutlinedIcon
                       className="modal__init__btn"
                       id="initialize"
-                      style={{ height: "60px",
-                          width:"60px"
+                      style={{ height: "40px",
+                          width:"40px"
                        }}
                       onClick={handleReset}
                       sx={{color:"white"}}
@@ -282,27 +286,31 @@ const ThemeModal = ({ showModal, onClose} ) => {
                       초기화
                     </AutorenewOutlinedIcon>
                 </div>
-                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" ,marginTop:"15px"}}>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center" ,
+                marginTop:"15px"}}>
                    
-                    <ButtonGroup >
+                    <ButtonGroup sx={{marginLeft:"5px"}} >
                     <ModalButton
-                      className="btn random__solid  "
+                      className="btn random__solid "
                       onClick={handleRandomColorClick}
-                      style={{ width: '220px', height: '65px' }}
+                      style={{backgroundColor:"#6699CC"}}
+                       
                     >
                       랜덤 단색
                     </ModalButton>
                     <ModalButton
                       className="btn img__url  "
                       onClick={handleImageModal}
-                      style={{ width: '220px', height: '65px', marginLeft:"5px" }}
+                      style={{backgroundColor:"#7EB77F"}}
+                       
                     >
                       이미지 URL
                     </ModalButton>
                     <ModalButton
                       className="btn karlo_api"
                       onClick={handleKarloImage}
-                      style={{ width: '220px', height: '65px' ,marginLeft:"5px"}}
+                      style={{backgroundColor:"#FF8C42"}}
+                       
                     >
                       칼로 API
                     </ModalButton>
