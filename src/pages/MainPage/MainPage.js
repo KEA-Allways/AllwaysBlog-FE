@@ -4,7 +4,7 @@ import Grid from "../../components/Grid/Grid";
 import Footer from "../../components/Footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "@emotion/styled";
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import Topbar from "../../components/Topbar/Topbar";
 
 const MainPage = ({isLogin}) => {
 
@@ -24,7 +24,7 @@ const MainPage = ({isLogin}) => {
     
     return (
         <Layout>
-            <SungjunTopbar />
+            <Topbar />
                 
             <Banner />
             

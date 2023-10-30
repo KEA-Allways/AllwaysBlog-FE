@@ -4,11 +4,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import classnames from "classnames"
 import styles from "./Topbar.module.css"
+import styled from "@emotion/styled";
 import axios from "axios";
 import { loginStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
+import { CommonButton } from "../../common";
 
-function SungjunTopbar() {
+function Topbar() {
     const image = <img src='/img/usericon.png' width="50px" height="50px" />
 
     const {isLogin, hasBlog, username} = loginStore(state => state);
@@ -83,7 +85,7 @@ function SungjunTopbar() {
                                 <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>
                         </NavDropdown>
-                    ) : <Button variant='dark' onClick={handleButtonClick}>로그인</Button>}
+                    ) : <LoginButton onClick={handleButtonClick}>로그인</LoginButton>}
                     </div>
                 )}
             </Navbar>
@@ -91,4 +93,13 @@ function SungjunTopbar() {
     );
 }
 
-export default SungjunTopbar;
+const LoginButton = styled(CommonButton)`
+    padding : 3px;
+    height : 53px;
+    &:hover {
+        background : black;
+        color : white;
+    }
+`
+
+export default Topbar;

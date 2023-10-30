@@ -6,7 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
 
 const SignUpPage = () => {
@@ -88,7 +88,7 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SungjunTopbar />
+      <Topbar />
       
       <Container>
         <SignUpSection>
