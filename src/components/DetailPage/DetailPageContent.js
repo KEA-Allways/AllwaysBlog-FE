@@ -1,24 +1,25 @@
 import React from "react";
 import { CommonButton } from "../../common";
+import styles from "./DetailPageBody.module.css";
 
 
 const DetailPageContent =({title,imgUrl})=> {
     return (
         <div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '100px', marginRight:"100px" }}>
-        <img src={imgUrl} alt="상세 이미지" style={{ width: '700px', height: '500px', borderRadius: '15px'}} />
-      </div>
-      <div style={{marginTop:"50px", backgroundColor:"white"}}>
-         <h1>{title}</h1>
-         {/* 날짜 수정 삭제  */}
-         <div style={{ display: 'flex',   alignItems: 'center' }}>
-           2023-10-22 
-           <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}} >수정 </CommonButton> 
-           <CommonButton style={{width:"20px", height:"30px",marginLeft:"5px"}}>삭제</CommonButton>
-         </div>
-         <hr/>
-         {/* 메인 내용 보여주기  */}
-         <div>
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+            <img src={imgUrl} alt="게시글 썸네일" style={{ borderRadius: '15px', maxWidth: '600px', maxHeight: '600px'}} />
+          </div>
+          <div className={styles.contentBox}>
+          <h1>{title}</h1>
+          {/* 날짜 수정 삭제  */}
+          <div style={{ display: 'flex',   alignItems: 'center' }}>
+            2023-10-22 
+            <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}} >수정 </CommonButton> 
+            <CommonButton style={{width:"20px", height:"30px",marginLeft:"5px"}}>삭제</CommonButton>
+          </div>
+          <hr/>
+          {/* 메인 내용 보여주기  */}
+          <div>
          <h1>친구와 부산여행 다녀온 후기 공유해요!ㅎㅎㅎ</h1>
           <p>2019년 1월 초에 다녀와서 벌써 부산을 다녀온지 10개월이 다 되어가네요 ㅠ..ㅠ</p>
           <p>코로나로 인해 여행을 자제하다 보니..</p>
@@ -35,7 +36,10 @@ const DetailPageContent =({title,imgUrl})=> {
           <p>포장마차라서 안주가 저렴할 줄 알았는데 생각보다 엄청 싸진 않았어요 ㅠ..ㅠ</p>
           <p>그래도 부산에 왔으니 해산물과 대선소주 마시며 여행을 시작했어요 ㅎㅎㅎㅎㅎㅎㅎㅎ</p>
 
-          <img src="/img/detailPage1.jpg" alt="꼬막과 꼼장어 이미지"/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/img/detailPage1.jpg" alt="꼬막과 꼼장어 이미지" width={'100%'}/>
+          </div>
+          
           <p>꼬막과 꼼장어 (냉동꼼장어예요..ㅠ..ㅠ)</p>
 
           <h2>[2일차] 쌍둥이국밥 >> 해운대 >> 용궁사 >> 남포동 자갈치시장</h2>
@@ -50,12 +54,21 @@ const DetailPageContent =({title,imgUrl})=> {
           <p>그리고 2일차의 마지막은 숙소가 있는 남포동 자갈치시장으로 와서 꼼장어를 먹으려고 했으나..</p>
           <p>꼼장어가 진짜 많이 비싸더라구요ㅠ..ㅠ 관광지라 그런건지… 너무 비싸서 친구랑 조개구이 먹고 마무리했어요(조개구이도 비싸요)</p>
           <p>갠적으로 자찰치 시장.. 가격대가 비싸서 그냐 서울 맛있는 집에서 먹는게 좋을 거 같다고 생각했어요  ㅎㅎㅎㅎㅎㅎㅎ</p>
-          <img src="/img/detailpage2.jpg" alt="국밥"/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/img/detailpage2.jpg" alt="국밥" width={'100%'}/>
+          </div>
+          
           
           <p>쌍둥이 국밥.. (친구는 돼지고기 냄새 난다고 잘 못먹더라규요 ㅠ..ㅠ)</p>
-          <img src="/img/detailpage3.jpg" alt="해운대"/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/img/detailpage3.jpg" alt="해운대" width={'100%'}/>
+          </div>
+          
           <p>해운대</p>
-          <img src="/img/detailpage4.jpg" alt="용궁사"/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/img/detailpage4.jpg" alt="용궁사" width={'100%'}/>
+          </div>
+          
           <p>용궁사</p>
           <p>자갈치시장 조개구이(중 짜리인데도 양도 많지 않고 비싸요ㅠ..ㅠ)</p>
 
@@ -68,7 +81,9 @@ const DetailPageContent =({title,imgUrl})=> {
           <p>기장손칼국수를 먹었어요 ㅎㅎㅎㅎㅎ 배가 고프지 않아서 손칼국수만 먹었는데 대박</p>
           <p>가격이 5000원! 진한 멸치육수의 맛에 칼국수가 진짜 맛있었어요ㅎㅎㅎㅎㅎ</p>
           <p>이렇게 배를 든든히 채우고.. 여행을 마무리하고 집으로 돌아갔어요!</p>
-          <img src="/img/detailpage5.jpg" alt="떡뽁이" width={800} height={600}/>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/img/detailpage5.jpg" alt="떡뽁이" width={800} height={600}/>
+          </div>
           <p>BIFF 길거리 떡볶이</p>
 
           <p>부산에만 있는 특별한 것들을 먹으려고 했는데</p>
