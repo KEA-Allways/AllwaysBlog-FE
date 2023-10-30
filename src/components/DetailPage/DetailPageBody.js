@@ -54,10 +54,13 @@ const  DetailPage=() => {
       try {
         const response = await axios.get(apiUrl);
         setComments(response.data.replys);
+
+  
       } catch (error) {
         console.error('API GET request error:', error);
       }
     };
+
 
     
     useEffect(() => {
