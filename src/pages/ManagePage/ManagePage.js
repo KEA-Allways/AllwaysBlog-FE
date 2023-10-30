@@ -4,7 +4,7 @@ import { Box, Container, Grid } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { CommonColorButton } from '../../common';
+import { CommonColorButton, CommonDeleteButton } from '../../common';
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
 
@@ -369,17 +369,11 @@ const Line = styled.hr`
   width: 335px;
 `;
 
-const DeleteBtn = styled(CommonColorButton)`
+const DeleteBtn = styled(CommonDeleteButton)`
   width: 170px;
   height: 48px;
-  background: rgba(236, 83, 83);
   margin-right: 0px;
   
-  &:hover {
-    transform: scale(1.05);
-    background: rgba(216, 63, 63);
-    transition: 0.5s;
-  }
 `;
 
 const Icon = styled.div`

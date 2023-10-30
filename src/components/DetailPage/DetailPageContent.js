@@ -1,31 +1,65 @@
-import React from "react";
-import { CommonButton } from "../../common";
+import React, { useEffect, useState } from "react";
+import { CommonColorButton, CommonDeleteButton } from "../../common";
+import styled from "@emotion/styled";
 import styles from "./DetailPageBody.module.css";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
+const DetailPageContent =( postSeq )=> {
+  const [post, setPost] = useState({});
+  const navigate = useNavigate();
 
-const DetailPageContent =({title,imgUrl})=> {
+  const editButtonClicked = (postSeq) => {
+    const theme = '선택된 테마';
+    navigate('/post', { state: { postSeq: postSeq, themplateSeq: undefined, theme: theme } });
+  };
+
+  const apiGetPost = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/posts/1`)
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        console.error('API GET request error: ', error);
+      });
+  };
+
+  useEffect(() => {
+    apiGetPost();
+  },[postSeq]);
     return (
         <div>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-            <img src={imgUrl} alt="게시글 썸네일" style={{ borderRadius: '15px', maxWidth: '600px', maxHeight: '600px'}} />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className={styled.thumbImgBox}>
+              <img src={post.thumbImg} alt="게시글 썸네일" style={{ borderRadius: '15px', width: '100%', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)' }} />
+            </div>
           </div>
           <div className={styles.contentBox}>
-          <h1>{title}</h1>
+          <h1>{post.title}</h1>
           {/* 날짜 수정 삭제  */}
-          <div style={{ display: 'flex',   alignItems: 'center' }}>
-            2023-10-22 
-            <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}} >수정 </CommonButton> 
-            <CommonButton style={{width:"20px", height:"30px",marginLeft:"5px"}}>삭제</CommonButton>
+          <div style={{ display: 'flex',   alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              {post.nickname} | {post.postDate}
+            </div>
+            <div style={{ display: 'flex',   alignItems: 'center' }}>
+              <EditButton onClick={() => editButtonClicked(post.postSeq)}>수정 </EditButton> 
+              <DeleteButton>삭제</DeleteButton>
+            </div>
+            
           </div>
           <hr/>
           {/* 메인 내용 보여주기  */}
+          {/* <div>
+            {post.content}
+          </div> */}
           <div>
-         <h1>친구와 부산여행 다녀온 후기 공유해요!ㅎㅎㅎ</h1>
+          <h3>친구와 부산여행 다녀온 후기 공유해요!ㅎㅎㅎ</h3>
           <p>2019년 1월 초에 다녀와서 벌써 부산을 다녀온지 10개월이 다 되어가네요 ㅠ..ㅠ</p>
           <p>코로나로 인해 여행을 자제하다 보니..</p>
           <p>지난 여행 사진들을 보면서 추억앓이 하며 버티고 있어요 ㅎㅎㅎㅎ</p>
 
-          <h2>[1일차] 서울 KTX >> 부산 남포동 포장마차</h2>
+          <h3>[1일차] 서울 KTX >> 부산 남포동 포장마차</h3>
 
           <p>퇴근 후, 친구와 함께 서울역에서 ktx를 타고 부산으로 이동했어요</p>
           <p>숙소는 남포동에 위치한 GnB HOTEL로 잡았어요.</p>
@@ -42,7 +76,7 @@ const DetailPageContent =({title,imgUrl})=> {
           
           <p>꼬막과 꼼장어 (냉동꼼장어예요..ㅠ..ㅠ)</p>
 
-          <h2>[2일차] 쌍둥이국밥 >> 해운대 >> 용궁사 >> 남포동 자갈치시장</h2>
+          <h3>[2일차] 쌍둥이국밥 >> 해운대 >> 용궁사 >> 남포동 자갈치시장</h3>
 
           <p>전날 술을 많이 먹지 않아서 숙취가 심하지 않아서 가볍게 쌍둥이 국밥으로 해장하고 2일차 여행 시작 ㄱㄱㄱㄱㄱㄱ</p>
           <p>국밥을 먹고 부산하면 떠오르는 해운대로 갔어요! ㅎㅎㅎㅎ</p>
@@ -72,7 +106,7 @@ const DetailPageContent =({title,imgUrl})=> {
           <p>용궁사</p>
           <p>자갈치시장 조개구이(중 짜리인데도 양도 많지 않고 비싸요ㅠ..ㅠ)</p>
 
-          <h2>[3일차] 남포동 BIFF거리 >> 서면역 기장손칼국수 >> 집으로 GOGO</h2>
+          <h3>[3일차] 남포동 BIFF거리 >> 서면역 기장손칼국수 >> 집으로 GOGO</h3>
 
           <p>마지막 날, 남포동 숙소에서 짐을 챙기고 BIFF 거리를 구경하며</p>
           <p>그 유명하다는 비빔당면과 분식(떡볶이, 오뎅)을 먹고 기차타러 가기 전 서면역에 잠시 들렀어요.</p>
@@ -105,3 +139,18 @@ const DetailPageContent =({title,imgUrl})=> {
 }
 
 export default DetailPageContent
+
+const EditButton = styled(CommonColorButton)`
+  width: 20px;
+  height: 40px;
+  font-size: 12pt;
+  margin-right: 10px;
+
+`
+
+const DeleteButton = styled(CommonDeleteButton)`
+  width: 20px;
+  height: 40px;
+  font-size: 12pt;
+
+`

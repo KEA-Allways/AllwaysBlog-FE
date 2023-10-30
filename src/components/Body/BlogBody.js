@@ -85,7 +85,7 @@ const BlogBody = () => {
             <Row xs={1} md={3} className="g-6">
             {displayedData.map((blg, index) => (
               <Col key={index}>
-                <Link to={`/post/${blg.postSeq}?title=${blg.title}&imgUrl=${blg.thumbImg}`}>
+                <Link to={`/post/${blg.postSeq}`}>
                 <CardStyle
                   imgUrl={blg.thumbImg}
                   imgHeight="180px"
@@ -106,7 +106,7 @@ const BlogBody = () => {
             <Row lg="1" xl="1" className="g-6">
             {displayedData.map((blg, index) => (
               <Col key={index}>
-                <Link to={`/post/${blg.postSeq}?title=${blg.title}&imgUrl=${blg.thumbImg}`}>
+                <Link to={`/post/${blg.postSeq}`}>
                   <ListStyle
                     imgUrl={blg.thumbImg}
                     imgHeight="180px"
