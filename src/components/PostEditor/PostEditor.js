@@ -242,7 +242,7 @@ const PostEditor = () => {
           </div>
         )}
       </div>
-      <ThemeModal
+      <ThumbnailModal
         showModal={showModal}
         onClose={() => setShowModal(false)} />
     </>

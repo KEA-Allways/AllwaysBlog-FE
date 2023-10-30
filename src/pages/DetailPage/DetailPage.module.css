@@ -6,9 +6,9 @@
 }
 .detail::before {
     content: "";
-    background-image: url("/public/img/Turkye.jpg") ;
+    background-image: url("/public/img/Turkye.jpg") ,linear-gradient(rgb(87, 72, 54),white);
     background-size: 100%;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     opacity: 0.7;
     position: absolute;
     top: 0px;
@@ -17,3 +17,4 @@
     bottom: 0px;
     z-index: -1;
 }
+

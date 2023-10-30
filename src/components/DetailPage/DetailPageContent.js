@@ -1,11 +1,12 @@
 import React from "react";
 import { CommonButton } from "../../common";
 
+
 const DetailPageContent =({title,imgUrl})=> {
     return (
         <div>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '100px', marginRight:"100px" }}>
-        <img src={imgUrl} alt="상세 이미지" style={{ width: '700px', height: '500px', borderRadius: '15px' }} />
+        <img src={imgUrl} alt="상세 이미지" style={{ width: '700px', height: '500px', borderRadius: '15px'}} />
       </div>
       <div style={{marginTop:"50px", backgroundColor:"white"}}>
          <h1>{title}</h1>

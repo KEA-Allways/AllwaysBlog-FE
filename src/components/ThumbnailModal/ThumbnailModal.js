@@ -25,26 +25,39 @@ const ModalButton = styled(CommonButton)`
   justify-content: center;
   align-items: center;
   &:hover {
-    color: #fff;
+    color: white;
+    background-color:black;
     }
 `
 
 const ResetButton = styled(ModalButton)`
-&:hover {
-      background-color: red;
-      color:white
-    }
+  color: white;
+  width: 170px;
+  height: 48px;
+  background: rgba(236, 83, 83);
+  margin-right: 0px;
+  
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(216, 63, 63);
+    transition: 0.5s;
+  }
 `
 
 const SuccessButton = styled(ModalButton)`
-
-    &:hover{
-      background-color: green;
-      color:white
-    }
+    color: white;
+  width: 170px;
+  height: 48px;
+  background: rgba(0,190,254);
+  margin-right: 0px;
+  
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(0,190,254);
+    transition: 0.5s;
+  }
+    
 `
-
-
 
 
 const ThumbnailModal = ({ showModal, onClose} ) => {
@@ -75,13 +88,11 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
   //fastApi에 요청 보내기 
     //cors 때문에 카카오에서막아둠 
     const handleKarloImage = async () => {
-
-      
- 
-        let promptValue;
-        let  negativePromptValue;
-
-        Swal.fire({
+      let promptValue;
+      let negativePromptValue;
+    
+      try {
+        const result = await Swal.fire({
           title: '키워드를 입력해주세요',
           input: 'text',
           inputAttributes: {
@@ -91,71 +102,63 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
           confirmButtonText: '확인',
           cancelButtonText: '취소',
           showLoaderOnConfirm: true,
-          preConfirm: (promptValue) => {
-            if (!promptValue) {
+          preConfirm: (value) => {
+            if (!value) {
               Swal.showValidationMessage('키워드');
             }
           },
           allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const promptValue = result.value;
-            if (promptValue === null) return;
-    
-            // 다음 프롬프트 대신 부정적인 프롬프트를 표시합니다.
-            Swal.fire({
-              title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
-              input: 'text',
-              inputAttributes: {
-                autocapitalize: 'off'
-              },
-              showCancelButton: true,
-              confirmButtonText: '확인',
-              cancelButtonText: '취소',
-              showLoaderOnConfirm: true,
-              preConfirm: (negativePromptValue) => {
-                if (!negativePromptValue) {
-                  Swal.showValidationMessage('부정적인 키워드');
-                }
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-            }).then((negativeResult) => {
-              if (negativeResult.isConfirmed) {
-                const negativePromptValue = negativeResult.value;
-                if (negativePromptValue === null) return;
-    
-                 
-              }
-            });
-          }
         });
-      
-        try {
-          const response = await fetch('http://localhost:8000/generate_image/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
+    
+        if (result.isConfirmed) {
+          promptValue = result.value;
+    
+          const negativeResult = await Swal.fire({
+            title: '화면에 표시를 원하지 않은 키워드를 입력해주세요',
+            input: 'text',
+            inputAttributes: {
+              autocapitalize: 'off'
             },
-            body: new URLSearchParams({
-              'prompt': promptValue,
-              'negative_prompt': negativePromptValue
-            })
+            showCancelButton: true,
+            confirmButtonText: '확인',
+            cancelButtonText: '취소',
+            showLoaderOnConfirm: true,
+            preConfirm: (value) => {
+              if (!value) {
+                Swal.showValidationMessage('부정적인 키워드');
+              }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
           });
-        
-        //cors 문제 예상 
-          const data = await response.json();
-          if (data.image_url) {
-            // Use the image URL in your React application
-            console.log('Image URL:', data.image_url);
-            //이미지 저장 
-            setBackgroundImage(data.image_url)
-          } else {
-            console.error('Error:', data.message);
+    
+          if (negativeResult.isConfirmed) {
+            negativePromptValue = negativeResult.value;
+    
+            const response = await fetch('http://localhost:8000/generate_image/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+              body: new URLSearchParams({
+                'prompt': promptValue,
+                'negative_prompt': negativePromptValue+"low quality, low contrast, draft, amateur, cut off, cropped, frame",
+                'samples': 3
+              })
+            });
+    
+            const data = await response.json();
+            if (data.image_url) {
+              console.log('Image URL:', data.image_url);
+              setBackgroundImage(data.image_url);
+            } else {
+              console.error('Error:', data.message);
+            }
           }
-        } catch (error) {
-          console.error('Error:', error);
         }
-      };
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
    
   //url 통해서 프리뷰 변경하기
   const handleImageModal =   async() => {
@@ -223,6 +226,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setBackgroundColor("");
     setTitle("제목을 입력하세요");
     setContent("내용을 입력하세요");
+    setTextColorStyle("white")
     setShowSubtitle(true)
   };
   //사진 윈도우에 저장하기
@@ -272,7 +276,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
             <Row className="contents">
                
                 <header style={{background:"#f4f4f4", textAlign:"center"}}>
-                  <h1 style={{fontFamily: 'YeongdeokBlueroad',color:"black"}}>테마 생성기</h1>
+                  <h1 style={{fontFamily: 'YeongdeokBlueroad',color:"black"}}>썸네일 생성기</h1>
                 </header>
                 {/* preview 에 배경단색 설정과 배경 이미지 설정  ref를 통해서 dom에 접근할수 있다.*/}
                  
@@ -311,7 +315,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                 <div className="control__panel">
                   <div className="inputFields horizontal">
                     
-                    <Form.Group controlId="title" className="me-3">
+                    <Form.Group   className="me-3">
                       <Form.Control
                         type="text"
                         placeholder="제목을 입력하세요"
@@ -319,7 +323,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         style={{ width: '200px', height: '40px', marginRight: '10px' }}
                       />
                     </Form.Group>
-                    <Form.Group controlId="subtitle"className="me-5" >
+                    <Form.Group  className="me-5" >
                       <Form.Control
                         type="text"
                         placeholder="내용을 입력하세요"
@@ -386,12 +390,11 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                       </ModalButton>
                     </div>
                   </div>
-                  <div className="master__panel modal__btns">
+                  <div className="master__panel modal__btns me-5">
                     <ResetButton
                       className="modal__init__btn me-3"
                       id="initialize"
-                      style={{ height: "60px",
-        
+                      style={{ width:"192px" ,height: "60px",
                        }}
                       onClick={handleReset}
                     >
@@ -399,10 +402,11 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     </ResetButton>
                      
                     <SuccessButton
-                      className="modal__sucess__btn me-5"
+                      className="modal__sucess__btn  "
                       id="export"
-                      style={{ height: "60px"}}
+                      style={{ height: "60px",width:"192px"}}
                       onClick={handleExport}
+                       
                     >
                       완료 및 이미지화
  
