@@ -111,7 +111,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                     {HeaderTitle}
                 </h3>
                 {IsHeaderButton && (
-                  <CommonButton variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</CommonButton> 
+                  <HeaderBtn variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</HeaderBtn> 
                 )}
                 
             </div>
@@ -164,6 +164,9 @@ const Profile = styled.img`
   }
 `;
 
+const HeaderBtn = styled(CommonButton)`
+  margin : 0;
+`
 
 
 
