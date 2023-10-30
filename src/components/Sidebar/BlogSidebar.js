@@ -3,12 +3,19 @@ import styled from "@emotion/styled";
 import {CommonButton } from "../../common"
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
+import sideBarStyles from '../Sidebar/Sidebar.module.css';
 import axios from "axios";
 
 
 function BlogSidebar({body}) {
   const {themeId, listId} = useParams();
   
+
+  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/pizza.jpg";
+  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Eiffel_Tower.jpg";
+
+
+
 
   const pathName = useLocation().pathname;
   const [menuStates, setMenuStates] = useState({});
@@ -59,12 +66,23 @@ function BlogSidebar({body}) {
   
   // 사용자가 테마를 눌렀을 때 테마별 카테고리가 보이게한다.
   const toggleMenu = (menu) => {
+
+    //백그라운드 이미지 설정 
+    if(menu ==="소소한 요리 기록") {
+      document.documentElement.style.setProperty('--background-image', `url(${backgroundImg1})`);
+    } else if(menu === "여행 다이어리"){
+      document.documentElement.style.setProperty('--background-image', `url(${backgroundImg2})`);
+    }
+    
+
+
     const updatedMenuStates = { ...menuStates };
     for (const key in updatedMenuStates) {
       if (key !== menu) {
         updatedMenuStates[key] = false;
       }
     }
+
     updatedMenuStates[menu] = !menuStates[menu];
     setMenuStates(updatedMenuStates);
     setShowInputBox(false);
