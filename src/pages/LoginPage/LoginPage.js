@@ -11,10 +11,6 @@ import {loginStore} from "../../store/store";
 import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
 
-
-
-
- 
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -46,7 +42,6 @@ const LoginPage = () => {
   const toggleHidePassword =()=>{
     setShowPwState(!isShowPw);
   }
-
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
