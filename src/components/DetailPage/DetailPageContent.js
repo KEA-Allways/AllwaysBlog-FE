@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CommonColorButton } from "../../common";
+import { CommonColorButton, CommonDeleteButton } from "../../common";
 import styled from "@emotion/styled";
 import styles from "./DetailPageBody.module.css";
 import axios from "axios";
@@ -148,16 +148,9 @@ const EditButton = styled(CommonColorButton)`
 
 `
 
-const DeleteButton = styled(CommonColorButton)`
+const DeleteButton = styled(CommonDeleteButton)`
   width: 20px;
   height: 40px;
   font-size: 12pt;
-  background: rgba(236, 83, 83);
-
-  &:hover {
-    transform: scale(1.05);
-    background: rgba(216, 63, 63);
-    transition: 0.5s;
-  }
 
 `
