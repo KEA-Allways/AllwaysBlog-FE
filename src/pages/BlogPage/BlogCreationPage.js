@@ -6,7 +6,7 @@ import React from "react";
 import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 
 const BlogCreationPage = () => {
@@ -45,7 +45,7 @@ const BlogCreationPage = () => {
 
   return (
     <>
-      <SungjunTopbar />
+      <Topbar />
 
       <Container>
         <BlogSection>
