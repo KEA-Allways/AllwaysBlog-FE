@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 import React from "react";
-import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
-import { FaEye } from "react-icons/fa";
 import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
@@ -49,17 +47,18 @@ const BlogCreationPage = () => {
       <Topbar />
 
       <Container>
-        <BlogSection>
-          <BlogTitle>블로그 생성</BlogTitle>
 
+        <BlogSection>
+
+          <BlogTitle>블로그 생성</BlogTitle>
 
           <Profile
             //src={profileImage}
             style={{ margin: "10px", cursor: "pointer" }}
           />
 
-
           <TextInputContainer>
+
           <Text>블로그 이름</Text>
 
             <BlogNameInput
@@ -68,10 +67,12 @@ const BlogCreationPage = () => {
                 setBlogName(e.target.value);
               }}
             />
+
           </TextInputContainer>
 
 
           <TextInputContainer>
+
           <Text>블로그 소개</Text>
             
             <BlogDescriptionInput
@@ -80,6 +81,7 @@ const BlogCreationPage = () => {
                 setDescription(e.target.value);
               }}
             />
+
           </TextInputContainer>
 
           <Line />
@@ -211,14 +213,12 @@ const CreationBtn = styled.div`
   color: white;
   cursor: pointer;
 
-
   transition: all 0.5s ease;
   &:hover {
     transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
+    background: rgba(0,170,234);
     transition: 0.5s;
-  }
+}
 `;
 
 const SignupBtn = styled.div`
