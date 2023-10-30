@@ -12,6 +12,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
   const pathName = useLocation().pathname;
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [profiles, setProfiles] = useState({});
+  const isTheme = pathName.startsWith("/mngt/theme");
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton != ""){
@@ -84,7 +85,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                       <li style={{width : "100%"}}>
                         <Link
                           to={`/mngt/theme`}
-                          className={`/mngt/theme` === pathName ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
+                          className={isTheme ? `${styles.mngtActive} ${styles.mngtText}` : styles.mngtText}
                         >
                           테마 관리
                         </Link>
