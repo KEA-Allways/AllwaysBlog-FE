@@ -136,12 +136,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
                   style={{marginLeft:"5px",marginRight:"20px",marginTop:"20px"}}
                   >{HeaderButton}
                   </CommonButton> 
-
-                  
                 )}
-
-                
-                
             </div>
             <div style={{ marginBottom: "20px"}}>
                 <hr className={TextStyles.hr} />

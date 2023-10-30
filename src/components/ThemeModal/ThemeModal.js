@@ -63,90 +63,89 @@ const ThemeModal = ({ showModal, onClose} ) => {
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
 
+
+const handleKarloImage =async ()=>{
+  try{
+    const promptValue = await Swal.fire({
+      title: '키워드를 입력해주세요',
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+      showLoaderOnConfirm: true,
+      preConfirm: (promptValue) => {
+        if (!promptValue) {
+          Swal.showValidationMessage('키워드');
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }) 
+    // 긍정 키워드 완료되면 
+    if(promptValue.isConfirmed){
+      const negativeValue =await Swal.fire({
+        title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
+        input: 'text',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        showLoaderOnConfirm: true,
+        preConfirm: (negativeValue) => {
+          if (!negativeValue) {
+            Swal.showValidationMessage('부정적인 키워드');
+          }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      }) ;
+      if(negativeValue.isConfirmed){
+        console.log(promptValue.value);
+        console.log(negativeValue.value);
+        
+        
+        const response = await fetch('http://localhost:8000/generate_image/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: new URLSearchParams({
+            'prompt': promptValue.value ,
+            'negative_prompt': negativeValue.value,
+            'samples': 1
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json(); // Convert response to JSON
+          if (data.image_url) {
+            console.log('Image URL:', data.image_url);
+            setBackgroundImage(data.image_url);
+          } else {
+            console.error('Error:', data.message);
+          }
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      }
+      
+    }
+
+
+  }catch(error){
+    console.error('Error',error);
+    
+  }
+}
  
 
   //fastApi에 요청 보내기 
     //cors 때문에 카카오에서막아둠 
-    const handleKarloImage = async () => {
-
-        let promptValue;
-        let  negativePromptValue;
-
-        Swal.fire({
-          title: '키워드를 입력해주세요',
-          input: 'text',
-          inputAttributes: {
-            autocapitalize: 'off'
-          },
-          showCancelButton: true,
-          confirmButtonText: '확인',
-          cancelButtonText: '취소',
-          showLoaderOnConfirm: true,
-          preConfirm: (promptValue) => {
-            if (!promptValue) {
-              Swal.showValidationMessage('키워드');
-            }
-          },
-          allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-          if (result.isConfirmed) {
-            const promptValue = result.value;
-            if (promptValue === null) return;
-    
-            // 다음 프롬프트 대신 부정적인 프롬프트를 표시합니다.
-            Swal.fire({
-              title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
-              input: 'text',
-              inputAttributes: {
-                autocapitalize: 'off'
-              },
-              showCancelButton: true,
-              confirmButtonText: '확인',
-              cancelButtonText: '취소',
-              showLoaderOnConfirm: true,
-              preConfirm: (negativePromptValue) => {
-                if (!negativePromptValue) {
-                  Swal.showValidationMessage('부정적인 키워드');
-                }
-              },
-              allowOutsideClick: () => !Swal.isLoading()
-            }).then((negativeResult) => {
-              if (negativeResult.isConfirmed) {
-                const negativePromptValue = negativeResult.value;
-                if (negativePromptValue === null) return;
-    
-                 
-              }
-            });
-          }
-        });
+ 
       
-        try {
-          const response = await fetch('http://localhost:8000/generate_image/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-              'prompt': promptValue,
-              'negative_prompt': negativePromptValue
-            })
-          });
-        
-        //cors 문제 예상 
-          const data = await response.json();
-          if (data.image_url) {
-            // Use the image URL in your React application
-            console.log('Image URL:', data.image_url);
-            //이미지 저장 
-            setBackgroundImage(data.image_url)
-          } else {
-            console.error('Error:', data.message);
-          }
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      };
    
   //url 통해서 프리뷰 변경하기
   const handleImageModal =   async() => {
@@ -198,20 +197,18 @@ const ThemeModal = ({ showModal, onClose} ) => {
   };
   //사진 윈도우에 저장하기
   const handleExport =  () => {
-    
-
     if (previewRef.current) {
-
-
         html2canvas(previewRef.current, {
         allowTaint: true,
         useCORS: true,
-         
       }).then((canvas) => {
+        
+        
         const imgData = canvas.toDataURL("image/png");
+        const imgSrc = /^data:image/.test(imgData) ? imgData : imgData + '?' + new Date().getTime();
         const link = document.createElement("a");
         link.download = "thumbnail.png";
-        link.href = imgData;
+        link.href = imgSrc;
         link.click();
       });
 
@@ -243,7 +240,7 @@ const ThemeModal = ({ showModal, onClose} ) => {
             <Row className="contents">
                
             <header style={{  display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "350px",marginTop:"5px" }}>테마 이미지 생성기</h3>
+              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "380px",marginTop:"5px" }}>테마 이미지 생성기</h3>
               <div style={{ textAlign: "right" }}>
                 <SuccessButton
                   className="modal__sucess__btn me-3"
