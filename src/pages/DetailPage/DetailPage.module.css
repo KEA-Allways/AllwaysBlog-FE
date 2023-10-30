@@ -7,8 +7,10 @@
 .detail::before {
     content: "";
     background-image: url("/public/img/Turkye.jpg") ;
+    background-color: rgb(143, 130, 113);
+             
     background-size: 100%;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     opacity: 0.7;
     position: absolute;
     top: 0px;

@@ -227,7 +227,7 @@ input.input__field {
 }
 
 .input__field:focus {
-  background-color: #3b45ff;
+  background-color: black;
   color: #fff;
   outline: none;
 }
@@ -349,7 +349,7 @@ input.input__field::placeholder {
 }
 
 .inputFields .form-control:focus {
-  background-color: #3b45ff;
+  background-color: black;
   color: #fff;
   outline: none;
 }

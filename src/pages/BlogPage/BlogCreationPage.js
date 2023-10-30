@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { FaEye } from "react-icons/fa";
 import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
+import ThemeModal from "../../components/ThemeModal/ThemeModal";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
@@ -88,7 +89,7 @@ const BlogCreationPage = () => {
           </BtnsContainer>
         </BlogSection>
       </Container>
-      <ThumbnailModal
+      <ThemeModal
         showModal={showModal}
         onClose={() => setShowModal(false)} 
       />
