@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { CommonButton } from "../../common";
+import { CommonColorButton } from "../../common";
+import styled from "@emotion/styled";
 import styles from "./DetailPageBody.module.css";
 import axios from "axios";
-
+import { useNavigate } from 'react-router-dom';
 
 const DetailPageContent =( postSeq )=> {
   const [post, setPost] = useState({});
+  const navigate = useNavigate();
+
+  const editButtonClicked = (postSeq) => {
+    const theme = '선택된 테마';
+    navigate('/post', { state: { postSeq: postSeq, themplateSeq: undefined, theme: theme } });
+  };
 
   const apiGetPost = () => {
     axios
@@ -23,16 +30,23 @@ const DetailPageContent =( postSeq )=> {
   },[postSeq]);
     return (
         <div>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-            <img src={post.thumbImg} alt="게시글 썸네일" style={{ borderRadius: '15px', maxWidth: '600px', maxHeight: '600px'}} />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className={styled.thumbImgBox}>
+              <img src={post.thumbImg} alt="게시글 썸네일" style={{ borderRadius: '15px', width: '100%', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)' }} />
+            </div>
           </div>
           <div className={styles.contentBox}>
           <h1>{post.title}</h1>
           {/* 날짜 수정 삭제  */}
-          <div style={{ display: 'flex',   alignItems: 'center' }}>
-          {post.nickname} | {post.postDate}
-            <CommonButton style={{width:"20px", height:"30px" ,marginLeft:"20px"}} >수정 </CommonButton> 
-            <CommonButton style={{width:"20px", height:"30px",marginLeft:"5px"}}>삭제</CommonButton>
+          <div style={{ display: 'flex',   alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              {post.nickname} | {post.postDate}
+            </div>
+            <div style={{ display: 'flex',   alignItems: 'center' }}>
+              <EditButton onClick={() => editButtonClicked(post.postSeq)}>수정 </EditButton> 
+              <DeleteButton>삭제</DeleteButton>
+            </div>
+            
           </div>
           <hr/>
           {/* 메인 내용 보여주기  */}
@@ -125,3 +139,25 @@ const DetailPageContent =( postSeq )=> {
 }
 
 export default DetailPageContent
+
+const EditButton = styled(CommonColorButton)`
+  width: 20px;
+  height: 40px;
+  font-size: 12pt;
+  margin-right: 10px;
+
+`
+
+const DeleteButton = styled(CommonColorButton)`
+  width: 20px;
+  height: 40px;
+  font-size: 12pt;
+  background: rgba(236, 83, 83);
+
+  &:hover {
+    transform: scale(1.05);
+    background: rgba(216, 63, 63);
+    transition: 0.5s;
+  }
+
+`
