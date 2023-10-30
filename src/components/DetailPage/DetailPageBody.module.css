@@ -4,5 +4,13 @@
     padding: 5%;
     margin-top: 50px;
     font-size: 10pt;
+    font-family: "YeongdeokBlueroad";
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 
+.thumbImgBox {
+    max-width: '1000px';
+    max-height: '1000px';
+    width: '100%';
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
