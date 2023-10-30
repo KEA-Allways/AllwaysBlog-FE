@@ -14,9 +14,11 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
+ 
   const [showModal,setShowModal] = useState(false);
-
+ 
   const isTheme = pathName.startsWith("/mngt/theme");
+ 
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton !== ""){
@@ -131,17 +133,12 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
                   <ThemeModal showModal={showModal} onClose={() => setShowModal(false)} />
                 )}
 
-                {IsHeaderButton && (
                   <CommonButton variant="contained" size="small" onClick={headerButtonClicked}
                   style={{marginLeft:"5px",marginRight:"20px",marginTop:"20px"}}
                   >{HeaderButton}
                   </CommonButton> 
-
-                  
-                )}
-
-                
-                
+ 
+                  <HeaderBtn variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</HeaderBtn>     
             </div>
             <div style={{ marginBottom: "20px"}}>
                 <hr className={TextStyles.hr} />
@@ -192,6 +189,9 @@ const Profile = styled.img`
   }
 `;
 
+const HeaderBtn = styled(CommonButton)`
+  margin : 0;
+`
 
 
 
