@@ -9,6 +9,7 @@ import axios from "axios";
 import { loginStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
+import Swal from "sweetalert2";
 
 function Topbar() {
     const image = <img src='/img/usericon.png' width="50px" height="50px" />
@@ -26,6 +27,19 @@ function Topbar() {
 
     const handleButtonClick = () => {
         navigate("/login");
+    }
+
+    const handleBlogButtonClicked = () => {
+        if(!hasBlog){
+            Swal.fire({
+                title: "블로그 생성페이지로 이동합니다!",
+                icon: 'info'
+              }).then(() => {
+                navigate("/blog-creation");
+              })
+        }else{
+            navigate("/blogs");
+        }  
     }
 
     const logout = () => {
@@ -81,7 +95,11 @@ function Topbar() {
                             drop="drop" 
                             align="end"
                             className={styles.rightSideContainer} >
-                                <NavDropdown.Item href="/blogs" style={{width: "100px", marginRight: "50px"}} >내 블로그</NavDropdown.Item>
+                                <NavDropdown.Item 
+                                    // href={hasBlog ? "/blogs" : "/blog-creation"}                             
+                                    onClick={handleBlogButtonClicked}
+                                    // onClick={() => { if(!hasBlog) Swal.fire({title : "블로그가 없어 생성 페이지로 이동합니다."})}} 
+                                    style={{width: "100px", marginRight: "50px"}}>내 블로그</NavDropdown.Item>
                                 <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>
                         </NavDropdown>
