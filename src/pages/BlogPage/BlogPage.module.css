@@ -1,7 +1,7 @@
 
 
 :root {
-  --background-image: url("/public/img/Turkye.jpg");
+  --background-image: url("https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/pizza.jpg");
 }
 
 
@@ -24,7 +24,9 @@
     height: 100%;
     background-repeat: repeat; /* 반복 제거 */
     background-size: 100% 100%; /* 각 셀에 이미지를 50%로 표시 */
-   transition: all 1s;
+
+    /* 애니메이션 */
+    transition: all 1s;
 
 } 
 
