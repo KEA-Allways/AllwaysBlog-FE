@@ -226,6 +226,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setBackgroundColor("");
     setTitle("제목을 입력하세요");
     setContent("내용을 입력하세요");
+    setTextColorStyle("white")
     setShowSubtitle(true)
   };
   //사진 윈도우에 저장하기
@@ -314,7 +315,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                 <div className="control__panel">
                   <div className="inputFields horizontal">
                     
-                    <Form.Group controlId="title" className="me-3">
+                    <Form.Group   className="me-3">
                       <Form.Control
                         type="text"
                         placeholder="제목을 입력하세요"
@@ -322,7 +323,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                         style={{ width: '200px', height: '40px', marginRight: '10px' }}
                       />
                     </Form.Group>
-                    <Form.Group controlId="subtitle"className="me-5" >
+                    <Form.Group  className="me-5" >
                       <Form.Control
                         type="text"
                         placeholder="내용을 입력하세요"

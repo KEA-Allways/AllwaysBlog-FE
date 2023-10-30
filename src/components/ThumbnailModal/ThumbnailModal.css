@@ -226,20 +226,7 @@ input.input__field {
   padding-left: 14px;
 }
 
-.input__field:focus {
-  background-color: black;
-  color: #fff;
-  outline: none;
-}
-
-.input__field:focus::placeholder {
-  color: #a9adfdc0;
-}
-
-input.input__field::placeholder {
-  color: #a7a7a7;
-}
-
+ 
 .input__field:last-child {
   margin-right: 0;
 }
@@ -321,7 +308,7 @@ input.input__field::placeholder {
   opacity: 0;
 }
 
-
+/* 제목 부제목 입력 관련 inputFields */
 
 .inputFields {
   display: flex;
@@ -337,25 +324,15 @@ input.input__field::placeholder {
   margin-right: 0;
 }
 
-.inputFields .form-control {
-  width: 248px;
-  height: 40px;
-  border: 1px solid #cacaca;
-  border-radius: 14px;
-  color: #150c0c;
-  font-size: 16px;
-  font-weight: 400;
-  padding-left: 14px;
-}
-
+ 
 .inputFields .form-control:focus {
-  background-color: black;
+  background-color: #fff;
   color: #fff;
   outline: none;
 }
 
 .inputFields .form-control:focus::placeholder {
-  color: #a9adfdc0;
+  color: black;
 }
 
 .inputFields .form-control::placeholder {

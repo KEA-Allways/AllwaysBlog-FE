@@ -226,29 +226,7 @@ input.input__field {
   padding-left: 14px;
 }
 
-.input__field:focus {
-  background-color: #3b45ff;
-  color: #fff;
-  outline: none;
-}
-
-.input__field:focus::placeholder {
-  color: #a9adfdc0;
-}
-
-input.input__field::placeholder {
-  color: #a7a7a7;
-}
-
-.input__field:last-child {
-  margin-right: 0;
-}
-
-.control__panel .inputFields .inactive {
-  display: none;
-}
-
-/* BTN */
+ 
  
  
  
@@ -322,61 +300,6 @@ input.input__field::placeholder {
 }
 
 
-
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.inputFields .form-group {
-  margin-right: 10px;
-}
-
-.inputFields .form-group:last-child {
-  margin-right: 0;
-}
-
-.inputFields .form-control {
-  width: 248px;
-  height: 40px;
-  border: 1px solid #cacaca;
-  border-radius: 14px;
-  color: #150c0c;
-  font-size: 16px;
-  font-weight: 400;
-  padding-left: 14px;
-}
-
-.inputFields .form-control:focus {
-  background-color: #3b45ff;
-  color: #fff;
-  outline: none;
-}
-
-.inputFields .form-control:focus::placeholder {
-  color: #a9adfdc0;
-}
-
-.inputFields .form-control::placeholder {
-  color: #a7a7a7;
-}
-
-.inputFields .form-control:last-child {
-  margin-right: 0;
-}
-
-.inputFields .inactive {
-  display: none;
-}
- 
-/* INPUT FIELDS */
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end; /* Align to the right */
-}
- 
 
 
 /* CONTROL PANEL */
