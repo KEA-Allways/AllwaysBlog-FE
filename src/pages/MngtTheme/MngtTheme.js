@@ -53,10 +53,12 @@ const MngtTheme = (props) => {
 
     const HeaderTitle = "테마 관리";
     const HeaderButton = "변경사항 저장";
+    const HeaderAddButton = "테마 추가"
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderButton2={HeaderAddButton}  
+            Container={
                 <div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">

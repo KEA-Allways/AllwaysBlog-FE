@@ -5,18 +5,27 @@ import TextStyles from "../../components/Text.module.css";
 import { CommonButton } from '../../common';
 import styles from "./Sidebar.module.css";
 import axios from "axios";
+import ThemeModal from "../ThemeModal/ThemeModal";
 
 
 
-function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}) {
+function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction, BodyContainer}) {
   const pathName = useLocation().pathname;
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
+  const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
+ 
+  const [showModal,setShowModal] = useState(false);
+ 
   const isTheme = pathName.startsWith("/mngt/theme");
+ 
 
   useEffect( () => {
-    if(HeaderButton != null && HeaderButton != ""){
+    if(HeaderButton != null && HeaderButton !== ""){
       setIsHeaderButton(true);
+    }
+    if(HeaderButton2!=null && HeaderButton2 !==""){
+      setIsHeaderButton2(true);
     }
   }, []);
 
@@ -25,6 +34,10 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
         HeaderAction();
       }
     };
+
+    const themeAddButtonClicked = () => {
+      setShowModal(true);
+    }
 
     const apiGetProfile = () => {
       axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
@@ -110,9 +123,28 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderAction, BodyContainer}
                 <h3 className={TextStyles.h3}>
                     {HeaderTitle}
                 </h3>
-                {IsHeaderButton && (
-                  <HeaderBtn variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</HeaderBtn> 
+                {/* 버튼 보여주게 하기  */}
+                {IsHeaderButton2 && (
+                  <CommonButton variant="contained" size="small" onClick={themeAddButtonClicked}
+                  style={{marginLeft:"450px" ,marginTop:"20px"}}
+                  >{HeaderButton2}</CommonButton>
                 )}
+                {showModal && (
+                  <ThemeModal showModal={showModal} onClose={() => setShowModal(false)} />
+                )}
+
+                {IsHeaderButton && (
+ 
+                  <CommonButton variant="contained" size="small" onClick={headerButtonClicked}
+                  style={{marginLeft:"5px",marginRight:"20px",marginTop:"20px"}}
+                  >{HeaderButton}
+                  </CommonButton> 
+ 
+                  <HeaderBtn variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</HeaderBtn> 
+ 
+                )}
+
+                
                 
             </div>
             <div style={{ marginBottom: "20px"}}>
