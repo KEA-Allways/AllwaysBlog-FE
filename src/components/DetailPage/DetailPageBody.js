@@ -6,14 +6,15 @@ import { TextField ,Typography,Divider,Button,List,ListItem
 import axios from "axios";
 import DetailPageContent from "./DetailPageContent"
 import DetailPageComment from './DetailPageComment';
+import { Container, Row, Col } from 'react-bootstrap';
  
 
 const apiUrl=`${process.env.REACT_APP_API_URL}/api/posts/1/replys`
 const  DetailPage=() => {
     const location = useLocation();
-    const { title } = useParams();
     const searchParams = new URLSearchParams(location.search);
     const imgUrl = searchParams.get('imgUrl');
+    const title = searchParams.get('title');
     
     //댓글 현재 값 
     const [comment, setComment] = useState('');
@@ -68,29 +69,27 @@ const  DetailPage=() => {
      
 
     return (
-      <div>
-      <Grid container spacing={1}>
-        {/* 빈공간 */}
-        <Grid item xs={1}>
-        </Grid>
-        <Grid item xs={8}>
-          {/* 썸네일 과 본문 보여주기  */}
-          <DetailPageContent title={title} imgUrl={imgUrl} />
-          {/* 댓글 관련 */}
-          <DetailPageComment 
-            comments={comments}
-            onCommentSubmit={handleCommentSubmit}
-            onCommentChange={handleCommentChange}
-            comment={comment}/>
-        
-        </Grid>
+      <Container>
+        <Row className='my-5'>
+          <Col md={2}></Col>
+          <Col md={8}>
+            <div>
+              <DetailPageContent title={title} imgUrl={imgUrl} />
+            </div>
+            <div>
+              <DetailPageComment  comment={comment}
+                                  comments={comments}
+                                  onCommentSubmit={handleCommentSubmit}
+                                  onCommentChange={handleCommentChange}
+                                  
+              />
+            </div>
+          </Col>
+          <Col md={2}></Col>
 
-        {/* 빈공간 */}
-        <Grid item xs={1}>
-        </Grid>
-      </Grid>
- 
-      </div>
+        </Row>
+
+      </Container>
             
     );
 }

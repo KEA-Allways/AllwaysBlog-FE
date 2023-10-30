@@ -84,7 +84,7 @@ function App() {
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent />} />
             <Route path="/mngt/template" element={<MngtTemplate />}/>
-            <Route path="/post/:title" element={<DetailPage />} />
+            <Route path="/post/:postSeq" element={<DetailPage />} />
           </Routes>
         </BrowserRouter>
       </div>
