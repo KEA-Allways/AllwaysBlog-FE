@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { CommonColorButton } from '../../common';
+import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
 
 const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
@@ -14,6 +16,8 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
   const [description, setDescription] = useState();
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
+
+  const [isShowPw, setShowPwState] = useState(false);
 
   const fileInput = useRef(null);
   const [file, setFile] = useState("");
@@ -98,9 +102,7 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setProfileImg(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
+      
       return;
     }
 
@@ -110,12 +112,18 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImg(reader.result);
-        alert(reader.result);
       }
     };
 
     reader.readAsDataURL(e.target.files[0]);
   };
+
+
+  
+  
+  const toggleHidePassword =()=>{
+    setShowPwState(!isShowPw);
+  }
 
   return (
     <ManageTopSideBar
@@ -184,11 +192,13 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <PasswordInput
               placeholder=""
+              type={isShowPw ? "text":"password"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
+            <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
           </TextInputContainer>
 
           <TextInputContainer>
@@ -196,11 +206,14 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <PasswordInput
               placeholder=""
-              value={password}
+              type={isShowPw ? "text":"password"}
+              value={repeatPassword}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setRepeatPassword(e.target.value);
               }}
             />
+
+          <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
           </TextInputContainer>
 
           <Line />
@@ -251,6 +264,7 @@ const Profile = styled.img`
 `;
 
 const TextInputContainer = styled.div`
+  position : relative;
   flex-direction: column;
   display: flex;
   margin-top: 23px;
@@ -367,5 +381,13 @@ const DeleteBtn = styled(CommonColorButton)`
     transition: 0.5s;
   }
 `;
+
+const Icon = styled.div`
+  position: absolute;
+  margin-top: 45px;
+  left: 90%;
+  cursor: pointer;
+`;
+
 
 export default ManagePage;
