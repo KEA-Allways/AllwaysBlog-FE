@@ -111,7 +111,7 @@ header {
     color: #000;
   }
   
-  body {
+  .body {
     position: relative;
     background: #f4f4f4;
     height: 80vh;
@@ -120,7 +120,7 @@ header {
     font-family: "Noto Sans KR", sans-serif;
   }
   
-  body::after {
+  .body::after {
     position: fixed;
     content: "";
     top: 0;
