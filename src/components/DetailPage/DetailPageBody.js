@@ -31,9 +31,9 @@ const  DetailPage=() => {
           const response =   {
             "userId": "testId",
             "replySeq": `${comments.length}`,
-            "nickname": "젤리조아",
+            "nickname": "우디",
             "replyDate": "2023-10-12",
-            "profileImg" : "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/icon/icon.png",
+            "profileImg" : "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/icon/woody.png",
             "replyContent": `${comment}`
           };
           
