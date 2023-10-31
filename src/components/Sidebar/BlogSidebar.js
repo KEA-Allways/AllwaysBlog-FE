@@ -5,17 +5,15 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import sideBarStyles from '../Sidebar/Sidebar.module.css';
 import axios from "axios";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 
 function BlogSidebar({body}) {
   const {themeId, listId} = useParams();
   
 
-  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/pizza.jpg";
-  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Eiffel_Tower.jpg";
-
-
-
+  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
+  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Sydney.jpg";
 
   const pathName = useLocation().pathname;
   const [menuStates, setMenuStates] = useState({});
@@ -153,13 +151,26 @@ function BlogSidebar({body}) {
                           onClick={() => toggleMenu(tal.themeName)}
                         >
                           {tal.themeName}
+                          
                         </Link>
                         {menuStates[tal.themeName] && (
                           
-                          <ul style={{ width: "100%", height: "auto", textAlign: "start", marginLeft:"10px"}}>
+                          <ul style={{ width: "100%", height: "auto", textAlign: "start", marginLeft:"10px", position : "relative" }}>
+                             {/* 카테고리 추가  */}
+                             
+                             {showInputBox ? (
+                                 <></>
+                              ) : (
+                                <PlusButton onClick={() => handleAddSubMenu(tal.themeName)}></PlusButton>
+                              )}
+                              
+                          
+                  
+
+
                             {tal.lists.map((list) => (
                               // 카테고리
-                              <li key={list.listSeq}>
+                              <li key={list.listSeq} style={{marginBottom : 5}}>
                                 <Link
                                   to={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}`}
                                   className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.categoryActive} ${styles.categoryText}` : styles.categoryText}
@@ -168,28 +179,30 @@ function BlogSidebar({body}) {
                                 </Link>
                               </li>
                             ))}
-                            <li>
-                              
-                              {/* 입력창 */}
-                              {showInputBox ? (
+
+                             {/* 카테고리 상세 입력창 */}
+                             {showInputBox ? (
                                 <form>
                                   <Input
                                   type="text"
-                                  style={{width : "50%", marginLeft : "18px"}}
                                   placeholder="하위 메뉴 이름"
                                   value={newMenuItemName}
                                   autoFocus
                                   onChange={(e) => setNewMenuItemName(e.target.value)}
                                   />
                                 {/* 입력확인버튼 */}
-                                  <SaveButton onClick={handleAddMenuItem}>저장</SaveButton>
+                                  <SaveIcon onClick={handleAddMenuItem}></SaveIcon>
                                 </form>
                                 
                               ) : (
-                                <PlusButton style={{marginLeft : "40px"}} onClick={() => handleAddSubMenu(tal.themeName)}>+</PlusButton> 
+                                <></>
+                                
                               )}
-                  
-                            </li>
+
+                              
+
+
+                           
                           </ul>
                         )}
                       </li>
@@ -228,43 +241,61 @@ const Profile = styled.img`
   transition: all 0.5s ease;
 `;
 
-const PlusButton = styled.button`
-  background-color : rgba(50,50,50,0.2);
-  color:rgba(25,25,25,0.7);
+const PlusButton = styled(AddCircleOutlineOutlinedIcon)`
+  position: absolute;
+  margin-left: 145px;
+  top: -39px;
   outline: none;
   border: none;
   width: 30px;
   height: 30px;
   border-color:black;
-  font-size: 20px;
-  display: flex;
   text-align : center;
   justify-content: center;
   align-items: center;
+
+  transition: all 0.4s ease;
   &:hover {
-    background-color : rgba(50,50,50,0.7);
+    transform: scale(1.15);
+    color : white;
   }
 `;
 
 const Input = styled.input`
-  width: 60%;
+  width: 50%;
   outline : none;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
+  height: 28px;
+  padding-left: 8px;
+  border: none;
+  border-radius: 7px;
+  background: #f0f0f0;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+  
+  font-size: 13px;
+
+  transition: all 0.5s ease 0s;
+
+  &:hover {
+   
+  }
 `;
 
-const SaveButton = styled.button`
-  background-color:black;
-  color:white;
-  outline : none;
-  border: none;
-  width : 20%;
+const SaveIcon = styled(AddCircleOutlineOutlinedIcon)`
+  margin-left: 10px;
+  transition: all 0.4s ease;
+
   &:hover {
-    background-color : white;
-    color: black;
+   transform: scale(1.15);
+   color : white;
   }
 `
+
+
 
 
 export default BlogSidebar;

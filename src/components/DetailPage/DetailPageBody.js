@@ -33,6 +33,7 @@ const  DetailPage=() => {
             "replySeq": `${comments.length}`,
             "nickname": "젤리조아",
             "replyDate": "2023-10-12",
+            "profileImg" : "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/icon/icon.png",
             "replyContent": `${comment}`
           };
           
@@ -54,10 +55,13 @@ const  DetailPage=() => {
       try {
         const response = await axios.get(apiUrl);
         setComments(response.data.replys);
+
+  
       } catch (error) {
         console.error('API GET request error:', error);
       }
     };
+
 
     
     useEffect(() => {

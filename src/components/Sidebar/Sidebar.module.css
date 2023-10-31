@@ -1,6 +1,5 @@
 .App {
     display: flex;
-    font-family: 'IBM Plex Sana Thai Looped' sans-serif;
     color: black;
     /* background: linear-gradient(179deg, #176eb5, #d545d7); */
     /* text-shadow: 1px 0px 2px #8dc4f0; */
@@ -20,6 +19,7 @@
     align-items: center;
 }
 
+
 .sidebar {
     display: flex;
     width: 14rem;
@@ -31,6 +31,7 @@
     background-color: rgba(255,255,255,0.3);
     backdrop-filter: blur(5.5px);
     border-right: 1px solid rgba(0, 0, 0, 0.18);
+    
 }
 
 .profile {
@@ -46,6 +47,7 @@
     width: 100%;
     border-radius: 50%;
 }
+
 
 .groups {
     display: flex;
@@ -70,22 +72,29 @@ h3 {
 }
 
 .mngtActive {
+    
+    transition: all 0.4s ease;
     color : black;
     font-weight: bold;
-    border-left: 6px solid black;
+    border-left: 8px solid black;
 }
 
 .active {
+    transition: all 0.4s ease;
     color : white;
-    border-left: 6px solid white;
+    border-left: 8px solid white;
 }
 
 .categoryActive {
+    transition: all 0.4s ease;
+    
     color : white;
-    border-left: 4px solid white;
+    border-left: 6px solid white;
+    
 }
 
 .themeText {
+    transition: all 0.4s ease;
     font-size: 18px;
     display: block;
     margin : 10px 0;
@@ -94,6 +103,7 @@ h3 {
 }
 
 .mngtText {
+     transition: all 0.4s ease;
     font-size: 18px;
     display: block;
     margin : 10px 0;
@@ -102,19 +112,29 @@ h3 {
 }
 
 .mngtText:hover {
+    transition: all 0.4s ease;
+    transform: scale(1.1);
+
     font-weight: bold;
 }
 
 .themeText:hover {
+    transition: all 0.4s ease;
+    transform: scale(1.1);
+
     color :white;
 }
 
 .categoryText {
+    transition: all 0.4s ease;
     display: block;
     padding-left: 20px;
 }
 
 .categoryText:hover {
+    transition: all 0.4s ease;
+    transform: scale(1.1);
+
     color : white;
 }
 
