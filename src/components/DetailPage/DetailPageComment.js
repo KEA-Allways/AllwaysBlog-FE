@@ -28,12 +28,13 @@ const DetailPageComment = ({ comments, onCommentSubmit, onCommentChange, comment
           <div key={index}>
             <ListItem>
               <ListItemAvatar>
-                <Avatar alt="User" />
+                <Avatar src= {comment.profileImg} alt="User" />
               </ListItemAvatar>
               <ListItemText
                 primary={comment.nickname}
                 secondary={comment.replyContent}
               />
+              <Typography variant="p" style={{marginTop: 30}}> {comment.replyDate}</Typography>
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>

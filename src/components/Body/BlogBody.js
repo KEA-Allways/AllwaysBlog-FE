@@ -92,10 +92,10 @@ const BlogBody = () => {
                   imgWidth="200px"
                   title={blg.title}
                   subtitle={blg.subtitle}
-                  usericon={blg.userIcon}
                   nickname={blg.nickname}
                   opacityValue="80%"
-                  date={blg.postDate}/>
+                  date={blg.postDate}
+                  profile={blg.profileImg}/>
                 </Link>
               </Col>
             ))}
@@ -115,6 +115,7 @@ const BlogBody = () => {
                     subtitle={blg.subtitle}
                     usericon={blg.userIcon}
                     nickname={blg.nickname}
+                    profile={blg.profileImg}
                     opacityValue="80%"
                     date={blg.postDate}/>
                 </Link>

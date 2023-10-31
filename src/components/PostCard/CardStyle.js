@@ -2,11 +2,11 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from "@mui/material/CardActions"
-import { IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from "./CardStyle.module.css";
 
-const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue}) => {
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue,profile}) => {
   return (
         <Card className={styles.cardStyle}
           sx={{ transition: "all 0.5s ease",
@@ -41,7 +41,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, 
             <CardActions className={styles.cardDetail} sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>
               <div>
               <IconButton aria-label="user-icon" width="20px" height="10px" >
-                <AccountCircleIcon />
+                <Avatar src = {profile} />
               </IconButton>
               {nickname}
               </div>
