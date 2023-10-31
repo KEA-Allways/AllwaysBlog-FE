@@ -156,7 +156,7 @@ function BlogSidebar({body}) {
                           <ul style={{ width: "100%", height: "auto", textAlign: "start", marginLeft:"10px"}}>
                             {tal.lists.map((list) => (
                               // 카테고리
-                              <li key={list.listSeq}>
+                              <li key={list.listSeq} style={{marginBottom : 5}}>
                                 <Link
                                   to={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}`}
                                   className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.categoryActive} ${styles.categoryText}` : styles.categoryText}
@@ -262,6 +262,7 @@ const SaveButton = styled.button`
     color: black;
   }
 `
+
 
 
 export default BlogSidebar;
