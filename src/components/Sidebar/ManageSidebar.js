@@ -138,7 +138,11 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
                   >{HeaderButton}
                   </CommonButton> 
  
-                  <HeaderBtn variant="contained" size="small" onClick={headerButtonClicked}>{HeaderButton}</HeaderBtn>     
+                )}
+ 
+ 
+                      
+ 
             </div>
             <div style={{ marginBottom: "20px"}}>
                 <hr className={TextStyles.hr} />

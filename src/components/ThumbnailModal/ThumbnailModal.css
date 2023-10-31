@@ -327,7 +327,7 @@ input.input__field {
  
 .inputFields .form-control:focus {
   background-color: #fff;
-  color: #fff;
+  color: black;
   outline: none;
 }
 

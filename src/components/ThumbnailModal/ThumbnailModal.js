@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
+import { ChromePicker } from 'react-color';
 
 
 
@@ -72,12 +73,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
   const [textColorStyle, setTextColorStyle] = useState(null);
 
   const [showSubtitle, setShowSubtitle] = useState(true);
-
-  const [loading, setLoading] = useState(false);
-
-
-
-
+  const [showTitle,setShowTitle] =useState(true);
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
@@ -86,12 +82,9 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
 
   //fastApi에 요청 보내기 
     //cors 때문에 카카오에서막아둠 
-    const handleKarloImage = async () => {
-      let promptValue;
-      let negativePromptValue;
-    
-      try {
-        const result = await Swal.fire({
+    const handleKarloImage =async ()=>{
+      try{
+        const promptValue = await Swal.fire({
           title: '키워드를 입력해주세요',
           input: 'text',
           inputAttributes: {
@@ -101,19 +94,17 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
           confirmButtonText: '확인',
           cancelButtonText: '취소',
           showLoaderOnConfirm: true,
-          preConfirm: (value) => {
-            if (!value) {
+          preConfirm: (promptValue) => {
+            if (!promptValue) {
               Swal.showValidationMessage('키워드');
             }
           },
           allowOutsideClick: () => !Swal.isLoading()
-        });
-    
-        if (result.isConfirmed) {
-          promptValue = result.value;
-    
-          const negativeResult = await Swal.fire({
-            title: '화면에 표시를 원하지 않은 키워드를 입력해주세요',
+        }) 
+        // 긍정 키워드 완료되면 
+        if(promptValue.isConfirmed){
+          const negativeValue =await Swal.fire({
+            title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
             input: 'text',
             inputAttributes: {
               autocapitalize: 'off'
@@ -122,42 +113,52 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
             confirmButtonText: '확인',
             cancelButtonText: '취소',
             showLoaderOnConfirm: true,
-            preConfirm: (value) => {
-              if (!value) {
+            preConfirm: (negativeValue) => {
+              if (!negativeValue) {
                 Swal.showValidationMessage('부정적인 키워드');
               }
             },
             allowOutsideClick: () => !Swal.isLoading()
-          });
-    
-          if (negativeResult.isConfirmed) {
-            negativePromptValue = negativeResult.value;
-    
+          }) ;
+          if(negativeValue.isConfirmed){
+            console.log(promptValue.value);
+            console.log(negativeValue.value);
+            
+            
             const response = await fetch('http://localhost:8000/generate_image/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               },
               body: new URLSearchParams({
-                'prompt': promptValue,
-                'negative_prompt': negativePromptValue+"low quality, low contrast, draft, amateur, cut off, cropped, frame",
-                'samples': 3
+                'prompt': promptValue.value ,
+                'negative_prompt': negativeValue.value,
+                'samples': 1
               })
             });
     
-            const data = await response.json();
-            if (data.image_url) {
-              console.log('Image URL:', data.image_url);
-              setBackgroundImage(data.image_url);
+            if (response.ok) {
+              const data = await response.json(); // Convert response to JSON
+              if (data.image_url) {
+                console.log('Image URL:', data.image_url);
+                setBackgroundImage(data.image_url);
+              } else {
+                console.error('Error:', data.message);
+              }
             } else {
-              console.error('Error:', data.message);
+              throw new Error('Network response was not ok');
             }
           }
+          
         }
-      } catch (error) {
-        console.error('Error:', error);
+    
+    
+      }catch(error){
+        console.error('Error',error);
+        
       }
-    };
+    }
+     
    
   //url 통해서 프리뷰 변경하기
   const handleImageModal =   async() => {
@@ -218,6 +219,18 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
       randomTextColor === "black" ? "white" : "black"
     );
   };
+  const handleTitle=()=>{
+    setShowTitle(true)
+    setShowSubtitle(true)
+  }
+  const handleSubTitle=()=> {
+    setShowTitle(true)
+    setShowSubtitle(false)
+  }
+  const handleTitleSubTitle = ( ) => {
+    setShowSubtitle(false)
+    setShowTitle(false)
+  }
 
   //리셋하기
   const handleReset = () => {
@@ -296,12 +309,12 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                   }}
                 >
                   <ul className="components" id="comp__opt1">
-                    <li
+                    {showTitle && (<li
                       className="render title"
                       style={{ color: textColorStyle, fontSize:"40px",fontFamily: 'YeongdeokBlueroad' } }
                     >
                       {title}
-                    </li>
+                    </li>)}
                     {showSubtitle && (<li
                       className="render subtitle"
                       style={{ color: textColorStyle ,fontFamily: 'YeongdeokBlueroad'}}
@@ -360,15 +373,24 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
                     <div id="component__btn__container" className="modal__btns">
                       <ModalButton
                          className="me-3"
-                        onClick={() => setShowSubtitle(true)}
+                        onClick={() => handleTitle()}
+                        style={{width: '160px', height: '40px'}}
                       >
                         제목 / 내용
                       </ModalButton>
                       <ModalButton
-                        className="me-5"
-                        onClick={() => setShowSubtitle(false)}
+                        className="me-3"
+                        onClick={() => handleSubTitle()}
+                        style={{width: '160px', height: '40px'}}
                       >
                         제목만
+                      </ModalButton>
+                      <ModalButton
+                        className="me-3"
+                        onClick={() => handleTitleSubTitle()}
+                        style={{width: '160px', height: '40px'}}
+                      >
+                        없음
                       </ModalButton>
                     </div>
                   </div>
