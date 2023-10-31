@@ -14,11 +14,12 @@ export const CommonButton = styled(Button)`
     align-items: center;
     margin-right: 20px;
     border-radius: 10px;
+    transition: all 0.4s ease;
 
     &:hover {
         color: black;
         background: white;
-        border: 1px solid black;
+        border: 2px solid black;
     }
 `; 
 

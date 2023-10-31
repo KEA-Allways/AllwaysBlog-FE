@@ -113,11 +113,15 @@ function Topbar() {
 
 const LoginButton = styled(CommonButton)`
     padding : 3px;
-    height : 53px;
+    height : 45px;
+    margin-top: 4px;
+    transition: all 0.5 ease;
+
     &:hover {
-        background : black;
-        color : white;
-    }
+    transition: all 0.5 ease;
+    border-width : 2px;
+    border-color : black;
+  }
 `
 
 export default Topbar;
