@@ -53,7 +53,7 @@ const BlogBody = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const displayedData = list.slice(startIndex, endIndex);
+  const displayedData = list && list.length > 0 ? list.slice(startIndex, endIndex) : [];
 
   return (
     <Container>
@@ -131,11 +131,16 @@ const BlogBody = () => {
         
         {/* paging 추가 */}
         <div style={{ display: 'flex', justifyContent: 'center'}}>
-          <Paging
-          activePage={currentPage}
-          totalItemsCount={list.length}
-          onPageChange={handlePageChange}
-          itemsPerPage = {itemsPerPage}/>
+          {list && list.length > 0 ? (
+            <Paging
+              activePage={currentPage}
+              totalItemsCount={list.length}
+              onPageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+            />
+          ) : (
+            <p></p> // 데이터가 없을 경우 메시지 표시
+          )}
         </div>
     </Container>
   );

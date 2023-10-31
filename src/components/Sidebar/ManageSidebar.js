@@ -132,16 +132,13 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
                 {showModal && (
                   <ThemeModal showModal={showModal} onClose={() => setShowModal(false)} />
                 )}
-
+                {IsHeaderButton && (
                   <CommonButton variant="contained" size="small" onClick={headerButtonClicked}
                   style={{marginLeft:"5px",marginRight:"20px",marginTop:"20px"}}
                   >{HeaderButton}
                   </CommonButton> 
  
                 )}
- 
- 
-                      
  
             </div>
             <div style={{ marginBottom: "20px"}}>
