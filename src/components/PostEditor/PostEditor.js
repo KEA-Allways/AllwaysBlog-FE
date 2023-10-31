@@ -236,9 +236,9 @@ const PostEditor = () => {
         )}
         {/* 수정하러 들어왔을 때는 버튼을 2개 보여준다, 작성 완료 버튼을 누르면 /mngt/content 페이지로 이동하게 해뒀는데 어느 유저의 mngt/page로 갈지는 차후에 설정해줘야 함 */}
         {showButton === "수정" && (
-          <div>
-          <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>썸네일 변경</CommonButton>
-          <CommonButton style={{ marginTop: '30px' }} onClick={() => navigate('/mngt/content')}>작성 완료</CommonButton>
+          <div style={{display: 'flex', marginTop: '30px'}}>
+            <CommonButton onClick={() => setShowModal(true) }>썸네일 변경</CommonButton>
+            <CommonButton style={{marginRight: '0px'}} onClick={() => navigate('/mngt/content')}>작성 완료</CommonButton>
           </div>
         )}
       </div>

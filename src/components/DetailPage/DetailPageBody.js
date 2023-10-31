@@ -13,8 +13,6 @@ const apiUrl=`${process.env.REACT_APP_API_URL}/api/posts/1/replys`
 const  DetailPage=() => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const imgUrl = searchParams.get('imgUrl');
-    const title = searchParams.get('title');
     
     //댓글 현재 값 
     const [comment, setComment] = useState('');
@@ -74,7 +72,7 @@ const  DetailPage=() => {
           <Col md={2}></Col>
           <Col md={8}>
             <div>
-              <DetailPageContent title={title} imgUrl={imgUrl} />
+              <DetailPageContent/>
             </div>
             <div>
               <DetailPageComment  comment={comment}

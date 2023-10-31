@@ -4,7 +4,7 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ThumbnailModal.css";
 import html2canvas from "html2canvas";
-import {CommonButton }from "../../common";
+import {CommonButton, CommonColorButton, CommonDeleteButton }from "../../common";
 import styled from "@emotion/styled";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
@@ -28,14 +28,13 @@ const ModalButton = styled(CommonButton)`
   &:hover {
     color: white;
     background-color:black;
-    }
+    border: 0px solid black;
+  }
 `
 
-const ResetButton = styled(ModalButton)`
-  color: white;
+const ResetButton = styled(CommonDeleteButton)`
   width: 170px;
   height: 48px;
-  background: rgba(236, 83, 83);
   margin-right: 0px;
   
   &:hover {
@@ -45,8 +44,8 @@ const ResetButton = styled(ModalButton)`
   }
 `
 
-const SuccessButton = styled(ModalButton)`
-    color: white;
+const SuccessButton = styled(CommonColorButton)`
+  color: white;
   width: 170px;
   height: 48px;
   background: rgba(0,190,254);
