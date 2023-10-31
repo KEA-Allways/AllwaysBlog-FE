@@ -6,10 +6,14 @@ import styles from "./Sidebar.module.css";
 import sideBarStyles from '../Sidebar/Sidebar.module.css';
 import axios from "axios";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import BlogBody from "../Body/BlogBody";
+import BlogBody2 from "../Body/BlogBody2";
 
 
 function BlogSidebar({body}) {
-  const {themeId, listId} = useParams();
+  // const {themeId, listId} = useParams();
+
+  const [themeId, setThemeId] = useState(false);
   
 
   const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
@@ -71,7 +75,8 @@ function BlogSidebar({body}) {
     } else if(menu === "여행 다이어리"){
       document.documentElement.style.setProperty('--background-image', `url(${backgroundImg2})`);
     }
-    
+
+    setThemeId((prev) => !prev);
 
 
     const updatedMenuStates = { ...menuStates };
@@ -121,6 +126,7 @@ function BlogSidebar({body}) {
   return (
     <>
       <div className={styles.App}>
+        {console.log(themeId)}
         {/* 사이드바 컨테이너 박스 */}
         <div className={styles.sidebarContainer}>
           {/* 사이드바 박스 */}
@@ -215,7 +221,7 @@ function BlogSidebar({body}) {
         </div> {/*사이드바 컨테이너 끝 */}
         {/* 바디 컨테이너 시작 */}
         <div className={styles.bodyContainer}>
-          {body}
+          {themeId ? <BlogBody2/> : <BlogBody />}
         </div>
         {/* 바디 컨테이너 끝 */}
       </div>

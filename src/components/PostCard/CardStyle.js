@@ -6,7 +6,7 @@ import { Avatar, IconButton, Typography } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from "./CardStyle.module.css";
 
-const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue,profile}) => {
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue,profile, usericon}) => {
   return (
         <Card className={styles.cardStyle}
           sx={{ transition: "all 0.5s ease",
