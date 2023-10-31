@@ -35,7 +35,7 @@ const BlogBody = () => {
 
   const apiGetPosts = (page, itemsPerPage) => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/posts/main`)
+      .get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
       .then((response) => {
         setLists(response.data.posts);
         console.log(list)
