@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
@@ -15,6 +15,24 @@ const BlogCreationPage = () => {
   const [blogName, setBlogName] = useState("");
   const [description, setDescription] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [profileImg, setProfileImg] = useState("");
+
+  const apiGetProfileImg = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/users`)
+      .then((response) => {
+        setProfileImg(response.data.profileImg);
+      })
+      .catch((error) => {
+        console.error('API GET request error:', error);
+      });
+    
+  }
+
+
+  useEffect(() => {
+    apiGetProfileImg();
+  }, []);
   
   const createBtnClicked = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
@@ -53,7 +71,7 @@ const BlogCreationPage = () => {
           <BlogTitle>블로그 생성</BlogTitle>
 
           <Profile
-            //src={profileImage}
+             src={profileImg}
             style={{ margin: "10px", cursor: "pointer" }}
           />
 
