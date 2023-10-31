@@ -32,7 +32,7 @@ const  DetailPage=() => {
             "userId": "testId",
             "replySeq": `${comments.length}`,
             "nickname": "우디",
-            "replyDate": "2023-10-12",
+            "replyDate": "2023-10-31",
             "profileImg" : "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/icon/woody.png",
             "replyContent": `${comment}`
           };
