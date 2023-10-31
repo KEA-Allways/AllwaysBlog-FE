@@ -11,11 +11,8 @@ function BlogSidebar({body}) {
   const {themeId, listId} = useParams();
   
 
-  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/pizza.jpg";
-  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Eiffel_Tower.jpg";
-
-
-
+  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
+  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Sydney.jpg";
 
   const pathName = useLocation().pathname;
   const [menuStates, setMenuStates] = useState({});
