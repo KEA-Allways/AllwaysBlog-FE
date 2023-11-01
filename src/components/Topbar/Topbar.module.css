@@ -1,5 +1,4 @@
 .App {
-    font-family: 'IBM Plex Sana Thai Looped' sans-serif;
     color: black;
 }
 
@@ -18,8 +17,9 @@
 
 .topbarLogo {
     width: 150px;
-    /*height: 50px;*/
-    margin-left: 10px; 
+    height: 50px;
+    margin-left: 10px;
+    padding : 3px; 
     alt: 'Allways 로고';
 }
 
@@ -42,7 +42,8 @@
     justify-content: center;
     text-align: center;
     height : 100%;
-    margin-right: 20px;
+    margin-right: 40px;
+    width: 5px;
 }
 
 

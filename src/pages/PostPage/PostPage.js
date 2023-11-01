@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import PostEditor from "../../components/PostEditor/PostEditor"
 import { Row, Col } from 'react-bootstrap';
-import SungjunTopbar from '../../components/Topbar/SungjunTopbar';
+import Topbar from '../../components/Topbar/Topbar';
 
 const PostPage = () => {
   const location = useLocation();
@@ -11,7 +11,7 @@ const PostPage = () => {
 
     return (
       <div>
-        <SungjunTopbar />
+        <Topbar />
         <Row>
           <Col md={1}></Col>
           <Col md={10}>

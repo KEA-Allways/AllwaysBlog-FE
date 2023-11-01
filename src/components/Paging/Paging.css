@@ -15,7 +15,7 @@ ul.pagination li {
   color: black;
   width: 40px;
   height: 40px;
-  border: 1px solid black;
+  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,6 +36,8 @@ ul.pagination li a {
   text-decoration: none;
   color: black;
   font-size: 1rem;
+  /* 3px 위로 올려서 박스의 중간에 위치하게 함 */
+  padding-bottom: 3px;
 }
 
 ul.pagination li.active a {
@@ -46,8 +48,9 @@ ul.pagination li.active {
   background-color: black;
 }
 
-.page-selection {
+/* 이부분이 무슨 내용인지 모르겠음 */
+/* .page-selection {
   width: 48px;
   height: 30px;
   color: #337ab7;
-}
+} */

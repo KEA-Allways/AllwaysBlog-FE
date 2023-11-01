@@ -19,7 +19,7 @@ const SmallButton = styled(CommonButton)`
     color:black;
     width: 40px;
     height: 40px;
-    border-color:black;
+    border: 1px solid black;
     font-size: 16px;
     cursor: pointer;
     display: flex;
@@ -71,10 +71,10 @@ const MngtTemplate = () => {
     const HeaderTitle = "템플릿 관리";
     const HeaderButton = "템플릿 추가";
     const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: null, templateSeq: 0 } });
+        navigate('/post', { state: { postSeq: undefined, templateSeq: 0 } });
     };
     const editButtonClicked = (templateSeq) => {
-        navigate('/post', { state: { postSeq: null, templateSeq: templateSeq } });
+        navigate('/post', { state: { postSeq: undefined, templateSeq: templateSeq } });
     }
 
     // 페이지네이션 관련
@@ -105,7 +105,7 @@ const MngtTemplate = () => {
                                     return (
                                     <TableRow
                                         key={row.templateSeq}
-                                        style={{height:'70px'}}
+                                        style={{height:'80px'}}
                                         onMouseEnter={() => mouseOn(idx)} onMouseLeave={() => mouseOff(idx)}
                                     >
                                         <TableCell align="center">

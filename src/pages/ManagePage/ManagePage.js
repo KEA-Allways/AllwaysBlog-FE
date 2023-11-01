@@ -4,6 +4,9 @@ import { Box, Container, Grid } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { CommonColorButton, CommonDeleteButton } from '../../common';
+import {FaEye} from "react-icons/fa"
+import {FaEyeSlash} from "react-icons/fa"
 
 const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
@@ -13,6 +16,8 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
   const [description, setDescription] = useState();
   const [password, setPassword] = useState();
   const [repeatPassword, setRepeatPassword] = useState();
+
+  const [isShowPw, setShowPwState] = useState(false);
 
   const fileInput = useRef(null);
   const [file, setFile] = useState("");
@@ -97,9 +102,7 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setProfileImg(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      );
+      
       return;
     }
 
@@ -109,12 +112,18 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImg(reader.result);
-        alert(reader.result);
       }
     };
 
     reader.readAsDataURL(e.target.files[0]);
   };
+
+
+  
+  
+  const toggleHidePassword =()=>{
+    setShowPwState(!isShowPw);
+  }
 
   return (
     <ManageTopSideBar
@@ -183,11 +192,13 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <PasswordInput
               placeholder=""
+              type={isShowPw ? "text":"password"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
+            <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
           </TextInputContainer>
 
           <TextInputContainer>
@@ -195,11 +206,14 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <PasswordInput
               placeholder=""
-              value={password}
+              type={isShowPw ? "text":"password"}
+              value={repeatPassword}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setRepeatPassword(e.target.value);
               }}
             />
+
+          <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
           </TextInputContainer>
 
           <Line />
@@ -250,6 +264,7 @@ const Profile = styled.img`
 `;
 
 const TextInputContainer = styled.div`
+  position : relative;
   flex-direction: column;
   display: flex;
   margin-top: 23px;
@@ -268,29 +283,10 @@ const BtnsContainer = styled.div`
   height: 48px;
 `;
 
-const Btn = styled.div`
+const Btn = styled(CommonColorButton)`
   width: 170px;
   height: 48px;
-  line-height: 48px;
-  background: #00b4ef;
-  border: 1px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  color: white;
-  justify-content: center;
   text-align: center;
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-  &:hover {
-    transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
-    transition: 0.5s;
-  }
 `;
 
 const ProfileUpload = styled.input`
@@ -373,29 +369,19 @@ const Line = styled.hr`
   width: 335px;
 `;
 
-const DeleteBtn = styled.div`
+const DeleteBtn = styled(CommonDeleteButton)`
   width: 170px;
   height: 48px;
-  line-height: 48px;
-  background: #ec5353;
-  border: 1px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  color: white;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-  &:hover {
-    transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
-    transition: 0.5s;
-  }
+  margin-right: 0px;
+  
 `;
+
+const Icon = styled.div`
+  position: absolute;
+  margin-top: 45px;
+  left: 90%;
+  cursor: pointer;
+`;
+
 
 export default ManagePage;

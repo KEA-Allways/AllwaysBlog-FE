@@ -7,13 +7,10 @@ import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-import loginStore from "../../store/store";
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import {loginStore} from "../../store/store";
+import Topbar from "../../components/Topbar/Topbar";
+import { CommonColorButton } from '../../common';
 
-
-
-
- 
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -34,7 +31,7 @@ const LoginPage = () => {
       },
     }).then((result) => {
       if (result.status === 200) {
-        navigate("/");
+        window.open('/', '_self')
       }
     })
     .catch((err) => {
@@ -45,7 +42,6 @@ const LoginPage = () => {
   const toggleHidePassword =()=>{
     setShowPwState(!isShowPw);
   }
-
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;
 
@@ -83,7 +79,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <SungjunTopbar />
+      <Topbar />
       <Container>
         <LoginSection>
           <LoginTitle>Login</LoginTitle>
@@ -217,7 +213,7 @@ const ReLoginCheckBox = styled.input`
   float: left;
   width: 20px;
   height: 20px;
-  background: #11a3fc;
+  background: rgba(0,190,254);
   border-radius: 30%;
   position: relative;
   border: 1px solid #11a3fc;
@@ -261,47 +257,19 @@ const BtnsContainer = styled.div`
   justify-content: space-between;
 `;
 
-const LoginBtn = styled.div`
-  width: 156px;
-  height: 48px;
-  line-height: 48px;
-  background: #00b4ef;
-  border: 1px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  color: white;
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-  &:hover {
-    transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
-    transition: 0.5s;
-  }
+const LoginBtn = styled(CommonColorButton)`
+  margin-right: 0px;
 `;
 
-const SignupBtn = styled.div`
-  width: 156px;
-  height: 48px;
-  line-height: 48px;
-  background: #ffffff;
+const SignupBtn = styled(CommonColorButton)`
+  background: white;
   border: 0.5px solid #dadada;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
   color: black;
+  margin-right: 0px;
 
-  transition: all 0.5s ease;
   &:hover {
     transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
+    background: white;
     transition: 0.5s;
   }
 `;

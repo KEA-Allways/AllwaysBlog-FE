@@ -227,15 +227,6 @@ input.input__field {
 }
 
  
-.input__field:last-child {
-  margin-right: 0;
-}
-
-.control__panel .inputFields .inactive {
-  display: none;
-}
-
-/* BTN */
  
  
  
@@ -308,52 +299,7 @@ input.input__field {
   opacity: 0;
 }
 
-/* 제목 부제목 입력 관련 inputFields */
 
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.inputFields .form-group {
-  margin-right: 10px;
-}
-
-.inputFields .form-group:last-child {
-  margin-right: 0;
-}
-
- 
-.inputFields .form-control:focus {
-  background-color: #fff;
-  color: black;
-  outline: none;
-}
-
-.inputFields .form-control:focus::placeholder {
-  color: black;
-}
-
-.inputFields .form-control::placeholder {
-  color: #a7a7a7;
-}
-
-.inputFields .form-control:last-child {
-  margin-right: 0;
-}
-
-.inputFields .inactive {
-  display: none;
-}
- 
-/* INPUT FIELDS */
-.inputFields {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end; /* Align to the right */
-}
- 
 
 
 /* CONTROL PANEL */

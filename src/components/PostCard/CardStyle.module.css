@@ -13,3 +13,7 @@
     /* 확대 효과 */
     transform: scale(1.05);
 }
+
+.cardDetail {
+    font-family: "YeongdeokBlueroad";
+}

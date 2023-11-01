@@ -1,15 +1,16 @@
 import ManageSidebar from "../Sidebar/ManageSidebar";
-import SungjunTopbar from "../Topbar/SungjunTopbar";
+import Topbar from "../Topbar/Topbar";
 
 
-const ManageTopSideBar = ({ HeaderTitle, HeaderButton, HeaderAction, Container}) => {
+const ManageTopSideBar = ({ HeaderTitle, HeaderButton,HeaderButton2, HeaderAction, Container}) => {
 
     return (
         <div>
-            <SungjunTopbar/>
+            <Topbar />
             <ManageSidebar 
                 HeaderTitle={HeaderTitle} 
                 HeaderButton={HeaderButton} 
+                HeaderButton2={HeaderButton2}
                 HeaderAction={HeaderAction} 
                 BodyContainer={Container} />
         </div>

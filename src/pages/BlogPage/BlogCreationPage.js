@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import React from "react";
-import kaBtn from "../../assets/kakao_login_btn.png";
 import Swal from "sweetalert2";
-import { FaEye } from "react-icons/fa";
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import Topbar from "../../components/Topbar/Topbar";
+import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
+import ThemeModal from "../../components/ThemeModal/ThemeModal";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
@@ -14,11 +14,30 @@ const BlogCreationPage = () => {
   const [response, setResponse] = useState("1");
   const [blogName, setBlogName] = useState("");
   const [description, setDescription] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [profileImg, setProfileImg] = useState("");
+
+  const apiGetProfileImg = () => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/api/users`)
+      .then((response) => {
+        setProfileImg(response.data.profileImg);
+      })
+      .catch((error) => {
+        console.error('API GET request error:', error);
+      });
+    
+  }
+
+
+  useEffect(() => {
+    apiGetProfileImg();
+  }, []);
   
   const createBtnClicked = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
         blogName: blogName,
-        pasdescriptionsword: description,
+        paswordDescriptions: description,
       })
       .then((response) => {
         //setResponse(response);
@@ -43,20 +62,21 @@ const BlogCreationPage = () => {
 
   return (
     <>
-      <SungjunTopbar />
+      <Topbar />
 
       <Container>
+
         <BlogSection>
+
           <BlogTitle>블로그 생성</BlogTitle>
 
-
           <Profile
-            //src={profileImage}
+             src={profileImg}
             style={{ margin: "10px", cursor: "pointer" }}
           />
 
-
           <TextInputContainer>
+
           <Text>블로그 이름</Text>
 
             <BlogNameInput
@@ -65,10 +85,12 @@ const BlogCreationPage = () => {
                 setBlogName(e.target.value);
               }}
             />
+
           </TextInputContainer>
 
 
           <TextInputContainer>
+
           <Text>블로그 소개</Text>
             
             <BlogDescriptionInput
@@ -77,15 +99,20 @@ const BlogCreationPage = () => {
                 setDescription(e.target.value);
               }}
             />
+
           </TextInputContainer>
 
           <Line />
 
           <BtnsContainer>
-            <CreationBtn onClick={createBtnClicked}>블로그 생성</CreationBtn>
+            <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn>
           </BtnsContainer>
         </BlogSection>
       </Container>
+      <ThemeModal
+        showModal={showModal}
+        onClose={() => setShowModal(false)} 
+      />
     </>
   );
 };
@@ -107,6 +134,7 @@ const BlogSection = styled.div`
   width: 550px;
   height: 700px;
   background: #fff;
+  backdrop-filter: blur(5.5px);
   border: solid;
   border-color: rgba(0, 0, 0, 0);
   box-shadow: 5px rgba(1, 0, 0, 3);
@@ -203,14 +231,12 @@ const CreationBtn = styled.div`
   color: white;
   cursor: pointer;
 
-
   transition: all 0.5s ease;
   &:hover {
     transform: scale(1.05);
-    background: cornflowerblue;
-    color: white;
+    background: rgba(0,170,234);
     transition: 0.5s;
-  }
+}
 `;
 
 const SignupBtn = styled.div`

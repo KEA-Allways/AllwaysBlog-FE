@@ -6,7 +6,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-import SungjunTopbar from "../../components/Topbar/SungjunTopbar";
+import Topbar from "../../components/Topbar/Topbar";
+import { CommonColorButton } from '../../common';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -15,16 +16,17 @@ const SignUpPage = () => {
 
   const [file, setFile] = useState("");
 
-  const [profileImage, setProfileImage] = useState(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  );
-
   const [response, setResponse] = useState("");
-  const [userId, setUserId] = useState("");
-  const [email, setEmail] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+
+  const [form,setForm] = useState({
+    profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    userId: '',
+    email: '',
+    nickname: '',
+    password: '',
+    repeatPassword: ''
+
+  });
 
   const [isShowPw, setShowPwState] = useState(false);
   
@@ -36,16 +38,15 @@ const SignUpPage = () => {
   const signUpBtnClicked = () => {
      axios.post(`${process.env.REACT_APP_API_URL}/api/users/new-user`,
         {
-          profileImg: profileImage,
-          userId: userId,
-          email: email,
-          nickname: nickname,
-          password: password,
-          repeatPassword: repeatPassword,
+          profileImg: form.profileImage,
+          userId: form.userId,
+          email: form.email,
+          nickname: form.nickname,
+          password: form.password,
+          repeatPassword: form.repeatPassword,
         }
       )
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           Swal.fire({
             title: "회원가입 성공!",
@@ -68,8 +69,7 @@ const SignUpPage = () => {
       setFile(e.target.files[0]);
     } else {
       //업로드 취소할 시
-      setProfileImage(
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      setForm({...form, profileImage :  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
       );
       return;
     }
@@ -79,8 +79,7 @@ const SignUpPage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setProfileImage(reader.result);
-        alert(reader.result);
+        setForm({...form, profileImage : reader.result});
       }
     };
 
@@ -89,14 +88,14 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SungjunTopbar />
+      <Topbar />
       
       <Container>
         <SignUpSection>
           <SignUpTitle>회원가입</SignUpTitle>
 
           <Profile
-            src={profileImage}
+            src={form.profileImage}
             style={{ margin: "10px", cursor: "pointer" }}
             onClick={() => {
               fileInput.current.click();
@@ -118,20 +117,19 @@ const SignUpPage = () => {
               <Input
                 placeholder="이메일을 입력해주세요."
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  setForm({...form, email : e.target.value});
                 }}
               />
 
-              <EmailBtn>인증하기</EmailBtn>
+              {/* <EmailBtn>인증하기</EmailBtn> */}
             </TextInputContainer>
-
             
             <SignUpText>아이디</SignUpText>
             <TextInputContainer>
               <Input
                 placeholder="아이디를 입력해주세요."
                 onChange={(e) => {
-                  setUserId(e.target.value);
+                  setForm({...form, userId : e.target.value});
                 }}
               />
             </TextInputContainer>
@@ -142,7 +140,7 @@ const SignUpPage = () => {
               <Input
                 placeholder="닉네임을 입력해주세요."
                 onChange={(e) => {
-                  setNickname(e.target.value);
+                  setForm({...form, nickname : e.target.value});
                 }}
               />
             </TextInputContainer>
@@ -154,7 +152,7 @@ const SignUpPage = () => {
                 placeholder="비밀번호를 입력해주세요."
                 type={isShowPw ? "text":"password"}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  setForm({...form, password : e.target.value});
                 }}
               />
                 <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
@@ -167,7 +165,7 @@ const SignUpPage = () => {
                 placeholder="비밀번호를 다시 입력해주세요."
                 type={isShowPw? "text":"password"}
                 onChange={(e) => {
-                  setRepeatPassword(e.target.value);
+                  setForm({...form, repeatPassword : e.target.value});
                 }}
               />
                 <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
@@ -279,7 +277,6 @@ const Profile = styled.img`
 
   &:hover {
     transform: scale(1.1);
-
     transition: 0.5s;
   }
 `;
@@ -346,90 +343,25 @@ const Input = styled.input`
   }
 `;
 
-const EmailBtn = styled.div`
+const EmailBtn = styled(CommonColorButton)`
   width: 100px;
-
   height: 38px;
-
   margin-left: 15px;
-
+  margin-right: 0px;
   line-height: 38px;
-
-  background: #00b4ef;
-
-  border: 1px solid #dadada;
-
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
-  border-radius: 15px;
-
-  font-style: normal;
-
-  font-weight: 400;
-
   font-size: 14px;
-
-  color: white;
-
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.05);
-
-    background: cornflowerblue;
-
-    transition: 0.5s;
-  }
 `;
 
-const SignUpBtn = styled.div`
-
-
-
+const SignUpBtn = styled(CommonColorButton)`
   text-align: center;
-
-  width: 156px;
-
-  height: 48px;
-
-  line-height: 48px;
-
-  background: #00b4ef;
-
-  border: 1px solid #dadada;
-
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
-  border-radius: 15px;
-
-  font-style: normal;
-
-  font-weight: 400;
-
-  font-size: 18px;
-
-  color: white;
-
-  cursor: pointer;
-
-  transition: all 0.5s ease;
-
-  &:hover {
-    transform: scale(1.05);
-
-    background: cornflowerblue;
-
-    transition: 0.5s;
-  }
 `;
 
 const Icon = styled.div`
   position: absolute;
-  top: 11px;
+  top: 7px;
   bottom: 0px;
-  left: 64%;
+  /* left: 64%; */
+  left : 85%;
   height: 20px;
   cursor: pointer;
 `;

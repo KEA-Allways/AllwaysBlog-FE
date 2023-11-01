@@ -1,11 +1,11 @@
 import BlogSidebar from "../Sidebar/BlogSidebar";
-import SungjunTopbar from "../Topbar/SungjunTopbar";
+import Topbar from "../Topbar/Topbar";
 
 
 const BlogTopSideBar = ({body}) => {
     return (
         <div>
-            <SungjunTopbar/>
+            <Topbar/>
             <BlogSidebar body={body}/>
         </div>
     )

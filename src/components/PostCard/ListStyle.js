@@ -1,29 +1,68 @@
 import Card from 'react-bootstrap/Card';
+import CardMedia from '@mui/material/CardMedia';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import { IconButton, Typography } from "@mui/material";
+import { Avatar, IconButton, Typography } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from "./ListStyle.module.css";
+import Box from '@mui/material/Box';
 
-const ListStyle = ({title, subtitle, nickname}) => {
+const ListStyle = ({imgUrl, alt, imgHeight, imgWidth, title, subtitle, nickname, date,profile}) => {
     return (
-      <div>
-        <Card className={styles.listStyle} style={{borderRadius: '10px', marginBottom: "30px"}}>
-          <CardHeader
-            title={title}/>
-              
-          <CardContent>
-            <Typography variant="body2" color="text.secondary">
+      <Card className={styles.listStyle}
+        sx={{ transition: "all 0.5s ease", 
+        borderRadius:"10px",
+        boxShadow:"1px 1px 15px -5px black" }}
+
+        style={{height: imgHeight, 
+          flexDirection: 'row', 
+          display: 'flex-start'}}>
+
+        <CardMedia
+          component="img"
+          height={imgHeight}
+          width={imgWidth}
+          image={imgUrl}
+          alt={alt}
+          
+          //사진 꽉채우기 css 
+          sx={{
+            objectFit: 'cover',
+            height: imgHeight,
+            width: '25%',
+            borderRadius:"10px 0 0 10px"
+          }}
+        />
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', width: '75%', alignI: 'flex-end' }}>
+
+          <CardHeader title={title} style={{ height: '15%', marginTop: '3%'}}/>
+
+          <CardContent className={styles.cardDetail} style={{ height: '75%', marginTop: '1%' }}>
+
+            <Typography variant="body2" color="text.secondary" style={{ height: '75%' }}>
               {subtitle}
+
             </Typography>
-            <hr/>
-            <IconButton aria-label="user-icon" width="20px" height="20px">
-              <AccountCircleIcon />
-            </IconButton>
-            {nickname}
+
+            <div style={{ display: 'flex', width: '100%', alignItems: 'center', height: '15%', marginTop: '1%' }}>
+
+              <div style={{ display: 'flex', alignItems: 'center', width: '80%' }}>
+                <IconButton aria-label="user-icon" sx={{ width: '20px', height: '20px', marginRight: '10px' }}>
+                <Avatar src = {profile} />
+                </IconButton>
+
+                <Typography variant="p" color="text.secondary" sx ={{marginLeft : 1}}style={{ height: '75%' }}>
+                  {nickname}
+                </Typography>
+              </div>
+
+              <div style={{ width: '20%', marginRight: '10%' }}>{date}</div>
+
+            </div>
+
           </CardContent>
-        </Card>
-      </div>
+        </Box>
+      </Card>
     );
   };
 
