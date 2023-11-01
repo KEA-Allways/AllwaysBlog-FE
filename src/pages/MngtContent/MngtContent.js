@@ -104,7 +104,7 @@ const MngtContents = () => {
                     >
                       <TableCell align="center">{idx + 1}</TableCell>
                       <TableCell align="left" colSpan={1}>
-                        <p style={{ margin: '0' }}>{row.name}</p>
+                        <p style={{ margin: '0' }}>{row.title}</p>
                         <p style={{ margin: '0' }}>{row.themeName}/{row.ListName} | {row.nickname} | {row.postDate}</p>
                       </TableCell>
                       <TableCell align="center">
