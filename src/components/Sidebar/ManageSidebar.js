@@ -119,27 +119,27 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
           </div> {/*사이드바 컨테이너 끝 */}
           {/* 바디 컨테이너 시작 */}
           <div className={styles.bodyContainer} style={{ marginRight: "160px", marginLeft: "150px", marginTop: "30px"}}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display : "flex", justifyContent: 'space-between', }}>
                 <h3 className={TextStyles.h3}>
                     {HeaderTitle}
                 </h3>
-                {/* 버튼 보여주게 하기  */}
-                {IsHeaderButton2 && (
-                  <CommonButton variant="contained" size="small" onClick={themeAddButtonClicked}
-                  style={{marginLeft:"450px" ,marginTop:"20px"}}
-                  >{HeaderButton2}</CommonButton>
-                )}
-                {showModal && (
-                  <ThemeModal showModal={showModal} onClose={() => setShowModal(false)} />
-                )}
-                {IsHeaderButton && (
-                  <CommonButton variant="contained" size="small" onClick={headerButtonClicked}
-                  style={{marginLeft:"5px",marginRight:"20px",marginTop:"20px"}}
-                  >{HeaderButton}
-                  </CommonButton> 
- 
-                )}
- 
+                  {/* 버튼 보여주게 하기  */}
+                  <div style={{display : "flex", flexDirection : "row", marginTop : "30px"}}>
+                    {IsHeaderButton2 && (
+                      <CommonButton onClick={themeAddButtonClicked}
+                      
+                      >{HeaderButton2}</CommonButton>
+                    )}
+                    {showModal && (
+                      <ThemeModal showModal={showModal} onClose={() => setShowModal(false)} />
+                    )}
+                    {IsHeaderButton && (
+                      <CommonButton onClick={headerButtonClicked}
+                      
+                      >{HeaderButton}
+                      </CommonButton>
+                    )}
+                  </div>
             </div>
             <div style={{ marginBottom: "20px"}}>
                 <hr className={TextStyles.hr} />
