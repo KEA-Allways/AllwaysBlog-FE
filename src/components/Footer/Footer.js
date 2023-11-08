@@ -4,7 +4,8 @@ import "./Footer.module.css";
 import styles from "./Footer.module.css";
 import {CommonButton }from "../../common";
 import TextField from '@mui/material/TextField';
-
+import styled from '@emotion/styled';
+import { Button } from "@mui/material";
 import { FaGoogle } from "react-icons/fa";
 import {FaGithub} from "react-icons/fa"
 import {FaInstagram} from "react-icons/fa"
@@ -60,7 +61,8 @@ export default function footer() {
                         <input type="email" name="email" placeholder="Your Email" className={styles.footerInput} />
                     </form>
                     </div>
-                    <CommonButton variant="contained" size="small">구독</CommonButton> 
+                    {/* <CommonButton variant="contained" size="small">구독</CommonButton>  */}
+                    <SubscribeButton variant='contained' size='small'>구독</SubscribeButton>
                      
                 </div>
             </MDBCol>
@@ -119,4 +121,30 @@ export default function footer() {
   );
 }
 
+const SubscribeButton = styled(Button)`
+    background: rgba(0,190,254);
+    color: white;
+    width: 156px;
+    height: 45px;
+    background : black;
+    color : white;
+    border: 1px solid #dadada;
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size : 16px;
+    line-height: 45px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
 
+    &:hover {
+        transform: scale(1.05);
+        background: linear-gradient(to right, #c9ffbf, #ffafbd);
+        transition: 0.5s;
+    }
+`;

@@ -22,7 +22,7 @@ function Topbar() {
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    const [themes, setThemes] = useState(["소소한 일상 기록", "여행 다이어리"]);
+    const [themes, setThemes] = useState(["여행 다이어리", "소소한 요라 기록"]);
     let  params  = useParams();
 
     const handleButtonClick = () => {
@@ -96,9 +96,7 @@ function Topbar() {
                             align="end"
                             className={styles.rightSideContainer} >
                                 <NavDropdown.Item 
-                                    // href={hasBlog ? "/blogs" : "/blog-creation"}                             
                                     onClick={handleBlogButtonClicked}
-                                    // onClick={() => { if(!hasBlog) Swal.fire({title : "블로그가 없어 생성 페이지로 이동합니다."})}} 
                                     style={{width: "100px", marginRight: "50px"}}>내 블로그</NavDropdown.Item>
                                 <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>
