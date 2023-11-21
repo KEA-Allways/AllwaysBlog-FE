@@ -28,15 +28,10 @@ const ModalButton = styled(CommonButton)`
     color: white;
       background: white;
        
-       
+      border: 0px solid white;
     }
    
 `
-
-
-
- 
-
 const SuccessButton = styled(CommonColorButton)`
 
     font-size:14px;
@@ -57,14 +52,18 @@ const ThemeModal = ({ showModal, onClose} ) => {
   //modal
    
   const navigate = useNavigate();
+  
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
+  const [s3ImageUrl, setS3ImageUrl] = useState('');
+  const [themeName, setThemeName] = useState('');
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
 
 
 const handleKarloImage =async ()=>{
+  
   try{
     const promptValue = await Swal.fire({
       title: '키워드를 입력해주세요',
@@ -106,24 +105,32 @@ const handleKarloImage =async ()=>{
         console.log(promptValue.value);
         console.log(negativeValue.value);
         
-        
+        const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+        const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+        // FASTAPI 와 통신
         const response = await fetch('http://localhost:8000/generate_image/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: new URLSearchParams({
-            'prompt': promptValue.value ,
-            'negative_prompt': negativeValue.value,
-            'samples': 1
+            'positivePrompt': promptValue.value+positive,
+            'negativePrompt': negativeValue.value +negative,
+            'samples': 1,
+            'image_quality':100,
+            'width':640,
+            'height':320
           })
         });
-
+        //fastAPi에서 받은 image url 적용 
         if (response.ok) {
           const data = await response.json(); // Convert response to JSON
-          if (data.image_url) {
-            console.log('Image URL:', data.image_url);
-            setBackgroundImage(data.image_url);
+          //받아온 s3_image_url 값이 있으면
+          if (data.s3_image_url) {
+           
+            console.log('Image URL:', data.s3_image_url);
+            setS3ImageUrl(data.s3_image_url);
+            setBackgroundImage(data.s3_image_url);
           } else {
             console.error('Error:', data.message);
           }
@@ -195,31 +202,40 @@ const handleKarloImage =async ()=>{
     setBackgroundColor("");
     
   };
-  //사진 윈도우에 저장하기
+  
+  //테마 제작 
   const handleExport =  () => {
     if (previewRef.current) {
-        html2canvas(previewRef.current, {
-        allowTaint: true,
-        useCORS: true,
-      }).then((canvas) => {
-        
-        
-        const imgData = canvas.toDataURL("image/png");
-        const imgSrc = /^data:image/.test(imgData) ? imgData : imgData + '?' + new Date().getTime();
-        const link = document.createElement("a");
-        link.download = "thumbnail.png";
-        link.href = imgSrc;
-        link.click();
-      });
-
-
+      
+      //백엔드로 전송 
+      fetch('http://localhost:8761/api/theme', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          imageUrl: s3ImageUrl,
+          themeName: themeName,
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from the backend as needed
+          console.log(data);
+        })
+        .catch(error => {
+          // Handle errors
+          console.error('Error:', error);
+        });
+       
+      //image_url spring boot 로 보내기 
       Swal.fire ({
-        title:"게시글 제작",
+        title:"테마 제작",
         timer:3000,
         didOpen:()=>{
           Swal.showLoading()
         }
-      }).then(navigate("/blogs"))
+      }).then(navigate("/"))
     }
   };
 
@@ -235,13 +251,17 @@ const handleKarloImage =async ()=>{
         enforceFocus={false}
       >
       
-        <section className="wrapper"  >
+        <section className="wrapper" style={{height:"620px"}}>
           <Container fluid className="wrapper">
             <Row className="contents">
                
             <header style={{  display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "380px",marginTop:"5px" }}>테마 이미지 생성기</h3>
+              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "380px",marginTop:"5px" }}>
+                테마 이미지 생성기
+              </h3>
+              
               <div style={{ textAlign: "right" }}>
+               
                 <SuccessButton
                   className="modal__sucess__btn me-3"
                   id="export"
@@ -251,7 +271,16 @@ const handleKarloImage =async ()=>{
                   완료 및 이미지화
                 </SuccessButton>
               </div>
+              
             </header>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Form.Control size="sm" type="text" placeholder="테마를 적어주세요" 
+            value={themeName}
+            onChange={(e) => setThemeName(e.target.value)}
+            style={{width:"250px", height:"20px" , 
+            fontSize:"18px",fontWeight:"bold",textAlign:"center" }}/>
+
+            </div>
                 
                 <div
                    
