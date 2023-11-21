@@ -60,9 +60,9 @@ const SuccessButton = styled(CommonColorButton)`
 `
 
 
-const ThumbnailModal = ({ showModal, onClose} ) => {
-  //modal
-   
+const ThumbnailModal = (props) => {
+  const { showModal, onClose, postContent, postTitle} = props;
+
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
@@ -241,13 +241,34 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setTextColorStyle("white")
     setShowSubtitle(true)
   };
-  //사진 윈도우에 저장하기
+
+  //저장버튼 클릭 시
   const handleExport =  () => {
     
+    //게시글 저장
+    fetch('http://localhost:8085/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'userSeq' : 1,
+        },
+        body: JSON.stringify({
+          postTitle: postTitle,
+          postContent: postContent,
+          categorySeq : 1
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
 
+    //사진 윈도우에 저장하기
+    /*
     if (previewRef.current) {
-
-
         html2canvas(previewRef.current, {
         allowTaint: true,
         useCORS: true,
@@ -269,6 +290,7 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
         }
       }).then(navigate("/blogs"))
     }
+    */
   };
 
   return (
