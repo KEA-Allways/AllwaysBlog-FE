@@ -19,8 +19,8 @@ import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 
 const REACT_APP_AWS_S3_BUCKET_REGION = 'ap-northeast-2';
-const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = 'AKIA5DFK2SNGSWA4F2CW';
-const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = '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';
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = 'A';
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = '+YP';
 
 
 const Container = styled.div`
