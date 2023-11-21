@@ -18,9 +18,9 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 
-const REACT_APP_AWS_S3_BUCKET_REGION = 'ap-northeast-2';
-const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = 'A';
-const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = '+YP';
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
 
 
 const Container = styled.div`
@@ -36,9 +36,7 @@ const PostEditor = () => {
   const templateSeq = location.state.templateSeq;
   console.log("postSeq: " + postSeq);
   console.log("TemplateSeq: " + templateSeq);
-
-   const [content, setContent] = useState("");
-console.log(content);
+  const [postContent, setPostContent] = useState("");
 
   const navigate = useNavigate();
   // 에디터 상태(Content 상태)
@@ -46,7 +44,6 @@ console.log(content);
   // 제목 상태
   const [titleState, setTitleState] = useState("");
 
-  const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
   // 카테고리 리스트 상태
@@ -62,11 +59,15 @@ console.log(content);
 
   const [templateShowState, setTemplateShowState] = useState(true);
 
-  const handleModalToggle = (bool) => {
-    setShowModal(!showModal);
-    ThumbnailModal(bool);
-    console.log('Modal toggled:', showModal);
+  //modal 오픈 시 보낼 데이터
+  const modalData = {
+    showModal: showModal,
+    onClose: () => setShowModal(false),
+    postContent: postContent,
+    postTitle: titleState,
+    themeSeq: 1 //themeSeq 지정 필요
   };
+
   const handlePostComplete = () => {
     setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
 
@@ -78,7 +79,7 @@ console.log(content);
         },
         body: JSON.stringify({
           postTitle: titleState,
-          postContent: content,
+          postContent: postContent,
           categorySeq : 1
         }),
       })
@@ -104,7 +105,7 @@ console.log(content);
         },
         body: JSON.stringify({
           postTitle: titleState,
-          postContent: content,
+          postContent: postContent,
           categorySeq : 1
         }),
       })
@@ -131,14 +132,14 @@ console.log(content);
       try {
         //업로드할 파일의 이름으로 Date 사용
         const name = Date.now();
-        //생성한 s3 관련 설정들
+        //s3 관련 설정
         AWS.config.update({
           region: REACT_APP_AWS_S3_BUCKET_REGION,
           accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
           secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
           
         });
-        //앞서 생성한 file을 담아 s3에 업로드하는 객체를 만든다
+        //s3에 업로드할 객체 생성
         const upload = new AWS.S3.ManagedUpload({
           params: {
             ACL: "public-read",
@@ -148,14 +149,12 @@ console.log(content);
             ContentType: file.type,
           },
         });
-        //이미지 업로드 후
-        //곧바로 업로드 된 이미지 url을 가져오기
+        //이미지 업로드 url 반환
         const IMG_URL = await upload.promise().then((res) => res.Location);
-        //useRef를 사용해 에디터에 접근한 후
-        //에디터의 현재 커서 위치에 이미지 삽입
+        //useRef로 에디터의 현재 커서로 접근
         const editor = quillRef.current.getEditor();
         const range = editor.getSelection();
-        // 가져온 위치에 이미지를 삽입한다
+        //커서 위치에 이미지 삽입
         editor.insertEmbed(range.index, "image", IMG_URL);
       } catch (error) {
         console.log(error);
@@ -177,10 +176,6 @@ console.log(content);
       },
     };
   }, []);
-
-  const uploadCallback = () => {
-    console.log("이미지 업로드");
-  };
 
   const apiGetPost = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/posts/postSeq`)
@@ -330,7 +325,7 @@ console.log(content);
           ref={quillRef}
           style={{ width: "100%", height: "600px" }}
           modules={modules}
-          onChange={setContent}
+          onChange={setPostContent}
           placeholder="게시글을 작성해주세요"
         />
  
@@ -354,7 +349,9 @@ console.log(content);
       </div>
       <ThumbnailModal
         showModal={showModal}
-        onClose={() => setShowModal(false)} />
+        onClose={() => setShowModal(false)}
+        {...modalData}
+      />
       <CommonButton onClick={() => handlePostComplete()}> INSERT TEST</CommonButton>
       <CommonButton onClick={() => handlePostComplete2()}> UPDATE TEST</CommonButton>
     </>
