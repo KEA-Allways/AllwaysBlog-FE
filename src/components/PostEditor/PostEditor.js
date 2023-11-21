@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import styled from "styled-components";
 import { Editor } from "react-draft-wysiwyg";
 import axios from "axios";
@@ -13,6 +13,15 @@ import { CommonButton } from "../../common";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import TextStyles from "../../components/Text.module.css";
+import ReactQuill from "react-quill";
+//import QuillEditor from "../editor.js";
+import "react-quill/dist/quill.snow.css";
+import AWS from "aws-sdk";
+
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+
 
 const Container = styled.div`
   width: 100%;
@@ -27,14 +36,14 @@ const PostEditor = () => {
   const templateSeq = location.state.templateSeq;
   console.log("postSeq: " + postSeq);
   console.log("TemplateSeq: " + templateSeq);
+  const [postContent, setPostContent] = useState("");
 
   const navigate = useNavigate();
   // 에디터 상태(Content 상태)
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  //const [editorState, setEditorState] = useState(EditorState.createEmpty());
   // 제목 상태
   const [titleState, setTitleState] = useState("");
 
-  const [htmlString, setHtmlString] = useState("");
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
   // 카테고리 리스트 상태
@@ -50,23 +59,123 @@ const PostEditor = () => {
 
   const [templateShowState, setTemplateShowState] = useState(true);
 
-  const handleModalToggle = (bool) => {
-    setShowModal(!showModal);
-    ThumbnailModal(bool);
-    console.log('Modal toggled:', showModal);
+  //modal 오픈 시 보낼 데이터
+  const modalData = {
+    showModal: showModal,
+    onClose: () => setShowModal(false),
+    postContent: postContent,
+    postTitle: titleState,
+    themeSeq: 1 //themeSeq 지정 필요
   };
+
   const handlePostComplete = () => {
     setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
+
+    fetch('http://localhost:8085/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'userSeq' : 1,
+        },
+        body: JSON.stringify({
+          postTitle: titleState,
+          postContent: postContent,
+          categorySeq : 1
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
     console.log('Post complete button clicked'); // 확인용 로그
   };
-  const updateTextDescription = async (state) => {
-    await setEditorState(state);
-    const html = draftjsToHtml(convertToRaw(editorState.getCurrentContent()));
-    setHtmlString(html);
+
+  const handlePostComplete2 = () => {
+    setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
+
+    fetch('http://localhost:8085/api/posts/23', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'userSeq' : 1,
+        },
+        body: JSON.stringify({
+          postTitle: titleState,
+          postContent: postContent,
+          categorySeq : 1
+        }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+    console.log('Post complete button clicked'); // 확인용 로그
   };
-  const uploadCallback = () => {
-    console.log("이미지 업로드");
+
+  const quillRef = useRef(null);
+  const imageHandler = async () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+    input.addEventListener("change", async () => {
+      //이미지를 담아 전송할 file을 만든다
+      const file = input.files?.[0];
+      try {
+        //업로드할 파일의 이름으로 Date 사용
+        const name = Date.now();
+        //s3 관련 설정
+        AWS.config.update({
+          region: REACT_APP_AWS_S3_BUCKET_REGION,
+          accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+          secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+          
+        });
+        //s3에 업로드할 객체 생성
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            ACL: "public-read",
+            Bucket: "allways-test-bucket", //버킷 이름
+            Key: `upload/${name}.${file.type.split("/")[1]}`,
+            Body: file,
+            ContentType: file.type,
+          },
+        });
+        //이미지 업로드 url 반환
+        const IMG_URL = await upload.promise().then((res) => res.Location);
+        //useRef로 에디터의 현재 커서로 접근
+        const editor = quillRef.current.getEditor();
+        const range = editor.getSelection();
+        //커서 위치에 이미지 삽입
+        editor.insertEmbed(range.index, "image", IMG_URL);
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
+
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          ["image"],
+          [{ header: [1, 2, 3, 4, 5, false] }],
+          ["bold", "underline"],
+        ],
+        handlers: {
+          image: imageHandler,
+        },
+      },
+    };
+  }, []);
 
   const apiGetPost = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/api/posts/postSeq`)
@@ -74,7 +183,7 @@ const PostEditor = () => {
       const blocksFromHTML = convertFromHTML(response.data.content);
       const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
       const initialEditorState  = EditorState.createWithContent(contentState);
-      setEditorState(initialEditorState );
+      //setEditorState(initialEditorState );
       setTitleState(response.data.title);
     })
     .catch((error) => {
@@ -106,7 +215,7 @@ const PostEditor = () => {
       const blocksFromHTML = convertFromHTML(response.data.templateContent);
       const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
       const initialEditorState  = EditorState.createWithContent(contentState);
-      setEditorState(initialEditorState );
+      //setEditorState(initialEditorState );
       console.log(response.data.title)
       setTitleState(response.data.title);
     })
@@ -168,6 +277,7 @@ const PostEditor = () => {
 
       <div style={{ marginBottom: '15px' }}></div>
       
+      
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
         <TextField
           id="post-category"
@@ -211,28 +321,23 @@ const PostEditor = () => {
         </TextField>
       </div>
 
-      <Container>
-        <Editor
+        <ReactQuill
+          ref={quillRef}
+          style={{ width: "100%", height: "600px" }}
+          modules={modules}
+          onChange={setPostContent}
           placeholder="게시글을 작성해주세요"
-          editorState={editorState}
-          onEditorStateChange={updateTextDescription}
-          toolbar={{
-            image: { uploadCallback: uploadCallback },
-          }}
-          localization={{ locale: "ko" }}
-          editorStyle={{
-            height: "400px",
-            width: "100%",
-            border: "3px solid lightgray"
-          }}
         />
-      </Container>
+ 
+
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div></div>
         {/* 수정이 아니라 처음 작성하러 들어왔을 때는 버튼을 하나만 보여주고 작성 완료 버튼을 누르면 썸네일 생성 창이 뜬다 */}
         {showButton === "등록" && (
-          <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
+          <div style={{display: 'flex', marginTop: '30px'}}>
+            <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
+          </div>
         )}
         {/* 수정하러 들어왔을 때는 버튼을 2개 보여준다, 작성 완료 버튼을 누르면 /mngt/content 페이지로 이동하게 해뒀는데 어느 유저의 mngt/page로 갈지는 차후에 설정해줘야 함 */}
         {showButton === "수정" && (
@@ -244,7 +349,11 @@ const PostEditor = () => {
       </div>
       <ThumbnailModal
         showModal={showModal}
-        onClose={() => setShowModal(false)} />
+        onClose={() => setShowModal(false)}
+        {...modalData}
+      />
+      <CommonButton onClick={() => handlePostComplete()}> INSERT TEST</CommonButton>
+      <CommonButton onClick={() => handlePostComplete2()}> UPDATE TEST</CommonButton>
     </>
   );
 };
