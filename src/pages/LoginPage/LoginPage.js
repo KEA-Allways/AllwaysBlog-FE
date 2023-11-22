@@ -11,6 +11,8 @@ import {loginStore} from "../../store/store";
 import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
 
+
+
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -19,28 +21,33 @@ const LoginPage = () => {
   // const [userId, setUserId] = useState("");
   // const [password, setPassword] = useState("");
   const [isShowPw, setShowPwState] = useState(false);
-
-  const login = () => {
-    axios({
-      url: "/login",
-      method: "POST",
-      withCredentials: true,
-      data: {
-        userId: userId,
-        password: password,
-      },
-    }).then((result) => {
-      if (result.status === 200) {
-        window.open('/', '_self')
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  };
   
   const toggleHidePassword =()=>{
     setShowPwState(!isShowPw);
+  }
+
+  const login = async() => {
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_GATEWAY_URL}/api/auth/sign-in`, {
+        "email" : userId,
+        "password" : password,
+      });
+      localStorage.setItem("accessToken", res.data.result.data.accessToken);
+      localStorage.setItem("refreshToken", res.data.result.data.refreshToken);
+      navigate("/");
+    }catch(error){
+      if(error.response.status === 401){
+        Swal.fire({
+          title: "유저 정보가 없습니다",
+          text: "아이디나 비밀번호를 다시 확인해주세요!",
+          icon: "question"
+        })
+        .then(() => {
+          setPassword("");
+        })
+    }
+  }
+    
   }
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT}&response_type=code`;

@@ -120,6 +120,7 @@ function BlogSidebar({body}) {
 
   return (
     <>
+      {/* {console.log(process.env.REACT_APP_API_URL)} */}
       <div className={styles.App}>
         {/* 사이드바 컨테이너 박스 */}
         <div className={styles.sidebarContainer}>
