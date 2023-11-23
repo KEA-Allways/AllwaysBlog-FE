@@ -47,10 +47,11 @@ const SignUpPage = () => {
   }
 
   const signUpBtnClicked = async () => {
-     const res = await axios.post(`${process.env.REACT_APP_GATEWAY_URL}/api/auth/sign-up`,
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_GATEWAY_URL}/api/auth/sign-up`,
         {
-          // profileImg: form.profileImage,
-          profileImgSeq : 1,
+          profileImg: form.profileImage,
+          // profileImgSeq : 1,
           userId: form.userId,
           email: form.email,
           nickname: form.nickname,
@@ -59,23 +60,28 @@ const SignUpPage = () => {
         }
       )
       
-      console.log(res.data);
-      // .then((response) => {
-      //   if (response.status === 200) {
-      //     Swal.fire({
-      //       title: "회원가입 성공!",
-      //       icon: 'success'
-      //     }).then(()=> {
-      //       navigate("/login");
-      //     }) 
-      //   } else {
-      //     Swal.fire({
-      //       title: "회원가입 실패!",
-      //       icon: 'error'
-      //     }).then(()=> {
-      //     }) 
-      //   }
-      // });
+      if(res.data.success){
+        Swal.fire({
+          title: "회원가입 성공",
+          text: "회원가입에 성공하셨습니다! 로그인을 해주세요",
+          icon: "success"
+        })
+        .then(navigate("/login"));
+      }
+    }catch(e){
+      if(e.response.status === 409){
+        alert("중복된 이메일 혹은 아이디 입니다.");
+      }
+      else if(e.response.status === 400){
+        alert("유효성 검사에 통과하지 못했습니다.");
+      }
+      else if(e.response.status === 500){
+        alert("서버에 에러가 있습니다 서버가 켜져있는지 확인해주세요");
+      }
+      else if(e.response.status === 404){
+        alert("서버의 주소를 찾을 수 없습니다. URL이나 HTTP 요청을 수정하세요");
+      }
+    }
   };
 
   const selectFile = (e) => {

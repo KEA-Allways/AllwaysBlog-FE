@@ -16,18 +16,29 @@ const MainPage = () => {
 
     // accessToken 가지고 userInfo 가져오는 코드
     const getUserInfo = async() => {
-        const res = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/user`, {
-            headers : {
-                "AccessToken" : localStorage.getItem("accessToken"),
-                "RefreshToken" : localStorage.getItem("refreshToken"),
+        try{
+            const res = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/user`, {
+                headers : {
+                    "AccessToken" : localStorage.getItem("accessToken"),
+                    "RefreshToken" : localStorage.getItem("refreshToken"),
+                }
+            });
+            if(res.data.success){
+                setIsLogin(true);
+                // setProfileImg(res.data.result.data.profileImg); 나중에 프로필이미지도 추가되면 넣기.
+                setBlogName(res.data.result.data.blogName);
+                setUserName(res.data.result.data.nickname);
             }
-        });
-        if(res.data.success){
-            setIsLogin(true);
-            // setProfileImg(res.data.result.data.profileImg); 나중에 프로필이미지도 추가되면 넣기.
-            setBlogName(res.data.result.data.blogName);
-            setUserName(res.data.result.data.nickname);
+        }catch(e){
+            if(e.response.status === 500){
+                setIsLogin(false);
+                setProfileImg("");
+                setBlogName("");
+                setUserName("");
+                console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
+            }
         }
+        
     }
 
     // mainPost 10개 가지고 오는 코드

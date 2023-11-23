@@ -43,17 +43,12 @@ function Topbar() {
     }
 
     const logout = () => {
-        axios({
-          url: "/logout",
-          method: "POST",
-          withCredentials: true,
-        }).then((result) => {
-          if (result.status === 200) {
-            window.open("/", "_self");
-          }
-        });
-      };
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.open("/", "_self");
+    };
 
+      
     return (
         <div>
             <Navbar className={classnames('justify-content-between', styles.topbar)}>
