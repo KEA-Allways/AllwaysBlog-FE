@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import Topbar from "../../components/Topbar/Topbar";
 import axios from "axios";
 import { loginStore, mainPostStore }  from "../../store/store"
+import { TokenAxios } from "../../lib/TokenAxios";
 
 const MainPage = () => {
 
@@ -17,12 +18,7 @@ const MainPage = () => {
     // accessToken 가지고 userInfo 가져오는 코드
     const getUserInfo = async() => {
         try{
-            const res = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/user`, {
-                headers : {
-                    "AccessToken" : localStorage.getItem("accessToken"),
-                    "RefreshToken" : localStorage.getItem("refreshToken"),
-                }
-            });
+            const res = await TokenAxios.get(`/api/user`);
             if(res.data.success){
                 setIsLogin(true);
                 // setProfileImg(res.data.result.data.profileImg); 나중에 프로필이미지도 추가되면 넣기.
@@ -43,12 +39,7 @@ const MainPage = () => {
 
     // mainPost 10개 가지고 오는 코드
     const getMainPost = async() => {
-        const res = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/post/main`, {
-            headers : {
-                "AccessToken" : localStorage.getItem("accessToken"),
-                "RefreshToken" : localStorage.getItem("refreshToken"),
-            }
-        });
+        const res = await TokenAxios.get(`/api/post/main`);
         await setTenPosts(res.data.result.data);
       }
 

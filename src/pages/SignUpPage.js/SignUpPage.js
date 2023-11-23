@@ -10,12 +10,13 @@ import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
 import { Tooltip, IconButton } from "@material-ui/core";
 import InfoIcon from '@mui/icons-material/Info';
+import { DefaultAxios } from "../../lib/DefaultAxios";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  let valid_email = new RegExp('^[a-zA-Z0-9]+@[a-zA-Z]+(?=\\.[a-zA-Z]{2,})[a-zA-Z0-9.]{2,}$');
-  let valid_userId = new RegExp('[a-zA-Z0-9]');
-  let valid_password = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+  const valid_email = new RegExp('^[a-zA-Z0-9]+@[a-zA-Z]+(?=\\.[a-zA-Z]{2,})[a-zA-Z0-9.]{2,}$');
+  const valid_userId = new RegExp('[a-zA-Z0-9]');
+  const valid_password = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
 
 
   const fileInput = useRef(null);
@@ -48,10 +49,10 @@ const SignUpPage = () => {
 
   const signUpBtnClicked = async () => {
     try{
-      const res = await axios.post(`${process.env.REACT_APP_GATEWAY_URL}/api/auth/sign-up`,
+      const res = await DefaultAxios.post(`/api/auth/sign-up`,
         {
-          profileImg: form.profileImage,
-          // profileImgSeq : 1,
+          // profileImg: form.profileImage,
+          profileImgSeq : 1,
           userId: form.userId,
           email: form.email,
           nickname: form.nickname,

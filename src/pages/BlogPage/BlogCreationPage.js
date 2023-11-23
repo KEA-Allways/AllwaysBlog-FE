@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
+import { TokenAxios } from "../../lib/TokenAxios";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
@@ -17,16 +18,15 @@ const BlogCreationPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [profileImg, setProfileImg] = useState("");
 
-  const apiGetProfileImg = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users`)
-      .then((response) => {
-        setProfileImg(response.data.profileImg);
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-    
+  const [blogSeq, setBlogSeq] = useState(0);
+
+  const apiGetProfileImg = async () => {
+    try{
+      const res = await TokenAxios.get(`/api/users`)
+      setProfileImg(res.data.profileImg);
+    }catch(e){
+      console.log("프로필 이미지를 가져올 수 없습니다.", e);
+    };
   }
 
 
@@ -34,30 +34,42 @@ const BlogCreationPage = () => {
     apiGetProfileImg();
   }, []);
   
-  const createBtnClicked = () => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
+  const createBtnClicked = async () => {
+    try{
+      const res = await TokenAxios.post(`/api/blog`, {
+        // profileImg : profileImg,
         blogName: blogName,
-        paswordDescriptions: description,
+        blogDescription: description,
       })
-      .then((response) => {
-        //setResponse(response);
+      const data = res.data.result.data;
+      console.log(data.blogSeq);
+      setBlogSeq(data.blogSeq);
+      
+    }catch(e){
+      console.log("블로그 생성이 잘 안됐습니다.");
+      console.log("에러 내용 : " + e);
+    }
+    
+      
+      // .then((response) => {
+      //   //setResponse(response);
 
-        if (response.status === 200) {
-          // localStorage.setItem("jwt", result.data.result.jwt);
-          // localStorage.setItem("memberId", result.data.result.id);
-          Swal.fire({
-            title: "블로그 생성!",
-            icon: "success",
-          }).then(() => {
-            navigate("/");
-          });
-        } else {
-          Swal.fire({
-            title: "블로그 생성 실패!",
-            icon: "error",
-          }).then(() => {});
-        }
-      });
+      //   if (response.status === 200) {
+      //     // localStorage.setItem("jwt", result.data.result.jwt);
+      //     // localStorage.setItem("memberId", result.data.result.id);
+      //     Swal.fire({
+      //       title: "블로그 생성!",
+      //       icon: "success",
+      //     }).then(() => {
+      //       navigate("/");
+      //     });
+      //   } else {
+      //     Swal.fire({
+      //       title: "블로그 생성 실패!",
+      //       icon: "error",
+      //     }).then(() => {});
+      //   }
+      // });
   };
 
   return (
@@ -105,7 +117,8 @@ const BlogCreationPage = () => {
           <Line />
 
           <BtnsContainer>
-            <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn>
+            {/* <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn> */}
+            <CreationBtn onClick={createBtnClicked}>블로그 생성</CreationBtn>
           </BtnsContainer>
         </BlogSection>
       </Container>

@@ -10,6 +10,7 @@ import {FaEyeSlash} from "react-icons/fa"
 import {loginStore} from "../../store/store";
 import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
+import { DefaultAxios } from "../../lib/DefaultAxios";
 
 
 
@@ -28,13 +29,13 @@ const LoginPage = () => {
 
   const login = async() => {
     try{
-      const res = await axios.post(`${process.env.REACT_APP_GATEWAY_URL}/api/auth/sign-in`, {
+      const res = await DefaultAxios.post(`/api/auth/sign-in`, {
         "email" : userId,
         "password" : password,
       });
       localStorage.setItem("accessToken", res.data.result.data.accessToken);
       localStorage.setItem("refreshToken", res.data.result.data.refreshToken);
-      navigate("/");
+      window.open("/", "_self");
     }catch(error){
       if(error.response.status === 401){
         Swal.fire({
