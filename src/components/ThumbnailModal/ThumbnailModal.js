@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
 import { ChromePicker } from 'react-color';
+import { Preview } from "@mui/icons-material";
 
 
 
@@ -59,7 +60,7 @@ const SuccessButton = styled(CommonColorButton)`
     
 `
 
-
+//props Content , Title 받기 
 const ThumbnailModal = (props) => {
   const { showModal, onClose, postContent, postTitle} = props;
 
@@ -77,6 +78,8 @@ const ThumbnailModal = (props) => {
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
+
+  const [s3ImageUrl, setS3ImageUrl] = useState('');
 
  
 
@@ -121,27 +124,32 @@ const ThumbnailModal = (props) => {
             allowOutsideClick: () => !Swal.isLoading()
           }) ;
           if(negativeValue.isConfirmed){
-            console.log(promptValue.value);
-            console.log(negativeValue.value);
+             
             
-            
+            const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+            const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+
             const response = await fetch('http://localhost:8000/generate_image/', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               },
               body: new URLSearchParams({
-                'prompt': promptValue.value ,
-                'negative_prompt': negativeValue.value,
-                'samples': 1
+                'positivePrompt': promptValue.value+positive,
+                'negativePrompt': negativeValue.value+negative,
+                'samples': 1,
+                'image_quality':100,
+                'width':640,
+                'height':320
               })
             });
     
             if (response.ok) {
               const data = await response.json(); // Convert response to JSON
-              if (data.image_url) {
-                console.log('Image URL:', data.image_url);
-                setBackgroundImage(data.image_url);
+              if (data.s3_image_url) {
+                console.log('Image URL:', data.s3_image_url);
+                setS3ImageUrl(data.s3_image_url);
+                setBackgroundImage(data.s3_image_url);
               } else {
                 console.error('Error:', data.message);
               }
@@ -244,17 +252,20 @@ const ThumbnailModal = (props) => {
 
   //저장버튼 클릭 시
   const handleExport =  () => {
-    
+    if(Preview.current){
     //게시글 저장
-    fetch('http://localhost:8085/api/posts', {
+    //로그인에서 jwt를 header 에 넣기 
+    
+    fetch('http://localhost:8082/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'userSeq' : 1,
-        },
+          // 'AccessToken': ``, // accessKey를 사용한 토큰 전송
+      },
         body: JSON.stringify({
           postTitle: postTitle,
           postContent: postContent,
+          imageUrl: s3ImageUrl,
           categorySeq : 1
         }),
       })
@@ -266,20 +277,6 @@ const ThumbnailModal = (props) => {
           console.error('Error:', error);
         });
 
-    //사진 윈도우에 저장하기
-    /*
-    if (previewRef.current) {
-        html2canvas(previewRef.current, {
-        allowTaint: true,
-        useCORS: true,
-         
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.download = "thumbnail.png";
-        link.href = imgData;
-        link.click();
-      });
 
 
       Swal.fire ({
@@ -290,7 +287,7 @@ const ThumbnailModal = (props) => {
         }
       }).then(navigate("/blogs"))
     }
-    */
+    
   };
 
   return (

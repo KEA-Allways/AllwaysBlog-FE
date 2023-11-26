@@ -22,7 +22,7 @@ function Topbar() {
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    const [themes, setThemes] = useState(["소소한 일상 기록", "여행 다이어리"]);
+    const [themes, setThemes] = useState(["여행 다이어리", "소소한 요리 기록"]);
     let  params  = useParams();
 
     const handleButtonClick = () => {

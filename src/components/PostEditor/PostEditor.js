@@ -67,11 +67,11 @@ const PostEditor = () => {
     postTitle: titleState,
     themeSeq: 1 //themeSeq 지정 필요
   };
-
+  //생성 관련 
   const handlePostComplete = () => {
     setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
 
-    fetch('http://localhost:8085/api/posts', {
+    fetch('http://localhost:8761/api/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,11 +93,11 @@ const PostEditor = () => {
 
     console.log('Post complete button clicked'); // 확인용 로그
   };
-
+  //수정 관련 
   const handlePostComplete2 = () => {
     setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
 
-    fetch('http://localhost:8085/api/posts/23', {
+    fetch('http://localhost:8761/api/post/23', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
