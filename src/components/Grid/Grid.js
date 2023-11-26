@@ -1,32 +1,16 @@
 import {Col, Row} from 'react-bootstrap';
 import CardStyle from '../PostCard/CardStyle';
-import styled from "@emotion/styled";
 import { Link } from 'react-router-dom'; 
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { mainPostStore } from '../../store/store';
 
 const Grid = () => {
-  const [list, setLists] = useState([]);
+  // store에 저장되어 있는 메인포스트들 가지고 오기.
+  const { tenPosts } = mainPostStore(state => state);
 
-  const apiGetPosts = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/posts/main`)
-      .then((response) => {
-        setLists(response.data.posts);
-        console.log(list)
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-  };
-
-  useEffect(() => {
-    apiGetPosts();
-  }, []);
-
+  // 화면에 뿌려주기
   return (
     <Row xs={1} md={3} className="g-4">
-      {list.map((v, idx) => (
+      {tenPosts.map((v, idx) => (
         <Col key={idx}>
           {/* card 누르면 이동하기  */}
           <Link to={`/post/${v.postSeq}`}>
@@ -34,11 +18,11 @@ const Grid = () => {
             imgUrl={v.thumbImg} 
             imgHeight="180px" 
             imgWidth="180px" 
-            title={v.title}
-            subtitle={v.subtitle} 
+            title={v.postTitle}
+            subtitle={v.subTitle} 
             nickname={v.nickname} 
             opacityValue="100%"
-            date={v.postDate}
+            date={(v.postDate).substring(0,10)}
             profile={v.profileImg}/> 
             </Link>
         </Col>
@@ -47,11 +31,5 @@ const Grid = () => {
   );
   
 }
-
-
-
-
-
-
 
 export default Grid;

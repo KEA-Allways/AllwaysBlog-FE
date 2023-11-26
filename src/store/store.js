@@ -4,16 +4,18 @@ export const loginStore = create(set =>({
     userId : "",
     password : "",
     isLogin : false,
-    hasBlog : false,
-    username : "",
+    blogName : "",
+    userName : "",
     user : {},
+    profileImg : "",
 
     setUserId : (userId) => set({userId}),
     setPassword : (password) => set({password}),
     setIsLogin : (isLogin) => set({isLogin}),
-    setHasBlog : (hasBlog) => set({hasBlog}),
-    setUsername : (username) => set({username}),
+    setBlogName : (blogName) => set({blogName}),
+    setUserName : (userName) => set({userName}),
     setUser : (user) => set({user}),
+    setProfileImg : (profileImg) => set({profileImg}),
 }))
 
 export const themeListStore = create(set =>({
@@ -21,4 +23,31 @@ export const themeListStore = create(set =>({
     themeNames : [],
     setThemeNames : (themeName) => set({ themeNames : themeName}),
     addTheme: (newTheme) => set((state) => ({ themeNames: [...state.themeNames, newTheme] })),
+}))
+
+export const mainPostStore = create(set => ({
+    // postSeq : "",
+    // thumbImg : "",
+    // ListName : "",
+    // nickname : "",
+    // postDate : "",
+    // postProfileImg : "",
+    // subtitle : "",
+    // themeName : "",
+    // title : "",
+    // userId : "",
+    tenPosts : [],
+
+    setTenPosts : (tenPosts) => set({tenPosts : tenPosts}),
+    // setPostSeq : (postSeq) => set({postSeq}),
+    // setThumbImg : (thumbImg) => set({thumbImg}),
+    // setListName : (ListName) => set({ListName}),
+    // setNickname : (nickname) => set({nickname}),
+    // setPostDate : (postDate) => set({postDate}),
+    // setPostProfileImg : (postProfileImg) => set({postProfileImg}),
+    // setSubtitle : (subtitle) => set({subtitle}),
+    // setThemeName : (themeName) => set({themeName}),
+    // setTitle : (title) => set({title}),
+    // setUserId : (userId) => set({userId}),
+
 }))

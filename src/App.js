@@ -13,8 +13,6 @@ import MngtContent from "./pages/MngtContent/MngtContent"
 import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
-import axios from "axios";
-import { useEffect } from "react";
 import {loginStore} from "./store/store";
 
 const theme = createTheme({
@@ -24,46 +22,7 @@ const theme = createTheme({
 })
 
 function App() {
-  const {setIsLogin, setHasBlog, setUsername} = loginStore();
-
-  // const accessToken = () => {
-  //   axios({
-  //     url: "/accesstoken",
-  //     method: "GET",
-  //     withCredentials: true,
-  //   });
-  // };
-
-  // const refreshToken = () => {
-  //   axios({
-  //     url: "/refreshtoken",
-  //     method: "GET",
-  //     withCredentials: true,
-  //   });
-  // };
-
-  useEffect(() => {
-    try {
-      axios({
-        url: "/login/success",
-        method: "GET",
-        withCredentials: true,
-      })
-        .then((result) => {
-          if (result.data) {
-            setIsLogin(result.data.id);
-            setHasBlog(result.data.hasBlog)
-            setUsername(result.data.username)
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-    
+  
   return (
     
     <ThemeProvider theme={theme}>
