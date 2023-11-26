@@ -22,11 +22,11 @@ const LoginPage = () => {
 
   const login = () => {
     axios({
-      url: "/login",
+      url: "http://localhost:8082/api/auth/sign-in",
       method: "POST",
       withCredentials: true,
       data: {
-        userId: userId,
+        email: userId,
         password: password,
       },
     }).then((result) => {

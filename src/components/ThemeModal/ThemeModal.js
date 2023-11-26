@@ -206,16 +206,17 @@ const handleKarloImage =async ()=>{
   //테마 제작 
   const handleExport =  () => {
     if (previewRef.current) {
-      
+      //로그인에서 jwt를 header 에 넣기 
       //백엔드로 전송 
-      fetch('http://localhost:8761/api/theme', {
-        method: 'POST',
+      fetch('http://localhost:8082/api/theme', {
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           imageUrl: s3ImageUrl,
           themeName: themeName,
+          
         }),
       })
         .then(response => response.json())
