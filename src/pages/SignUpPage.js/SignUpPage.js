@@ -11,6 +11,12 @@ import { CommonColorButton } from '../../common';
 import { Tooltip, IconButton } from "@material-ui/core";
 import InfoIcon from '@mui/icons-material/Info';
 import { DefaultAxios } from "../../lib/DefaultAxios";
+import AWS from "aws-sdk";
+
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -51,8 +57,8 @@ const SignUpPage = () => {
     try{
       const res = await DefaultAxios.post(`/api/auth/sign-up`,
         {
-          // profileImg: form.profileImage,
-          profileImgSeq : 1,
+          profileImgSeq: form.profileImage,
+          //profileImgSeq : 1,
           userId: form.userId,
           email: form.email,
           nickname: form.nickname,
@@ -85,9 +91,37 @@ const SignUpPage = () => {
     }
   };
 
-  const selectFile = (e) => {
+  const selectFile = async (e) => {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      try {
+        //업로드할 파일의 이름으로 Date 사용
+        const name = Date.now();
+        //s3 관련 설정
+        AWS.config.update({
+          region: REACT_APP_AWS_S3_BUCKET_REGION,
+          accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+          secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+          
+        });
+        //s3에 업로드할 객체 생성
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            ACL: "public-read",
+            Bucket: "allways-test-bucket", //버킷 이름
+            Key: `upload/${name}.${file.type.split("/")[1]}`,
+            Body: file,
+            ContentType: file.type,
+          },
+        });
+        //이미지 업로드 url 반환
+        const IMG_URL = await upload.promise().then((res) => res.Location);
+        setForm({...form, profileImage : IMG_URL});
+        
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       //업로드 취소할 시
       setForm({...form, profileImage :  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
@@ -100,7 +134,7 @@ const SignUpPage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setForm({...form, profileImage : reader.result});
+        //setForm({...form, profileImage : reader.result});
       }
     };
 
@@ -216,7 +250,7 @@ const SignUpPage = () => {
           </SignUpContainer>
 
           <Line></Line>
-
+           
           {(isEmailValid && isUserIdValid && isPasswordValid && isConfirmPassword) ?<SignUpBtn onClick={signUpBtnClicked}>회원가입</SignUpBtn> : <SignUpBtn disabled>회원가입</SignUpBtn> }
         </SignUpSection>
       </Container>

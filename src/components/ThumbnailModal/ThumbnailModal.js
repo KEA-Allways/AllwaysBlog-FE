@@ -251,43 +251,55 @@ const ThumbnailModal = (props) => {
   };
 
   //저장버튼 클릭 시
-  const handleExport =  () => {
-    if(Preview.current){
-    //게시글 저장
-    //로그인에서 jwt를 header 에 넣기 
-    
-    fetch('http://localhost:8082/api/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // 'AccessToken': ``, // accessKey를 사용한 토큰 전송
-      },
-        body: JSON.stringify({
-          postTitle: postTitle,
-          postContent: postContent,
-          imageUrl: s3ImageUrl,
-          categorySeq : 1
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
+  const handleExport = async () => {
+    try{
+      if(Preview.current){
+      //게시글 저장
+      //로그인에서 jwt를 header 에 넣기 
+        const response = await fetch('http://localhost:8082/api/post', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              //'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMDkyNjgyLCJleHAiOjE3MDE2OTc0ODJ9.SP6HurxWPXR5G7H33rOtNgYc3TWdYLVeXzzb_AOL2Bo`, // accessKey를 사용한 토큰 전송
+          },
+            body: JSON.stringify({
+              postTitle: postTitle,
+              postContent: postContent,
+              imageUrl: s3ImageUrl,
+              categorySeq : 1
+            }),
+          });
+        if (response.ok){
+          const data = await response.json();
+          let resultSeq = 0;
           console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+          console.log(data.result.data.postSeq > 0)
+          if (data.result.data.postSeq > 0){
+            resultSeq = data.result.data.postSeq;
+            console.log(resultSeq);
 
+            Swal.fire({
+              title: "게시글을 저장 중입니다.",
+              timer: 3000,
+              didOpen: () => {
+                Swal.showLoading()
+              }
+            }).then(() => {
+              console.log(`/post/${resultSeq}`)
+              navigate(`/post/${resultSeq}`);
+            });
+            
+          } else {
+            console.error('Error:', data.message);
+            //문구 이상하면 변경 해주세용~
+            alert("게시글을 저장하는데 오류가 발생했습니다.");
+          }
 
-
-      Swal.fire ({
-        title:"게시글 제작",
-        timer:3000,
-        didOpen:()=>{
-          Swal.showLoading()
-        }
-      }).then(navigate("/blogs"))
+        }     
+      }
+    } catch (error){
+      console.error('Error:', error);
     }
-    
   };
 
   return (
