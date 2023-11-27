@@ -43,33 +43,11 @@ const BlogCreationPage = () => {
       })
       const data = res.data.result.data;
       console.log(data.blogSeq);
-      setBlogSeq(data.blogSeq);
-      
     }catch(e){
       console.log("블로그 생성이 잘 안됐습니다.");
       console.log("에러 내용 : " + e);
     }
-    
-      
-      // .then((response) => {
-      //   //setResponse(response);
-
-      //   if (response.status === 200) {
-      //     // localStorage.setItem("jwt", result.data.result.jwt);
-      //     // localStorage.setItem("memberId", result.data.result.id);
-      //     Swal.fire({
-      //       title: "블로그 생성!",
-      //       icon: "success",
-      //     }).then(() => {
-      //       navigate("/");
-      //     });
-      //   } else {
-      //     Swal.fire({
-      //       title: "블로그 생성 실패!",
-      //       icon: "error",
-      //     }).then(() => {});
-      //   }
-      // });
+    setShowModal(true);
   };
 
   return (

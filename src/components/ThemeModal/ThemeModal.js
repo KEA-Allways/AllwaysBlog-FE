@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
+import { TokenAxios } from "../../lib/TokenAxios";
 
 
 
@@ -122,8 +123,13 @@ const handleKarloImage =async ()=>{
             'height':320
           })
         });
+        console.log("response ok 전 ",response);
+        
         //fastAPi에서 받은 image url 적용 
         if (response.ok) {
+          console.log("response ok 후 ",response);
+          
+          
           const data = await response.json(); // Convert response to JSON
           //받아온 s3_image_url 값이 있으면
           if (data.s3_image_url) {
@@ -208,17 +214,23 @@ const handleKarloImage =async ()=>{
     if (previewRef.current) {
       //로그인에서 jwt를 header 에 넣기 
       //백엔드로 전송 
-      fetch('http://localhost:8082/api/theme', {
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          imageUrl: s3ImageUrl,
-          themeName: themeName,
-          
-        }),
+
+      TokenAxios.post("/api/theme", {
+        imageUrl: s3ImageUrl,
+        themeName: themeName,
       })
+      // TokenAxios.post('/api/theme', {
+         
+        // headers: {
+        // //   'Content-Type': 'application/json',
+        // // },
+        // body: JSON.stringify({
+        //   imageUrl: s3ImageUrl,
+        //   themeName: themeName,
+          
+          
+        // }),
+      // })
         .then(response => response.json())
         .then(data => {
           // Handle the response from the backend as needed
