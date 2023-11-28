@@ -11,8 +11,9 @@ const DetailPageContent =( props )=> {
   const navigate = useNavigate();
 
   const editButtonClicked = ( postSeq ) => {
+    //선택된 테마 seq 가져가도록 설정 필요
     const theme = '선택된 테마';
-    navigate('/post', { state: { postSeq: postSeq, themplateSeq: undefined, theme: theme } });
+    navigate('/post', { state: { postSeq: postSeq, theme: theme } });
   };
 
   const apiGetPost = () => {
@@ -36,28 +37,28 @@ const DetailPageContent =( props )=> {
               <img src={post.thumbImg} alt="게시글 썸네일" style={{ borderRadius: '15px', width: '100%', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.1)' }} />
             </div>
           </div>
+
           <div className={styles.contentBox}>
-          <h1>{post.postTitle}</h1>
-          {/* 날짜 수정 삭제  */}
-          <div style={{ display: 'flex',   alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              {post.nickname} | {post.postDate} | 조회수 : {post.postView}
-            </div>
-            <div style={{ display: 'flex',   alignItems: 'center' }}>
-              <EditButton onClick={() => editButtonClicked(post.postSeq)}>수정 </EditButton> 
-              <DeleteButton>삭제</DeleteButton>
+
+            <h1>{post.postTitle}</h1>
+
+            <div style={{ display: 'flex',   alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <img src={post.profileImg} style={{width: '30px', height: '30px', marginRight: '10px'}} />
+                {post.nickname} | {post.postDate} | 조회수 : {post.postView}
+              </div>
+              <div style={{ display: 'flex',   alignItems: 'center' }}>
+                <EditButton onClick={() => editButtonClicked(post.postSeq)}>수정 </EditButton> 
+                <DeleteButton>삭제</DeleteButton>
+              </div>
             </div>
             
-          </div>
-          <hr/>
-          <div dangerouslySetInnerHTML={{ __html: post.postContent }} style={{ maxWidth: '100%' }} >
-          </div>
-          <div>
-          
+            <hr/>
 
-         </div>
-      </div>
-      </div>
+            <div dangerouslySetInnerHTML={{ __html: post.postContent }} style={{ maxWidth: '100%' }} />
+          
+          </div>
+        </div>
       
     )
 }

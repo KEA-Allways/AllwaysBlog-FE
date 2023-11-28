@@ -1,8 +1,5 @@
 import React, { useState,useEffect } from 'react';
 import { useLocation ,useParams} from 'react-router-dom';
-import Grid from '@mui/material/Grid';
-import { TextField ,Typography,Divider,Button,List,ListItem
-,ListItemAvatar,Avatar,ListItemText} from '@mui/material';
 import axios from "axios";
 import DetailPageContent from "./DetailPageContent"
 import DetailPageComment from './DetailPageComment';

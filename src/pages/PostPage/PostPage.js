@@ -6,7 +6,6 @@ import Topbar from '../../components/Topbar/Topbar';
 
 const PostPage = () => {
   const location = useLocation();
-  // postSeq를 통해 현재 열려는 에디터가 새로운 게시글인지 아니면 어느 게시글인지 체크
   const postSeq = location.state.postSeq;
 
     return (
@@ -16,7 +15,7 @@ const PostPage = () => {
           <Col md={1}></Col>
           <Col md={10}>
 
-          <PostEditor postSeq={postSeq}/>
+            <PostEditor postSeq={postSeq}/>
           </Col>
           <Col md={1}></Col>
         </Row>
