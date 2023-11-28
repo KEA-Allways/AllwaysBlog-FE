@@ -9,6 +9,7 @@ const DetailPageComment = ({ comments, onCommentSubmit, onCommentChange, comment
     <div className={styles.contentBox}>
       <Typography variant="h6"> 댓글 {comments.length}</Typography>
       <Divider />
+      
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
         <TextField
           fullWidth
@@ -33,8 +34,9 @@ const DetailPageComment = ({ comments, onCommentSubmit, onCommentChange, comment
               <ListItemText
                 primary={comment.nickname}
                 secondary={comment.replyContent}
+                
               />
-              <Typography variant="p" style={{marginTop: 30}}> {comment.replyDate}</Typography>
+              <Typography variant="p" style={{marginTop: 30}}> {comment.createdAt}</Typography>
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>
