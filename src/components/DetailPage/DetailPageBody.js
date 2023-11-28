@@ -10,7 +10,8 @@ import { Container, Row, Col } from 'react-bootstrap';
  
 
 const apiUrl=`${process.env.REACT_APP_API_URL}/api/posts/1/replys`
-const  DetailPage=() => {
+const  DetailPage=(props) => {
+    const { postSeq } = props;
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     
@@ -76,7 +77,7 @@ const  DetailPage=() => {
           <Col md={2}></Col>
           <Col md={8}>
             <div>
-              <DetailPageContent/>
+              <DetailPageContent postSeq={postSeq}/>
             </div>
             <div>
               <DetailPageComment  comment={comment}

@@ -61,7 +61,7 @@ const SuccessButton = styled(CommonColorButton)`
 `
 
 //props Content , Title 받기 
-const ThumbnailModal = (props) => {
+const ThumbnailModal = ( props ) => {
   const { showModal, onClose, postContent, postTitle} = props;
 
   const navigate = useNavigate();
