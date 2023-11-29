@@ -92,7 +92,7 @@ const DetailPageComment = (props) => {
                 secondary={reply.replyContent}
                 
               />
-              <Typography variant="p" style={{marginTop: 30}}> {reply.createdAt}</Typography>
+              <Typography variant="p"> {reply.createdAt}</Typography>
             </ListItem>
             <Divider variant="inset" component="li" />
           </div>
