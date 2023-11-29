@@ -4,11 +4,15 @@ import styled from "@emotion/styled";
 import styles from "./DetailPageBody.module.css";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { loginStore }  from "../../store/store"
 
 const DetailPageContent =( props )=> {
   const { postSeq } = props;
   const [post, setPost] = useState({});
   const navigate = useNavigate();
+  const {setProfileImg, setUserName} = loginStore(state => state);
+  const profileImg = localStorage.getItem('profileImg');
+  console.log(profileImg)
 
   const editButtonClicked = ( postSeq ) => {
     //선택된 테마 seq 가져가도록 설정 필요
