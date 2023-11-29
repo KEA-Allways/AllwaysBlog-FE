@@ -12,11 +12,22 @@ import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
 
 function Topbar() {
-    const image = <img src='/img/usericon.png' width="50px" height="50px" />
+    // const image = <img src='/img/usericon.png' width="50px" height="50px" />
+     
 
-    const {isLogin, hasBlog, username} = loginStore(state => state);
+    // const {isLogin, blogName, username,profileImg} = loginStore(state => state);
+
+    //localstorage 에서 받아옴 
+    const isLogin = localStorage.getItem('isLogin') === 'true';
+    const blogName = localStorage.getItem('blogName');
+    const userName = localStorage.getItem('userName');
+    const profileImg = localStorage.getItem('profileImg');
     // const { themeNames ,addTheme } = themeListStore(state => state);
+
+
+    const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
     const location = useLocation();
+    const hasBlog = blogName !== null;
     const isMngtPage = location.pathname.startsWith("/mngt");
     const isBlogPage = location.pathname.startsWith("/blogs");
     const isLoginPage = location.pathname.startsWith("/login");
@@ -62,19 +73,19 @@ function Topbar() {
                     {/* 블로그 자리 */}
                     {isMngtPage && hasBlog && (
                         <Navbar.Brand href='/blos' className={styles.center}>
-                            {username}의 우당탕탕 블로그
+                            {blogName}
                         </Navbar.Brand>
                     )}
 
                     {isMngtPage && (!hasBlog) && (
                        <Navbar.Brand className={styles.center}>
-                            {username}님, 블로그가 없습니다.
+                            {userName}님, 블로그가 없습니다.
                        </Navbar.Brand>
                     )}
 
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
-                            {username}의  { params.themeId !== undefined ? themes[params.themeId-1] : themes[0]}
+                            {userName}의  { params.themeId !== undefined ? themes[params.themeId-1] : themes[0]}
                         </Navbar.Brand>
                     )}
 

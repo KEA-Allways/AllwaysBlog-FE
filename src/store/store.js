@@ -9,13 +9,31 @@ export const loginStore = create(set =>({
     user : {},
     profileImg : "",
 
-    setUserId : (userId) => set({userId}),
+    setUserId : (userId) => {
+        set({userId});
+        localStorage.setItem('userId', userId);
+    },
     setPassword : (password) => set({password}),
-    setIsLogin : (isLogin) => set({isLogin}),
-    setBlogName : (blogName) => set({blogName}),
-    setUserName : (userName) => set({userName}),
-    setUser : (user) => set({user}),
-    setProfileImg : (profileImg) => set({profileImg}),
+    setIsLogin : (isLogin) => {
+        set({isLogin});
+        localStorage.setItem('isLogin', isLogin);
+    },
+    setBlogName : (blogName) => {
+        set({blogName});
+        localStorage.setItem('blogName', blogName);
+    },
+    setUserName : (userName) => {
+        set({userName});
+        localStorage.setItem('userName', userName);
+    },
+    setUser : (user) => {
+        set({user});
+        localStorage.setItem('user', JSON.stringify(user));
+    },
+    setProfileImg : (profileImg) => {
+        set({profileImg});
+        localStorage.setItem('profileImg', profileImg);
+    },
 }))
 
 export const themeListStore = create(set =>({

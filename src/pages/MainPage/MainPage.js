@@ -8,6 +8,7 @@ import Topbar from "../../components/Topbar/Topbar";
 import axios from "axios";
 import { loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
+import { redirect } from "react-router-dom";
 
 const MainPage = () => {
 
@@ -19,19 +20,44 @@ const MainPage = () => {
     const getUserInfo = async() => {
         try{
             const res = await TokenAxios.get(`/api/user`);
+             
+            
+            // const profileUrl =await axios.get("localhost:8001/receive_profile")
+            
             if(res.data.success){
-                setIsLogin(true);
-                // setProfileImg(res.data.result.data.profileImg); 나중에 프로필이미지도 추가되면 넣기.
-                setBlogName(res.data.result.data.blogName);
-                setUserName(res.data.result.data.nickname);
+                const userSeq=res.data.result.data.userSeq
+                const response = await fetch(`http://localhost:8001/receive_profile/${userSeq}`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
+                if (response.ok) {
+                    const profileData = await response.json(); // Convert response to JSON
+                    const profileUrl = profileData.profileImg;
+            
+                    setIsLogin(true);
+                    setProfileImg(profileUrl);
+                    setBlogName(res.data.result.data.blogName);
+                    setUserName(res.data.result.data.nickname);
+                } else {
+                    // Handle error, if any
+                    console.error('Error fetching profile image:', response.statusText);
+                }
+                 
             }
-        }catch(e){
-            if(e.response.status === 500){
+        }catch (e) {
+            if (e.response && e.response.status === 500) {
                 setIsLogin(false);
                 setProfileImg("");
                 setBlogName("");
                 setUserName("");
+                redirect("http://localhost:3000/login");
                 console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
+            } else {
+                // Handle other types of errors or log them
+                console.error("An error occurred:", e);
+                // You might want to redirect to an error page or display an error message to the user
             }
         }
         

@@ -6,7 +6,7 @@ import { CommonButton } from '../../common';
 import styles from "./Sidebar.module.css";
 import axios from "axios";
 import ThemeModal from "../ThemeModal/ThemeModal";
-
+import { TokenAxios } from "../../lib/TokenAxios";
 
 
 function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction, BodyContainer}) {
@@ -14,19 +14,53 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
+
+   //localstorage 에서 받아옴 
+   const isLogin = localStorage.getItem('isLogin') === 'true';
+   
+   const profileImg = localStorage.getItem('profileImg');
+  
+   const userName=useState(false);
+   const blogName=useState(false);
+   
+   const getBlogInfo = async() => {
+    try {
+      const res = await TokenAxios.get(`/api/blog`);
+      // const profileUrl =await axios.get("localhost:8001/receive_profile")
+      console.log(res);
+      
+      if(res.data.success){
+          
+          blogName=res.data.result.data.blogName
+          userName=res.data.result.data.userName
+      
+    }} catch (e) {
+      if (e.response && e.response.status === 500) {
+            
+        console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
+    } else {
+        // Handle other types of errors or log them
+        console.error("An error occurred:", e);
+        // You might want to redirect to an error page or display an error message to the user
+    }
+    }
+  }
  
   const [showModal,setShowModal] = useState(false);
  
   const isTheme = pathName.startsWith("/mngt/theme");
- 
+   
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton !== ""){
       setIsHeaderButton(true);
+       
     }
     if(HeaderButton2!=null && HeaderButton2 !==""){
       setIsHeaderButton2(true);
+       
     }
+    getBlogInfo();
   }, []);
 
     const headerButtonClicked = () => {
@@ -60,18 +94,18 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
           <div className={styles.sidebarContainer}>
             {/* 사이드바 박스 */}
             <div className={styles.sidebar}>
-              {console.log(profiles)}
+              
                 {/* 프로필 이미지 */}
                 <Profile
-                  src={profiles.profileImg}
+                  src={profileImg}
                 />
                
                 
                 {/* 블로그 소개, 이메일 */}
                 <ProfileBox>
-                  <p className={styles.blogName}>{profiles.nickname}의 {profiles.blogName}</p>
+                  <p className={styles.blogName}>{userName}의 {blogName}</p>
                   <small>{profiles.description}</small><br/>
-                  <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link> 
+                  {/* <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link>  */}
                 </ProfileBox>
                 
                 {/* 사이드바 메뉴 */} 

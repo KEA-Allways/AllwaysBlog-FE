@@ -106,8 +106,8 @@ const handleKarloImage =async ()=>{
         console.log(promptValue.value);
         console.log(negativeValue.value);
         
-        const positive=",high quality,Canon EF 24mm F2.8 IS USM"
-        const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+        // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+        // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
         // FASTAPI 와 통신
         const response = await fetch('http://localhost:8000/generate_image/', {
           method: 'POST',
@@ -115,8 +115,8 @@ const handleKarloImage =async ()=>{
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: new URLSearchParams({
-            'positivePrompt': promptValue.value+positive,
-            'negativePrompt': negativeValue.value +negative,
+            'positivePrompt': promptValue.value,
+            'negativePrompt': negativeValue.value,
             'samples': 1,
             'image_quality':100,
             'width':640,
