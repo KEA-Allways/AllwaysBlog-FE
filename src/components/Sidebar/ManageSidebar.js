@@ -7,6 +7,7 @@ import styles from "./Sidebar.module.css";
 import axios from "axios";
 import ThemeModal from "../ThemeModal/ThemeModal";
 import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore, loginStore }  from "../../store/store"
 
 
 function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction, BodyContainer}) {
@@ -14,6 +15,8 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
+  const {setProfileImg, setUserName} = loginStore(state => state);
+  const {blog,setBlogName} = blogStore(state => state);
 
    //localstorage 에서 받아옴 
    const isLogin = localStorage.getItem('isLogin') === 'true';
