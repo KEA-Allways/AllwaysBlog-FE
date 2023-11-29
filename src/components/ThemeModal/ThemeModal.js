@@ -14,6 +14,7 @@ import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
 import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore } from "../../store/store";
 
 
 
@@ -58,6 +59,8 @@ const ThemeModal = ({ showModal, onClose} ) => {
   const [backgroundColor, setBackgroundColor] = useState("");
   const [s3ImageUrl, setS3ImageUrl] = useState('');
   const [themeName, setThemeName] = useState('');
+  const {blogName, blogDescription, createBlog, setCreateBlog} = blogStore(state => state);
+
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
@@ -109,6 +112,7 @@ const handleKarloImage =async ()=>{
         // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
         // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
         // FASTAPI 와 통신
+        
         const response = await fetch('http://localhost:8000/generate_image/', {
           method: 'POST',
           headers: {
@@ -123,8 +127,6 @@ const handleKarloImage =async ()=>{
             'height':320
           })
         });
-        console.log("response ok 전 ",response);
-        
         //fastAPi에서 받은 image url 적용 
         if (response.ok) {
           console.log("response ok 후 ",response);
@@ -210,7 +212,7 @@ const handleKarloImage =async ()=>{
   };
   
   //테마 제작 
-  const handleExport =  () => {
+  const handleExport = async () => {
     if (previewRef.current) {
       //로그인에서 jwt를 header 에 넣기 
       //백엔드로 전송 
@@ -219,28 +221,20 @@ const handleKarloImage =async ()=>{
         imageUrl: s3ImageUrl,
         themeName: themeName,
       })
-      // TokenAxios.post('/api/theme', {
-         
-        // headers: {
-        // //   'Content-Type': 'application/json',
-        // // },
-        // body: JSON.stringify({
-        //   imageUrl: s3ImageUrl,
-        //   themeName: themeName,
-          
-          
-        // }),
-      // })
         .then(response => response.json())
         .then(data => {
           // Handle the response from the backend as needed
           console.log(data);
+ 
         })
-        .catch(error => {
-          // Handle errors
-          console.error('Error:', error);
-        });
-       
+        (!createBlog && await TokenAxios.post("/api/blog", {
+          blogName,
+          blogDescription,
+        }) && setCreateBlog(true))
+        
+      }
+      
+             
       //image_url spring boot 로 보내기 
       Swal.fire ({
         title:"테마 제작",
@@ -249,8 +243,8 @@ const handleKarloImage =async ()=>{
           Swal.showLoading()
         }
       }).then(navigate("/"))
-    }
-  };
+    };
+
 
   return (
      

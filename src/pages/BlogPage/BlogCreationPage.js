@@ -8,13 +8,13 @@ import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
 import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore } from "../../store/store";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState("1");
-  const [blogName, setBlogName] = useState("");
-  const [description, setDescription] = useState("");
+  const {setBlogName, setBlogDescription} = blogStore(state => state);
   const [showModal, setShowModal] = useState(false);
   const [profileImg, setProfileImg] = useState("");
 
@@ -34,19 +34,7 @@ const BlogCreationPage = () => {
     apiGetProfileImg();
   }, []);
   
-  const createBtnClicked = async () => {
-    try{
-      const res = await TokenAxios.post(`/api/blog`, {
-        // profileImg : profileImg,
-        blogName: blogName,
-        blogDescription: description,
-      })
-      const data = res.data.result.data;
-      console.log(data.blogSeq);
-    }catch(e){
-      console.log("블로그 생성이 잘 안됐습니다.");
-      console.log("에러 내용 : " + e);
-    }
+  const createBtnClicked = () => {
     setShowModal(true);
   };
 
@@ -86,7 +74,7 @@ const BlogCreationPage = () => {
             <BlogDescriptionInput
               placeholder=""
               onChange={(e) => {
-                setDescription(e.target.value);
+                setBlogDescription(e.target.value);
               }}
             />
 

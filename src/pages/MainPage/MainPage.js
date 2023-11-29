@@ -6,14 +6,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "@emotion/styled";
 import Topbar from "../../components/Topbar/Topbar";
 import axios from "axios";
-import { loginStore, mainPostStore }  from "../../store/store"
+import { blogStore, loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
 import { redirect } from "react-router-dom";
 
 const MainPage = () => {
 
     // store에서 함수들 가져오기
-    const {setIsLogin, setProfileImg, setBlogName, setUserName} = loginStore(state => state);
+    const {setProfileImg, setUserName} = loginStore(state => state);
+    const {setBlogSeq,setBlogName} = blogStore(state => state);
     const {setTenPosts} = mainPostStore(state => state);
 
     // accessToken 가지고 userInfo 가져오는 코드
@@ -36,7 +37,6 @@ const MainPage = () => {
                     const profileData = await response.json(); // Convert response to JSON
                     const profileUrl = profileData.profileImg;
             
-                    setIsLogin(true);
                     setProfileImg(profileUrl);
                     setBlogName(res.data.result.data.blogName);
                     setUserName(res.data.result.data.nickname);
@@ -48,7 +48,6 @@ const MainPage = () => {
             }
         }catch (e) {
             if (e.response && e.response.status === 500) {
-                setIsLogin(false);
                 setProfileImg("");
                 setBlogName("");
                 setUserName("");
@@ -69,6 +68,7 @@ const MainPage = () => {
         await setTenPosts(res.data.result.data);
       }
 
+
     // 화면 렌더링 될때 한번만 실행하는 코드
     useEffect(() => {
         getUserInfo();
@@ -77,9 +77,9 @@ const MainPage = () => {
     
     // 화면 띄워주는 코드
     return (
+        
         <Layout>
-            <Topbar />
-                
+            <Topbar /> 
             <Banner />
             
             <CardContainer>
@@ -101,5 +101,6 @@ const CardContainer = styled.div`
     margin-left : 100px;
     margin-right : 100px;
 `;
+
 
 export default MainPage;

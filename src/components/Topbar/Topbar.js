@@ -6,7 +6,7 @@ import classnames from "classnames"
 import styles from "./Topbar.module.css"
 import styled from "@emotion/styled";
 import axios from "axios";
-import { loginStore }  from '../../store/store'
+import { blogStore, loginStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
@@ -15,13 +15,8 @@ function Topbar() {
     // const image = <img src='/img/usericon.png' width="50px" height="50px" />
      
 
-    // const {isLogin, blogName, username,profileImg} = loginStore(state => state);
-
-    //localstorage 에서 받아옴 
-    const isLogin = localStorage.getItem('isLogin') === 'true';
-    const blogName = localStorage.getItem('blogName');
-    const userName = localStorage.getItem('userName');
-    const profileImg = localStorage.getItem('profileImg');
+    const {userName,profileImg} = loginStore(state => state);
+    const {blogSeq, blogName,blogDescription} = blogStore(state => state);
     // const { themeNames ,addTheme } = themeListStore(state => state);
 
 
@@ -41,7 +36,7 @@ function Topbar() {
     }
 
     const handleBlogButtonClicked = () => {
-        if(!hasBlog){
+        if(!blogName){
             Swal.fire({
                 title: "블로그 생성페이지로 이동합니다!",
                 icon: 'info'
@@ -49,7 +44,7 @@ function Topbar() {
                 navigate("/blog-creation");
               })
         }else{
-            navigate("/blogs");
+            navigate(`/blog/${blogSeq}`);
         }  
     }
 
@@ -63,26 +58,28 @@ function Topbar() {
     return (
         <div>
             <Navbar className={classnames('justify-content-between', styles.topbar)}>
-                {console.log(params.themeId)}
                 {/* 로고 자리 */}
                 <div className={styles.leftSideContainer}>
                     <Navbar.Brand href='/' className="d-flex justify-content-center w-100">
                         <img src="/img/logo.png" className={styles.topbarLogo}/>
                     </Navbar.Brand>
 
-                    {/* 블로그 자리 */}
-                    {isMngtPage && hasBlog && (
-                        <Navbar.Brand href='/blos' className={styles.center}>
-                            {blogName}
+                    
+                    {/* 관리 페이지에 블로그이름 있을 경우 */}
+                    {isMngtPage && blogName && (
+                        <Navbar.Brand href='/blog' className={styles.center}>
+                            {userName}의 우당탕탕 블로그
                         </Navbar.Brand>
                     )}
-
-                    {isMngtPage && (!hasBlog) && (
+                    
+                    {/* 관리 페이지에 블로그이름 없을 경우 */}
+                    {isMngtPage && (!blogName) && (
                        <Navbar.Brand className={styles.center}>
                             {userName}님, 블로그가 없습니다.
                        </Navbar.Brand>
                     )}
 
+                    {/* 블로그 페이지에 테마이름 */}
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
                             {userName}의  { params.themeId !== undefined ? themes[params.themeId-1] : themes[0]}
@@ -92,9 +89,10 @@ function Topbar() {
                 
                 </div>
                 {/* 로그인, 드롭다운 자리 */}
+                {/* 로그인페이지와 회원가입 페이지에는 로그인쪽 버튼 X */}
                 {!(isLoginPage) && !(isSignUpPage) && (
                     <div className={styles.rightSideContainer}>
-                    {isLogin ? (
+                    {userName ? (
                         <NavDropdown
                             title={image}
                             id="basic-nav-dropdown" 
@@ -102,9 +100,7 @@ function Topbar() {
                             align="end"
                             className={styles.rightSideContainer} >
                                 <NavDropdown.Item 
-                                    // href={hasBlog ? "/blogs" : "/blog-creation"}                             
                                     onClick={handleBlogButtonClicked}
-                                    // onClick={() => { if(!hasBlog) Swal.fire({title : "블로그가 없어 생성 페이지로 이동합니다."})}} 
                                     style={{width: "100px", marginRight: "50px"}}>내 블로그</NavDropdown.Item>
                                 <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>

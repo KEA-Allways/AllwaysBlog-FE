@@ -1,12 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import styled from "styled-components";
-import { Editor } from "react-draft-wysiwyg";
 import axios from "axios";
-import { EditorState, ContentState, convertFromHTML, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import draftjsToHtml from "draftjs-to-html";
 import ThumbnailModal from "../ThumbnailModal/ThumbnailModal.js";
-import ThemeModal from "../ThemeModal/ThemeModal.js"
 import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
 import { CommonButton } from "../../common";
@@ -14,50 +9,56 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import TextStyles from "../../components/Text.module.css";
 import ReactQuill from "react-quill";
-//import QuillEditor from "../editor.js";
 import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
+import Swal from "sweetalert2";
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
 const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
 
 
-const Container = styled.div`
-  width: 100%;
-`;
-
 const PostEditor = () => {
   const location = useLocation();
 
   // navigate할 떄 담아오는 변수들
   const postSeq = location.state.postSeq;
-  const theme = location.state.theme;
   const templateSeq = location.state.templateSeq;
-  console.log("postSeq: " + postSeq);
-  console.log("TemplateSeq: " + templateSeq);
+  
+  const navigate = useNavigate();
+
+  // 게시글 제목
+  const [titleState, setTitleState] = useState("");
+
+  // 게시글 내용
   const [postContent, setPostContent] = useState("");
 
-  const navigate = useNavigate();
-  // 에디터 상태(Content 상태)
-  //const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  // 제목 상태
-  const [titleState, setTitleState] = useState("");
+  // 테마 Seq
+  const [themeSeq, setThemeSeq] = useState("");
+
+  // 테마 이름
+  const [themeName, setThemeName] = useState("");
+
+  // 카테고리 목록
+  const [categoryList, setCategoryList] = useState([]);
+
+  // 선택된 카테고리
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  // 템플릿 목록
+  const [templateList, setTemplateList] = useState([]);
+
+  // 선택된 템플릿 이름
+  const [selectedTemplate, setSelectedTemplate] = useState("");
+
+  // 선택된 템플릿 Seq
+  const [selectedTemplateSeq, setSelectedTemplateSeq] = useState("");
+
+  const [templateShowState, setTemplateShowState] = useState(true);
 
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
-  // 카테고리 리스트 상태
-  const [category_lists, setCategory_lists] = useState([]);
-  // 카테고리 리스트 상태
-  const [template_lists, setTemplate_lists] = useState([]);
-  // 카테고리 선택 상태
-  const [selectedTemplate, setSelectedTemplate] = useState("");
 
-  const [showButton, setShowButton] = useState("");
-
-  const [selectedCategory, setSelectedCategory] = useState("");
-
-  const [templateShowState, setTemplateShowState] = useState(true);
 
   //modal 오픈 시 보낼 데이터
   const modalData = {
@@ -65,61 +66,12 @@ const PostEditor = () => {
     onClose: () => setShowModal(false),
     postContent: postContent,
     postTitle: titleState,
-    themeSeq: 1 //themeSeq 지정 필요
+    themeSeq: themeSeq //themeSeq 지정 필요
   };
-  //생성 관련 
-  const handlePostComplete = () => {
-    setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
+  
+  
 
-    fetch('http://localhost:8761/api/post', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'userSeq' : 1,
-        },
-        body: JSON.stringify({
-          postTitle: titleState,
-          postContent: postContent,
-          categorySeq : 1
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
-    console.log('Post complete button clicked'); // 확인용 로그
-  };
-  //수정 관련 
-  const handlePostComplete2 = () => {
-    setShowModal(true); // 작성 완료 버튼 클릭 시 모달 표시
-
-    fetch('http://localhost:8761/api/post/23', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'userSeq' : 1,
-        },
-        body: JSON.stringify({
-          postTitle: titleState,
-          postContent: postContent,
-          categorySeq : 1
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
-    console.log('Post complete button clicked'); // 확인용 로그
-  };
-
+  // 에디터 이미지 업로드 함수
   const quillRef = useRef(null);
   const imageHandler = async () => {
     const input = document.createElement("input");
@@ -127,10 +79,10 @@ const PostEditor = () => {
     input.setAttribute("accept", "image/*");
     input.click();
     input.addEventListener("change", async () => {
-      //이미지를 담아 전송할 file을 만든다
+      //이미지를 담아 전송할 file 생성
       const file = input.files?.[0];
       try {
-        //업로드할 파일의 이름으로 Date 사용
+        //Date를 업로드할 파일의 이름으로 사용
         const name = Date.now();
         //s3 관련 설정
         AWS.config.update({
@@ -177,89 +129,155 @@ const PostEditor = () => {
     };
   }, []);
 
-  const apiGetPost = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/posts/postSeq`)
-    .then((response) => {
-      const blocksFromHTML = convertFromHTML(response.data.content);
-      const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
-      const initialEditorState  = EditorState.createWithContent(contentState);
-      //setEditorState(initialEditorState );
-      setTitleState(response.data.title);
-    })
-    .catch((error) => {
-      console.error('API GET request error:', error);
-    });
-  }
-
-  const apiGetCategories = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1/1`)
-    .then((response) => {
-      setCategory_lists(response.data.category_lists);
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
-  }
-
-  const apiGetTemplateList = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
-    .then((response) => {
-      setTemplate_lists(response.data.templates)
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
-  }
-
-  const apiGetTemplate = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/templates/1`)
-    .then((response) => {
-      const blocksFromHTML = convertFromHTML(response.data.templateContent);
-      const contentState = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks);
-      const initialEditorState  = EditorState.createWithContent(contentState);
-      //setEditorState(initialEditorState );
-      console.log(response.data.title)
-      setTitleState(response.data.title);
-    })
-  }
-
   useEffect(() => {
     if (postSeq !== undefined) {
-      // postSeq와 관련된 로직
-      if (postSeq === 0) { // postSeq가 0이면 새로운 게시글 등록
-        apiGetCategories();
-        apiGetTemplateList();
-        setShowButton("등록");
-      } else {  // postSeq가 0이 아니면 해당 postSeq 게시글 수정
-        apiGetPost();
-        apiGetCategories();
-        apiGetTemplateList();
-        setShowButton("수정");
-      }
+      if (postSeq > 0) apiGetPost();
+      apiGetTemplateList();
+    }
+
+    if (themeSeq !== undefined){
+      apiGetCategories();
     }
   
     if (templateSeq !== undefined) {
-      // templateSeq와 관련된 로직
-      if (templateSeq === 0) {
-        setTemplateShowState(false);
-        setShowButton("등록");
-      } else {
-        apiGetTemplate();
-        setTemplateShowState(false);
-        setShowButton("수정");
-      }
+      setTemplateShowState(false);
+      
+    } 
+  }, [postSeq, themeSeq, templateSeq]);
+
+  useEffect(() => {
+    if (categoryList.length > 0) {
+      setSelectedCategory(categoryList[0].categoryName);
     }
-  }, [postSeq, templateSeq]);
+  }, [categoryList]);
 
   useEffect(() => {
     if (selectedTemplate) {
-      apiGetTemplate(selectedTemplate);
+      apiGetTemplate(selectedTemplateSeq);
     }
-  }, [selectedTemplate]);
+  }, [selectedTemplateSeq]);
 
-  useEffect(() => {
-    if (category_lists.length > 0) {
-      setSelectedCategory(category_lists[0].listName);
-    }
-  }, [category_lists]);
+  
+
+  // 게시글 상세 정보 가져오는 함수
+  const apiGetPost = () => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
+      headers: {
+        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
+      },
+      responseType: "json",
+    })
+    .then((response) => {
+      const data = response.data.result.data;
+      
+      setPostContent(data.postContent);
+      setTitleState(data.postTitle);
+      setThemeSeq(data.themeSeq);
+      setThemeName(data.themeName);
+      console.log(themeSeq)
+    })
+    .catch((error) => {
+      console.error('AxiosError: ', error);
+    });
+  }
+
+  // 카테고리 목록 가져오는 함수
+  const apiGetCategories = () => {
+    axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/theme/${themeSeq}/category`)
+    .then((response) => {
+      setCategoryList(response.data.result.data);
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+  }
+
+  // 템플릿 목록 가져오는 함수
+  const apiGetTemplateList = () => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_GATEWAY_URL}/api/template`,
+      headers: {
+        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
+      },
+      responseType: "json",
+    })
+    .then((response) => {
+      console.log(response.data.result.data)
+      setTemplateList(response.data.result.data)
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+  }
+
+  // 템플릿 적용 함수
+  const apiGetTemplate = () => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_GATEWAY_URL}/api/template/${selectedTemplateSeq}`,
+      headers: {
+        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
+      },
+      responseType: "json",
+    })
+    .then((response) => {
+      const data = response.data.result.data;
+      setPostContent(data.templateContent);
+      setTitleState(data.templateTitle);
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+    
+  }
+
+  // 템플릿 title, Seq 지정 함수
+  const setTemplateInfo = (value) => {
+    setSelectedTemplateSeq(value);
+    setSelectedTemplate(value);
+  }
+
+  // 게시글 저장(수정 시 썸네일 모달 없이 바로 저장) 함수
+  const handlePostComplete = () => {
+    axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
+      },
+      data: {
+        postTitle: titleState,
+        postContent: postContent,
+        categorySeq : 1
+      },
+      responseType: "json",
+    })
+    .then((response) => {
+      const data = response.data.result.data;
+      let resultSeq = 0;
+      if (data.postSeq > 0){
+        resultSeq = data.postSeq;
+
+        Swal.fire({
+          title: "게시글을 저장 중입니다.",
+          timer: 3000,
+          didOpen: () => {
+            Swal.showLoading()
+          }
+        }).then(() => {
+          navigate(`/post/${resultSeq}`);
+        });
+        
+      } else {
+        console.error('Error:', data.message);
+        //문구 이상하면 변경 해주세용~
+        alert("게시글을 저장하는데 오류가 발생했습니다.");
+      }
+    }).catch((error) => {
+      console.error('API GET request error:', error);
+    });
+  };
 
   return (
     <>
@@ -267,7 +285,7 @@ const PostEditor = () => {
       <>
       <div style={{ marginTop: '30px', marginBottom: '15px' }}>
         <h3 className={TextStyles.h3}>
-          {theme}
+          {themeName}
         </h3>
       </div>
 
@@ -286,9 +304,9 @@ const PostEditor = () => {
           style={{ width: '20%' }}
           value={selectedCategory}
           onChange={(event) => setSelectedCategory(event.target.value)}>
-            {category_lists.map((option) => (
-              <MenuItem key={option.listName} value={option.listName}>
-                {option.listName}
+            {categoryList.map((option) => (
+              <MenuItem key={option.categorySeq} value={option.categoryName}>
+                {option.categoryName}
               </MenuItem>
             ))}
         </TextField>
@@ -297,12 +315,12 @@ const PostEditor = () => {
           id="post-template"
           select
           label="게시글 서식"
-          style={{ marginLeft: '5%' ,width: '20%' }}
+          style={{ marginLeft: '5%', width: '20%' }}
           value={selectedTemplate}
-          onChange={(event) => setSelectedTemplate(event.target.value)} >
-            {template_lists.map((option) => (
-              <MenuItem key={option.templateName} value={option.templateName}>
-                {option.templateName}
+          onChange={(event) => {setTemplateInfo(event.target.value)}} >
+            {templateList.map((option) => (
+              <MenuItem key={option.templateSeq} value={option.templateSeq}>
+                {option.templateTitle}
               </MenuItem>
             ))}
         </TextField>
@@ -323,9 +341,10 @@ const PostEditor = () => {
 
         <ReactQuill
           ref={quillRef}
+          value={postContent}
+          onChange={setPostContent}
           style={{ width: "100%", height: "600px" }}
           modules={modules}
-          onChange={setPostContent}
           placeholder="게시글을 작성해주세요"
         />
  
@@ -333,17 +352,18 @@ const PostEditor = () => {
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <div></div>
-        {/* 수정이 아니라 처음 작성하러 들어왔을 때는 버튼을 하나만 보여주고 작성 완료 버튼을 누르면 썸네일 생성 창이 뜬다 */}
-        {showButton === "등록" && (
+        {/* 게시글 생성 시 썸네일 생성 모달로 이동 후 내용 저장 */}
+        {postSeq <= 0 && (
           <div style={{display: 'flex', marginTop: '30px'}}>
             <CommonButton style={{ marginTop: '30px' }} onClick={() => setShowModal(true) }>작성 완료</CommonButton>
           </div>
         )}
-        {/* 수정하러 들어왔을 때는 버튼을 2개 보여준다, 작성 완료 버튼을 누르면 /mngt/content 페이지로 이동하게 해뒀는데 어느 유저의 mngt/page로 갈지는 차후에 설정해줘야 함 */}
-        {showButton === "수정" && (
+        {/* 게시글만 수정 시 - '작성 완료'로 바로 내용 저장
+            썸네일 수정 시 - '썸네일 변경' 버튼으로 수정 후 내용 저장 */}
+        {postSeq > 0 && (
           <div style={{display: 'flex', marginTop: '30px'}}>
-            <CommonButton onClick={() => setShowModal(true) }>썸네일 변경</CommonButton>
-            <CommonButton style={{marginRight: '0px'}} onClick={() => navigate('/mngt/content')}>작성 완료</CommonButton>
+            <CommonButton style={{marginTop: '30px'}} onClick={() => setShowModal(true) }>썸네일 변경</CommonButton>
+            <CommonButton style={{marginRight: '0px', marginTop: '30px'}} onClick={() => handlePostComplete()}>작성 완료</CommonButton>
           </div>
         )}
       </div>
@@ -352,8 +372,6 @@ const PostEditor = () => {
         onClose={() => setShowModal(false)}
         {...modalData}
       />
-      <CommonButton onClick={() => handlePostComplete()}> INSERT TEST</CommonButton>
-      <CommonButton onClick={() => handlePostComplete2()}> UPDATE TEST</CommonButton>
     </>
   );
 };
