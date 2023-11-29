@@ -55,7 +55,7 @@ const DetailPageContent =( props )=> {
             
             <hr/>
 
-            <div dangerouslySetInnerHTML={{ __html: post.postContent }} style={{ maxWidth: '100%' }} />
+            <ContentStyle dangerouslySetInnerHTML={{ __html: post.postContent }} />
           
           </div>
         </div>
@@ -78,4 +78,12 @@ const DeleteButton = styled(CommonDeleteButton)`
   height: 40px;
   font-size: 12pt;
 
+`
+
+const ContentStyle = styled.div`
+  img {
+    width : 100%;
+    height : 100%;
+    object-fit : cover;
+  }
 `
