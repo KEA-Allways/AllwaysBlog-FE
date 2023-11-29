@@ -33,7 +33,7 @@ function App() {
             <Route path="/" element={<MainPage/>} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/blogs" element={<BlogPage/>} />
+            <Route path="/blog/:blogSeq" element={<BlogPage/>} />
             <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
             <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
             <Route path="/blog-creation" element={<BlogCreationPage />} />

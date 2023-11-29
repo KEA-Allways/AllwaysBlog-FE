@@ -9,6 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 import ViewList from '@mui/icons-material/ViewList';
 import ViewModule from '@mui/icons-material/ViewModule';
+import { blogPostStore } from '../../store/store';
 
 
 const itemsPerPage = 3;
@@ -18,6 +19,7 @@ const BlogBody = () => {
   const [showContent, setShowContent] = useState('gridList');
   const [currentPage, setCurrentPage] = useState(1);
   const [list, setLists] = useState([]);
+  const {blogPosts} = blogPostStore(state => state);
 
   // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
@@ -33,21 +35,21 @@ const BlogBody = () => {
     setCurrentPage(page);
   };
 
-  const apiGetPosts = (page, itemsPerPage) => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
-      .then((response) => {
-        setLists(response.data.posts);
-        console.log(list)
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-  };
+  // const apiGetPosts = (page, itemsPerPage) => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
+  //     .then((response) => {
+  //       setLists(response.data.posts);
+  //       console.log(list)
+  //     })
+  //     .catch((error) => {
+  //       console.error('API GET request error:', error);
+  //     });
+  // };
 
-  useEffect(() => {
-    apiGetPosts(currentPage);
-  }, [currentPage]);
+  // useEffect(() => {
+  //   apiGetPosts(currentPage);
+  // }, [currentPage]);
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -83,15 +85,15 @@ const BlogBody = () => {
 
           {showContent === "gridList" && (
             <Row xs={1} md={3} className="g-6">
-            {displayedData.map((blg, index) => (
+            {blogPosts.map((blg, index) => (
               <Col key={index}>
                 <Link to={`/post/${blg.postSeq}`}>
                 <CardStyle
                   imgUrl={blg.thumbImg}
                   imgHeight="180px"
                   imgWidth="200px"
-                  title={blg.title}
-                  subtitle={blg.subtitle}
+                  title={blg.postTitle}
+                  subtitle={blg.subTitle}
                   nickname={blg.nickname}
                   opacityValue="80%"
                   date={blg.postDate}
@@ -104,16 +106,15 @@ const BlogBody = () => {
           
           {showContent === "lineList" && (
             <Row lg="1" xl="1" className="g-6">
-            {displayedData.map((blg, index) => (
+            {blogPosts.map((blg, index) => (
               <Col key={index}>
                 <Link to={`/post/${blg.postSeq}`}>
                   <ListStyle
                     imgUrl={blg.thumbImg}
                     imgHeight="180px"
                     imgWidth="200px"
-                    title={blg.title}
-                    subtitle={blg.subtitle}
-                    usericon={blg.userIcon}
+                    title={blg.postTitle}
+                    subtitle={blg.subTitle}
                     nickname={blg.nickname}
                     profile={blg.profileImg}
                     opacityValue="80%"

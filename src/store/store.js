@@ -1,23 +1,34 @@
 import {create} from "zustand";
 
+
+// user, blog
 export const loginStore = create(set =>({
+    userSeq : 0,
     userId : "",
     password : "",
-    isLogin : false,
-    blogName : "",
     userName : "",
-    user : {},
     profileImg : "",
 
+    setUserSeq : (userSeq) => set({userSeq}),
     setUserId : (userId) => set({userId}),
     setPassword : (password) => set({password}),
-    setIsLogin : (isLogin) => set({isLogin}),
-    setBlogName : (blogName) => set({blogName}),
     setUserName : (userName) => set({userName}),
-    setUser : (user) => set({user}),
     setProfileImg : (profileImg) => set({profileImg}),
+
 }))
 
+export const blogStore = create(set => ({
+    blogSeq : 0,
+    blogName : "",
+    blogDescription : "",
+
+    setBlogSeq : (blogSeq) => set({blogSeq}),
+    setBlogName : (blogName) => set({blogName}),
+    setBlogDescription : (blogDescription) => set({blogDescription}),
+}))
+
+
+// theme, category
 export const themeListStore = create(set =>({
     themeSeq : 0,
     themeNames : [],
@@ -25,29 +36,16 @@ export const themeListStore = create(set =>({
     addTheme: (newTheme) => set((state) => ({ themeNames: [...state.themeNames, newTheme] })),
 }))
 
+
+// post
 export const mainPostStore = create(set => ({
-    // postSeq : "",
-    // thumbImg : "",
-    // ListName : "",
-    // nickname : "",
-    // postDate : "",
-    // postProfileImg : "",
-    // subtitle : "",
-    // themeName : "",
-    // title : "",
-    // userId : "",
     tenPosts : [],
 
     setTenPosts : (tenPosts) => set({tenPosts : tenPosts}),
-    // setPostSeq : (postSeq) => set({postSeq}),
-    // setThumbImg : (thumbImg) => set({thumbImg}),
-    // setListName : (ListName) => set({ListName}),
-    // setNickname : (nickname) => set({nickname}),
-    // setPostDate : (postDate) => set({postDate}),
-    // setPostProfileImg : (postProfileImg) => set({postProfileImg}),
-    // setSubtitle : (subtitle) => set({subtitle}),
-    // setThemeName : (themeName) => set({themeName}),
-    // setTitle : (title) => set({title}),
-    // setUserId : (userId) => set({userId}),
+}))
 
+export const blogPostStore = create(set => ({
+    blogPosts : [],
+
+    setBlogPosts : (blogPosts) => set({blogPosts : blogPosts}),
 }))

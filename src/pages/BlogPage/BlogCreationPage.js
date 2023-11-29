@@ -8,13 +8,13 @@ import Topbar from "../../components/Topbar/Topbar";
 import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
 import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore } from "../../store/store";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState("1");
-  const [blogName, setBlogName] = useState("");
-  const [description, setDescription] = useState("");
+  const {setBlogName, setBlogDescription} = blogStore(state => state);
   const [showModal, setShowModal] = useState(false);
   const [profileImg, setProfileImg] = useState("");
 
@@ -34,42 +34,8 @@ const BlogCreationPage = () => {
     apiGetProfileImg();
   }, []);
   
-  const createBtnClicked = async () => {
-    try{
-      const res = await TokenAxios.post(`/api/blog`, {
-        // profileImg : profileImg,
-        blogName: blogName,
-        blogDescription: description,
-      })
-      const data = res.data.result.data;
-      console.log(data.blogSeq);
-      setBlogSeq(data.blogSeq);
-      
-    }catch(e){
-      console.log("블로그 생성이 잘 안됐습니다.");
-      console.log("에러 내용 : " + e);
-    }
-    
-      
-      // .then((response) => {
-      //   //setResponse(response);
-
-      //   if (response.status === 200) {
-      //     // localStorage.setItem("jwt", result.data.result.jwt);
-      //     // localStorage.setItem("memberId", result.data.result.id);
-      //     Swal.fire({
-      //       title: "블로그 생성!",
-      //       icon: "success",
-      //     }).then(() => {
-      //       navigate("/");
-      //     });
-      //   } else {
-      //     Swal.fire({
-      //       title: "블로그 생성 실패!",
-      //       icon: "error",
-      //     }).then(() => {});
-      //   }
-      // });
+  const createBtnClicked = () => {
+    setShowModal(true);
   };
 
   return (
@@ -108,7 +74,7 @@ const BlogCreationPage = () => {
             <BlogDescriptionInput
               placeholder=""
               onChange={(e) => {
-                setDescription(e.target.value);
+                setBlogDescription(e.target.value);
               }}
             />
 
