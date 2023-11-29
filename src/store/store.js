@@ -9,6 +9,31 @@ export const loginStore = create(set =>({
     userName : "",
     profileImg : "",
 
+    setUserId : (userId) => {
+        set({userId});
+        localStorage.setItem('userId', userId);
+    },
+    setPassword : (password) => set({password}),
+    setIsLogin : (isLogin) => {
+        set({isLogin});
+        localStorage.setItem('isLogin', isLogin);
+    },
+    setBlogName : (blogName) => {
+        set({blogName});
+        localStorage.setItem('blogName', blogName);
+    },
+    setUserName : (userName) => {
+        set({userName});
+        localStorage.setItem('userName', userName);
+    },
+    setUser : (user) => {
+        set({user});
+        localStorage.setItem('user', JSON.stringify(user));
+    },
+    setProfileImg : (profileImg) => {
+        set({profileImg});
+        localStorage.setItem('profileImg', profileImg);
+    },
     setUserSeq : (userSeq) => set({userSeq}),
     setUserId : (userId) => set({userId}),
     setPassword : (password) => set({password}),
