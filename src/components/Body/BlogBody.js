@@ -5,57 +5,37 @@ import { CommonButton } from "../../common";
 import styles from "./BlogBody.module.css";
 import CardStyle from "../PostCard/CardStyle";
 import ListStyle from "../PostCard/ListStyle";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 import ViewList from '@mui/icons-material/ViewList';
 import ViewModule from '@mui/icons-material/ViewModule';
 import { blogPostStore } from '../../store/store';
+import { DefaultAxios } from '../../lib/DefaultAxios';
 
-
-const itemsPerPage = 3;
-
-const BlogBody = () => {
+const BlogBody = ({currentPage, setCurrentPage}) => {
   const navigate = useNavigate();
   const [showContent, setShowContent] = useState('gridList');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [list, setLists] = useState([]);
-  const {blogPosts} = blogPostStore(state => state);
+  // const [currentPage, setCurrentPage] = useState(1);
+  const {blogPosts, totalElements, setBlogPosts} = blogPostStore(state => state);
+  const params = useParams();
+  
 
   // 여기 페이지에서는 항상 새로운 게시글 등록이기에 postSeq로 0을 보낸다
   const editButtonClicked = (postSeq) => {
     const theme = '현재 페이지 테마';
-    navigate('/post', { state: { postSeq: postSeq, templateSeq: undefined, theme } });
+    navigate(`/post/edit/${params.themeSeq}`, { state: { postSeq: postSeq, templateSeq: undefined, theme } });
   };
 
   const handleButtonClick = (content) => {
         setShowContent(content);
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = async (page) => {
     setCurrentPage(page);
+    const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=${currentPage}&size=10`)
+    const data = res.data.result.data;
+    setBlogPosts(data.content);
   };
-
-  // const apiGetPosts = (page, itemsPerPage) => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/api/posts/1/1`)
-  //     .then((response) => {
-  //       setLists(response.data.posts);
-  //       console.log(list)
-  //     })
-  //     .catch((error) => {
-  //       console.error('API GET request error:', error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   apiGetPosts(currentPage);
-  // }, [currentPage]);
-
-  // Calculate the index range for the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const displayedData = list && list.length > 0 ? list.slice(startIndex, endIndex) : [];
 
   return (
     <Container>
@@ -65,7 +45,7 @@ const BlogBody = () => {
           </Col>
           <Col md={10}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
+            <div style={{display : "flex"}}>
               {showContent === "gridList" && (
                 <div>
                   <ViewModule fontSize="large" onClick={() => handleButtonClick("gridList")} />
@@ -80,7 +60,8 @@ const BlogBody = () => {
               )}
             </div>
             <CommonButton sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
-          </div>
+          </div> 
+          
           <br></br>
 
           {showContent === "gridList" && (
@@ -96,14 +77,14 @@ const BlogBody = () => {
                   subtitle={blg.subTitle}
                   nickname={blg.nickname}
                   opacityValue="80%"
-                  date={blg.postDate}
+                  date={blg.postDate.substr(0,10)}
                   profile={blg.profileImg}/>
                 </Link>
               </Col>
             ))}
           </Row>
           )}
-          
+          {console.log(params)}
           {showContent === "lineList" && (
             <Row lg="1" xl="1" className="g-6">
             {blogPosts.map((blg, index) => (
@@ -118,7 +99,7 @@ const BlogBody = () => {
                     nickname={blg.nickname}
                     profile={blg.profileImg}
                     opacityValue="80%"
-                    date={blg.postDate}/>
+                    date={blg.postDate.substr(0,10)}/>
                 </Link>
               </Col>
             ))}
@@ -132,12 +113,12 @@ const BlogBody = () => {
         
         {/* paging 추가 */}
         <div style={{ display: 'flex', justifyContent: 'center'}}>
-          {list && list.length > 0 ? (
+          {blogPosts && blogPosts.length > 0 ? (
             <Paging
               activePage={currentPage}
-              totalItemsCount={list.length}
+              totalItemsCount={totalElements}
               onPageChange={handlePageChange}
-              itemsPerPage={itemsPerPage}
+              itemsPerPage={10}
             />
           ) : (
             <p></p> // 데이터가 없을 경우 메시지 표시

@@ -33,12 +33,12 @@ function App() {
             <Route path="/" element={<MainPage/>} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/blog/:blogSeq" element={<BlogPage/>} />
-            <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
-            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
+            <Route path="/blog/:userSeq" element={<BlogPage/>} />
+            <Route path="/blog/:userSeq/theme/:themeSeq" element={<BlogPage />} />
+            <Route path="/blog/:userSeq/theme/:themeSeq/category/:categorySeq" element={<BlogPage />} />
             <Route path="/blog-creation" element={<BlogCreationPage />} />
             <Route path="/mngt" element={<ManagePage />} />
-            <Route path="/post" element={<PostPage />} />
+            <Route path="/post/edit/:themeSeq" element={<PostPage />} />
             <Route path="/mngt/theme" element={<MngtTheme />} />
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent />} />

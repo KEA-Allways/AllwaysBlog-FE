@@ -5,13 +5,14 @@ import ThumbnailModal from "../ThumbnailModal/ThumbnailModal.js";
 import { TextField } from '@mui/material/';
 import { MenuItem } from '@mui/material/';
 import { CommonButton } from "../../common";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import TextStyles from "../../components/Text.module.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 import Swal from "sweetalert2";
+import { DefaultAxios } from "../../lib/DefaultAxios.js";
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
@@ -24,6 +25,7 @@ const PostEditor = () => {
   // navigate할 떄 담아오는 변수들
   const postSeq = location.state.postSeq;
   const templateSeq = location.state.templateSeq;
+  const params = useParams();
   
   const navigate = useNavigate();
 
@@ -184,13 +186,11 @@ const PostEditor = () => {
   }
 
   // 카테고리 목록 가져오는 함수
-  const apiGetCategories = () => {
-    axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/theme/${themeSeq}/category`)
-    .then((response) => {
-      setCategoryList(response.data.result.data);
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
+  const apiGetCategories = async () => {
+    const res = await DefaultAxios.get(`/api/theme/${params.themeSeq}/category`)
+    const data = res.data.result.data;
+    console.log(data);
+    setCategoryList(data);
   }
 
   // 템플릿 목록 가져오는 함수
