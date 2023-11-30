@@ -5,10 +5,8 @@ import Footer from "../../components/Footer/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "@emotion/styled";
 import Topbar from "../../components/Topbar/Topbar";
-import axios from "axios";
 import { blogStore, loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
-import { redirect } from "react-router-dom";
 import { DefaultAxios } from "../../lib/DefaultAxios";
 
 const MainPage = () => {
@@ -16,6 +14,7 @@ const MainPage = () => {
     // store에서 함수들 가져오기
     const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
     const { setBlogName,setBlogDescription} = blogStore(state => state);
+
     const {setTenPosts} = mainPostStore(state => state);
 
     // accessToken 가지고 userInfo 가져오는 코드
@@ -37,10 +36,13 @@ const MainPage = () => {
                 if (response.ok) {
                     const profileData = await response.json(); // Convert response to JSON
                     const profileUrl = profileData.profileImg;
+ 
+                    
                     setUserSeq(data.userSeq);
                     setProfileImg(profileUrl);
                     setUserName(data.nickname);
-                     
+                    setBlogName(data.blogName);
+ 
                     
                 } else {
                     // Handle error, if any
@@ -91,9 +93,16 @@ const MainPage = () => {
 
     // mainPost 10개 가지고 오는 코드
     const getMainPost = async() => {
-        const res = await DefaultAxios.get(`/api/post/main`);
-        await setTenPosts(res.data.result.data);
-      }
+        try{
+            const res = await DefaultAxios.get(`/api/post/main`);
+            console.log(res.data);
+            setTenPosts(res.data.result.data);
+        }catch(e){
+            console.log(e);
+            console.log("블로그가 2개가 있을 가능성이 있습니다.")
+        }
+        
+    }
 
 
     // 화면 렌더링 될때 한번만 실행하는 코드

@@ -6,7 +6,7 @@ import classnames from "classnames"
 import styles from "./Topbar.module.css"
 import styled from "@emotion/styled";
 import axios from "axios";
-import { blogStore, loginStore }  from '../../store/store'
+import { blogStore, loginStore, themeListStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
@@ -21,21 +21,25 @@ function Topbar() {
 
     const profileImg = localStorage.getItem('profileImg');
     const blogSeq = localStorage.getItem("blogSeq")
-    const blogName = localStorage.getItem('blogName');
     const blogDescription = localStorage.getItem("blogDescription")
     const userName = localStorage.getItem('userName');
     const userSeq = localStorage.getItem("userSeq");
+    const { blogName} = blogStore(state => state);
 
 
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
+
+    
+    const {themes} = themeListStore(state => state);
+    
+    // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
     const hasBlog = blogName !== null;
     const isMngtPage = location.pathname.startsWith("/mngt");
-    const isBlogPage = location.pathname.startsWith("/blogs");
+    const isBlogPage = location.pathname.startsWith("/blog");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    const [themes, setThemes] = useState(["여행 다이어리", "소소한 요리 기록"]);
     let  params  = useParams();
     
 
@@ -60,15 +64,7 @@ function Topbar() {
     }
 
     const logout = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userSeq");
-        localStorage.removeItem("profileImg");
-        localStorage.removeItem("blogDescription");
-        localStorage.removeItem("userName");
-        localStorage.removeItem("blogName");
-
+        localStorage.clear();
         window.open("/", "_self");
     };
 
@@ -82,7 +78,7 @@ function Topbar() {
                         <img src="/img/logo.png" className={styles.topbarLogo}/>
                     </Navbar.Brand>
 
-                    
+                    {/* {console.log(themes[0].themeName)} */}
                     {/* 관리 페이지에 블로그이름 있을 경우 */}
                     {isMngtPage && blogName && (
                         <Navbar.Brand href='/blog' className={styles.center}>
@@ -100,7 +96,7 @@ function Topbar() {
                     {/* 블로그 페이지에 테마이름 */}
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
-                            {userName}의  { params.themeId !== undefined ? themes[params.themeId-1] : themes[0]}
+                            {userName}의 {themes.length >0 ? themes[0].themeName : ""}
                         </Navbar.Brand>
                     )}
 
