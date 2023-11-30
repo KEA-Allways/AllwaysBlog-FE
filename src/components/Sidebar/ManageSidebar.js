@@ -15,44 +15,23 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
-  const {setProfileImg, setUserName} = loginStore(state => state);
-  const {blog,setBlogName} = blogStore(state => state);
+  // const [blogDescription,setBlogDescription] = useState(false);
+  const [blogSeq,setBlogSeq] = useState(false);
+
+  const userName = localStorage.getItem("userName");
 
    //localstorage 에서 받아옴 
-   const isLogin = localStorage.getItem('isLogin') === 'true';
    
-   const profileImg = localStorage.getItem('profileImg');
-  
-   const userName=useState(false);
-   const blogName=useState(false);
+  const profileImg = localStorage.getItem('profileImg');
+  const blogName = localStorage.getItem('blogName')
+  const blogDescription = localStorage.getItem('blogDescription')
    
-   const getBlogInfo = async() => {
-    try {
-      const res = await TokenAxios.get(`/api/blog`);
-      // const profileUrl =await axios.get("localhost:8001/receive_profile")
-      console.log(res);
-      
-      if(res.data.success){
-          
-          blogName=res.data.result.data.blogName
-          userName=res.data.result.data.userName
-      
-    }} catch (e) {
-      if (e.response && e.response.status === 500) {
-            
-        console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
-    } else {
-        // Handle other types of errors or log them
-        console.error("An error occurred:", e);
-        // You might want to redirect to an error page or display an error message to the user
-    }
-    }
-  }
  
   const [showModal,setShowModal] = useState(false);
  
   const isTheme = pathName.startsWith("/mngt/theme");
-   
+  
+  
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton !== ""){
@@ -63,7 +42,7 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
       setIsHeaderButton2(true);
        
     }
-    getBlogInfo();
+     
   }, []);
 
     const headerButtonClicked = () => {
@@ -76,19 +55,19 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
       setShowModal(true);
     }
 
-    const apiGetProfile = () => {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
-        .then((response) => {
-          setProfiles(response.data);
-        })
-        .catch((error) => {
-          console.error('API GET request error:', error);
-        });
-    };
+    // const apiGetProfile = () => {
+    //   axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
+    //     .then((response) => {
+    //       setProfiles(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error('API GET request error:', error);
+    //     });
+    // };
   
-    useEffect(() =>{
-      apiGetProfile();
-    },[])
+    // useEffect(() =>{
+    //   apiGetProfile();
+    // },[])
 
     return (
       <>
@@ -106,8 +85,10 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
                 
                 {/* 블로그 소개, 이메일 */}
                 <ProfileBox>
-                  <p className={styles.blogName}>{userName}의 {blogName}</p>
-                  <small>{profiles.description}</small><br/>
+                  {/* {blogName} */}
+                  <p  >{blogName} </p>
+                  {/* {blogDescription} */}
+                  <small>{blogDescription}</small><br/>
                   {/* <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link>  */}
                 </ProfileBox>
                 

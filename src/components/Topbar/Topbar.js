@@ -24,8 +24,9 @@ function Topbar() {
     const blogName = localStorage.getItem('blogName');
     const blogDescription = localStorage.getItem("blogDescription")
     const userName = localStorage.getItem('userName');
+    const userSeq = localStorage.getItem("userSeq");
 
-    
+
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
     const location = useLocation();
     const hasBlog = blogName !== null;
@@ -54,13 +55,20 @@ function Topbar() {
                 navigate("/blog-creation");
               })
         }else{
-            navigate(`/blog/${blogSeq}`);
+            navigate(`/blog/${userSeq}`);
         }  
     }
 
     const logout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userSeq");
+        localStorage.removeItem("profileImg");
+        localStorage.removeItem("blogDescription");
+        localStorage.removeItem("userName");
+        localStorage.removeItem("blogName");
+
         window.open("/", "_self");
     };
 
@@ -78,7 +86,7 @@ function Topbar() {
                     {/* 관리 페이지에 블로그이름 있을 경우 */}
                     {isMngtPage && blogName && (
                         <Navbar.Brand href='/blog' className={styles.center}>
-                            {userName}의 우당탕탕 블로그
+                            {userName} 의 블로그 
                         </Navbar.Brand>
                     )}
                     

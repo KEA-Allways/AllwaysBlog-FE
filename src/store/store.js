@@ -5,7 +5,6 @@ import {create} from "zustand";
 export const loginStore = create(set =>({
     userSeq : 0,
     userId : "",
-    password : "",
     userName : "",
     profileImg : "",
 
@@ -13,43 +12,39 @@ export const loginStore = create(set =>({
         set({userId});
         localStorage.setItem('userId', userId);
     },
-    setPassword : (password) => set({password}),
-    setIsLogin : (isLogin) => {
-        set({isLogin});
-        localStorage.setItem('isLogin', isLogin);
-    },
-    setBlogName : (blogName) => {
-        set({blogName});
-        localStorage.setItem('blogName', blogName);
-    },
+    
     setUserName : (userName) => {
         set({userName});
         localStorage.setItem('userName', userName);
-    },
-    setUser : (user) => {
-        set({user});
-        localStorage.setItem('user', JSON.stringify(user));
     },
     setProfileImg : (profileImg) => {
         set({profileImg});
         localStorage.setItem('profileImg', profileImg);
     },
-    setUserSeq : (userSeq) => set({userSeq}),
-    setUserId : (userId) => set({userId}),
-    setPassword : (password) => set({password}),
-    setUserName : (userName) => set({userName}),
-    setProfileImg : (profileImg) => set({profileImg}),
+    setUserSeq : (userSeq) => {
+        set({userSeq});
+        localStorage.setItem('userSeq',userSeq);
+    }
+ 
+
 
 }))
 
 export const blogStore = create(set => ({
-    blogSeq : 0,
+     
     blogName : "",
     blogDescription : "",
 
-    setBlogSeq : (blogSeq) => set({blogSeq}),
-    setBlogName : (blogName) => set({blogName}),
-    setBlogDescription : (blogDescription) => set({blogDescription}),
+    
+    setBlogName: (blogName) => {
+        set({blogName});
+        localStorage.setItem("blogName",blogName)
+    },
+    setBlogDescription : (blogDescription) => {
+        set({blogDescription});
+        localStorage.setItem("blogDescription",blogDescription)
+    }
+     
 }))
 
 

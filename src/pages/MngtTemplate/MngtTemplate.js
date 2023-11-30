@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
+import { TokenAxios } from '../../lib/TokenAxios';
 
 const SmallButton = styled(CommonButton)`
     background-color:white;
@@ -37,17 +38,22 @@ const MngtTemplate = () => {
     const [lists, setLists] = useState([]);
     const [hideList, setHideList] = useState(Array(lists.length).fill(false));
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-    const itemsPerPage = 2; // 한 페이지에 보여질 아이템 수
+    const page =1;
+    const itemsPerPage = 5; // 한 페이지에 보여질 아이템 수
     const navigate = useNavigate();
 
-    const apiGetCategories = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
-          .then((response) => {
-            setLists(response.data.templates);
-          })
-          .catch((error) => {
-            console.error('API GET request error:', error);
-          });
+    const apiGetCategories = async() => {
+        try{
+            // const res =await TokenAxios.get(`/api/post?page=${page}&size=${itemsPerPage}`);
+            const res =await TokenAxios.get(`/api/template?page=${page}&size=${itemsPerPage}`);
+            setLists(res.data.result.data)
+            console.log(res);
+            
+            // setLists(res.data.result.data.content)
+        }
+        catch(e){
+            console.error('API GET request error:', e);
+        }
     };
 
     const setRowHideState = (idx, value) => {
@@ -112,7 +118,7 @@ const MngtTemplate = () => {
                                             {idx + 1}
                                         </TableCell>
                                         <TableCell align="left" colSpan={1}>
-                                            {row.templateName}
+                                            {row.templateTitle}
                                         </TableCell>
                                         <TableCell align="right">
                                             {hideList[idx] && (

@@ -9,19 +9,20 @@ import axios from "axios";
 import { blogStore, loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
 import { redirect } from "react-router-dom";
+import { DefaultAxios } from "../../lib/DefaultAxios";
 
 const MainPage = () => {
 
     // store에서 함수들 가져오기
-    const {setProfileImg, setUserName} = loginStore(state => state);
-    const {setBlogSeq,setBlogName} = blogStore(state => state);
+    const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
+    const { setBlogName,setBlogDescription} = blogStore(state => state);
     const {setTenPosts} = mainPostStore(state => state);
 
     // accessToken 가지고 userInfo 가져오는 코드
     const getUserInfo = async() => {
         try{
             const res = await TokenAxios.get(`/api/user`);
-             
+            const data=res.data.result.data
             
             // const profileUrl =await axios.get("localhost:8001/receive_profile")
             
@@ -36,10 +37,11 @@ const MainPage = () => {
                 if (response.ok) {
                     const profileData = await response.json(); // Convert response to JSON
                     const profileUrl = profileData.profileImg;
-            
+                    setUserSeq(data.userSeq);
                     setProfileImg(profileUrl);
-                    setBlogName(res.data.result.data.blogName);
-                    setUserName(res.data.result.data.nickname);
+                    setUserName(data.nickname);
+                     
+                    
                 } else {
                     // Handle error, if any
                     console.error('Error fetching profile image:', response.statusText);
@@ -51,7 +53,32 @@ const MainPage = () => {
                 setProfileImg("");
                 setBlogName("");
                 setUserName("");
-                redirect("http://localhost:3000/login");
+                console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
+            } else {
+                // Handle other types of errors or log them
+                console.error("An error occurred:", e);
+                // You might want to redirect to an error page or display an error message to the user
+            }
+        }
+        
+    }
+
+    const getBlogInfo = async() => {
+        try{
+            const res = await TokenAxios.get(`/api/blog`);
+            const data=res.data.result.data
+            console.log(data);
+            
+            // const profileUrl =await axios.get("localhost:8001/receive_profile")
+            
+            if(res.data.success){
+                setBlogName(data.blogName);
+                setBlogDescription(data.blogDescription);
+            }
+        }catch (e) {
+            if (e.response && e.response.status === 500) {
+                setBlogName("");
+                setBlogDescription("")
                 console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
             } else {
                 // Handle other types of errors or log them
@@ -64,7 +91,7 @@ const MainPage = () => {
 
     // mainPost 10개 가지고 오는 코드
     const getMainPost = async() => {
-        const res = await TokenAxios.get(`/api/post/main`);
+        const res = await DefaultAxios.get(`/api/post/main`);
         await setTenPosts(res.data.result.data);
       }
 
@@ -73,6 +100,7 @@ const MainPage = () => {
     useEffect(() => {
         getUserInfo();
         getMainPost();
+        getBlogInfo();
     }, [])
     
     // 화면 띄워주는 코드

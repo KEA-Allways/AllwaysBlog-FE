@@ -7,75 +7,165 @@ import Swal from "sweetalert2";
 import { CommonColorButton, CommonDeleteButton } from '../../common';
 import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
-
+import { TokenAxios } from "../../lib/TokenAxios";
+import { loginStore,blogStore } from "../../store/store";
+import AWS from "aws-sdk";
 const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
+  const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
+  const { setBlogName,setBlogDescription} = blogStore(state => state);
 
-  const [nickname, setNickname] = useState();
-  const [blogName, setBlogName] = useState();
-  const [description, setDescription] = useState();
-  const [password, setPassword] = useState();
-  const [repeatPassword, setRepeatPassword] = useState();
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+  // const [userName, setUserName] = useState();
+  // const [profileImg,setProfileImg]=useState();
+  
+  const DEFAULT_IMAGE_URL="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  
 
+  //localstorage 에서 불러오기 
+  const profileImg = localStorage.getItem('profileImg');
+  const userName = localStorage.getItem("userName");
+  const blogName = localStorage.getItem("blogName")
+  const blogDescription = localStorage.getItem("blogDescription")
+
+  const [modifiedBlogName, setModifiedBlogName] = useState(blogName);
+  const [modifiedBlogDescription, setModifiedBlogDescription] = useState(blogDescription);
+  const [modifiedUserName,setModifiedUserName] =useState(userName);
+  const [modifiedPassword,setModifiedPassword] = useState();
+  const [finalPassword,setFinalPassword] = useState("");
+  const [modifiedRepeatPassword, setModifiedRepeatPassword] = useState();
+  const [modifiedProfileImg,setModifiedProfileImg] = useState(profileImg);
   const [isShowPw, setShowPwState] = useState(false);
 
   const fileInput = useRef(null);
   const [file, setFile] = useState("");
-  const [profileImg, setProfileImg] = useState();
+  const [imageURL, setImageURL] = useState(null);
+  
+  
+
+  // const apiGetUserInfo=async()=>{
+    
+  //   const res=await TokenAxios.get(`/api/user`);
+  //   setModifiedProfileImg(res.data.result.data.profileUrl)
+  // }
+
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
-    apiGetUserInfo();
-  }, []);
+  }, [finalPassword]);
 
-  const apiGetUserInfo = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users/detail`, {})
+
+  const apiPutModifiedBlogInfo = () => {
+    TokenAxios
+      .put(`/api/blog`, {
+        blogName : modifiedBlogName,
+        blogDescription : modifiedBlogDescription,
+      })
       .then((response) => {
-        setProfileImg(response.data.profileImg);
-        setNickname(response.data.nickname);
-        setBlogName(response.data.blogName);
-        setDescription(response.data.description);
-        setPassword(response.data.password);
-        setRepeatPassword(response.data.password);
+        alert(response.status)
+      }).catch((error) => {
+        console.error('Error in Axios request:', error);
+        console.error("Error in modify blog info ");
+        
       });
   };
-
+ 
   const apiPutModifiedUserInfo = () => {
-    axios
-      .put(`${process.env.REACT_APP_API_URL}/api/blogs`, {
-        profileImg : profileImg,
-        blogName : blogName,
-        description : description,
-        nickname : nickname,
-        password : password
-      })
-      .then((response) => {
-        alert(response.status)
-      });
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+
+    console.log(modifiedPassword===undefined)
+    console.log(modifiedPassword==="")
+    console.log(modifiedPassword===null || modifiedPassword==="")
+    if (modifiedPassword===undefined){
+      saveData();
+    } else {
+      if(!passwordRegex.test(modifiedPassword)){
+        console.error('정규화 통과 못함');
+        console.log(modifiedPassword);
+        return;
+      } else if (modifiedPassword !== modifiedRepeatPassword) {
+        console.error('Password does not match Repeat Password');
+        return;
+      }
+      saveData();
+    }
+    
+    /*
+    console.log("!!!!!!!!!")
+    console.log(modifiedPassword)
+    console.log(!(modifiedPassword===""))
+    console.log(!passwordRegex.test(modifiedPassword))
+
+    if ( !(modifiedPassword==="")) {
+
+        if(!passwordRegex.test(modifiedPassword)){
+          console.error('정규화 통과 못함');
+          console.log(modifiedPassword);
+          return;
+        }
+        
+    } else if (modifiedPassword !== modifiedRepeatPassword) {
+        console.error('Password does not match Repeat Password');
+        return;
+    }
+
+    
+    
+    saveData();
+    */
+};
+
+const saveData = () => {
+  console.log("@@@@")
+  console.log(modifiedUserName)
+  console.log(modifiedPassword)
+  console.log(modifiedProfileImg)
+  console.log("````````````")
+  const userPayload = {
+      nickname: modifiedUserName,
+      password:modifiedPassword,
+      profileImgSeq: modifiedProfileImg,
   };
 
+TokenAxios
+    .put('/api/user', userPayload)
+    .then((response) => {
+        alert(response.status);
+    })
+    .catch((error) => {
+        console.error('Error in Axios request:', error);
+        console.error('Error in modify user info');
+    });
+}
+  
   const apiDeleteUser = () => {
-    axios
-      .delete(`${process.env.REACT_APP_API_URL}/api/users`, {
-
-      })
-      .then((response) => {
-        alert(response.status)
-      });
+    TokenAxios.delete(`/api/user`,{
+    }) 
   };
 
   const modifyBtnClicked = () => {
+
     Swal.fire({
       title: "회원정보를 수정하시겠습니까?",
       icon: "question",
       showCancelButton: true,
-      confirmButtonColor: "#00b4ef",
-      cancelButtonColor: "#ec5353",
+      confirmButtonColor: "#ec5353",
+      cancelButtonColor: "#00b4ef",
       confirmButtonText: "수정",
       cancelButtonText: "취소",
     }).then(function (result) {
       if (result.isConfirmed) {
+        
+        setUserName(modifiedUserName)
+        setProfileImg(modifiedProfileImg)
         apiPutModifiedUserInfo();
+        apiPutModifiedBlogInfo();
+        // apiPutModifiedUserPasswordInfo()
+        
+        setBlogName(modifiedBlogName)
+        setBlogDescription(modifiedBlogDescription)
+        
       }
     });
   };
@@ -86,8 +176,8 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
       text: "다시 되돌릴 수 없습니다. 신중해주세요.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#00b4ef",
-      cancelButtonColor: "#ec5353",
+      confirmButtonColor: "#ec5353",
+      cancelButtonColor: "#00b4ef",
       confirmButtonText: "탈퇴",
       cancelButtonText: "취소",
     }).then(function (result) {
@@ -97,12 +187,52 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
     });
   };
 
-  const selectFile = (e) => {
+
+  const selectFile = async (e) => {
+    
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      try {
+        //업로드할 파일의 이름으로 Date 사용
+        const name = Date.now();
+        //s3 관련 설정
+        AWS.config.update({
+          region: REACT_APP_AWS_S3_BUCKET_REGION,
+          accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+          secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+          
+        });
+        //s3에 업로드할 객체 생성
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            ACL: "public-read",
+            Bucket: "suhabuckettest", //버킷 이름
+            Key: `upload/${name}.${file.type.split("/")[1]}`,
+            Body: file,
+            ContentType: file.type,
+          },
+        });
+        //이미지 업로드 url 반환
+        const IMG_URL = await upload.promise().then((res) => res.Location);
+        console.log(IMG_URL);
+        
+        setModifiedProfileImg(IMG_URL)  
+              
+      } catch (error) {
+        console.error('Error during S3 upload:', error);
+
+        // 오류 메시지 또는 에러 코드 출력
+        if (error.message) {
+          console.error('Error message:', error.message);
+        }
+        if (error.code) {
+          console.error('Error code:', error.code);
+        }
+      }
     } else {
       //업로드 취소할 시
-      
+       
       return;
     }
 
@@ -111,13 +241,16 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setProfileImg(reader.result);
+        //setForm({...form, profileImage : reader.result});
       }
     };
 
     reader.readAsDataURL(e.target.files[0]);
   };
-
+  
+    // Display the selected file as the modified profile image
+  
+     
 
   
   
@@ -135,7 +268,7 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
         <WrapContainer>
           <WrapProfileBox>
             <Profile
-              src={profileImg}
+              src={modifiedProfileImg}
               style={{ margin: "10px", cursor: "pointer" }}
               onClick={() => {
                 fileInput.current.click();
@@ -156,9 +289,9 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <BlogNameInput
               placeholder=""
-              value={nickname}
+              value={modifiedUserName}
               onChange={(e) => {
-                setNickname(e.target.value);
+                setModifiedUserName(e.target.value);
               }}
             />
           </TextInputContainer>
@@ -168,10 +301,10 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <BlogNameInput
               placeholder=""
-              value={blogName}
-              onChange={(e) => {
-                setBlogName(e.target.value);
-              }}
+              value={modifiedBlogName}
+                onChange={(e) => {
+                  setModifiedBlogName(e.target.value);
+                }}
             />
           </TextInputContainer>
 
@@ -180,9 +313,9 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
 
             <BlogDescriptionInput
               placeholder=""
-              value={description}
+              value={modifiedBlogDescription}
               onChange={(e) => {
-                setDescription(e.target.value);
+                setModifiedBlogDescription(e.target.value);
               }}
             />
           </TextInputContainer>
@@ -193,11 +326,12 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
             <PasswordInput
               placeholder=""
               type={isShowPw ? "text":"password"}
-              value={password}
+              value={modifiedPassword}
               onChange={(e) => {
-                setPassword(e.target.value);
+                setModifiedPassword(e.target.value);
               }}
             />
+            {console.log(modifiedPassword)}
             <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
           </TextInputContainer>
 
@@ -207,9 +341,9 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
             <PasswordInput
               placeholder=""
               type={isShowPw ? "text":"password"}
-              value={repeatPassword}
+              value={modifiedRepeatPassword}
               onChange={(e) => {
-                setRepeatPassword(e.target.value);
+                setModifiedRepeatPassword(e.target.value);
               }}
             />
 
