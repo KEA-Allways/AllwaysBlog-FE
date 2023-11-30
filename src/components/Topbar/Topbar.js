@@ -12,22 +12,33 @@ import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
 
 function Topbar() {
-    const image = <img src={localStorage.getItem("profileImg")} width="50px" height="50px" />
+    // const image = <img src='/img/usericon.png' width="50px" height="50px" />
+     
+
+    // const {userName,profileImg} = loginStore(state => state);
+    // const {blogSeq, blogName,blogDescription} = blogStore(state => state);
+    // const { themeNames ,addTheme } = themeListStore(state => state);
+
+    const profileImg = localStorage.getItem('profileImg');
+    const blogSeq = localStorage.getItem("blogSeq")
+    const blogDescription = localStorage.getItem("blogDescription")
+    const userName = localStorage.getItem('userName');
+    const userSeq = localStorage.getItem("userSeq");
+    const blogName = localStorage.getItem("blogName")
+
+
+    const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
 
     
-    const userSeq = localStorage.getItem("userSeq");
-    const userName = localStorage.getItem("userName");
     const {themes} = themeListStore(state => state);
-    const { blogName} = blogStore(state => state);
+    
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
-    const hasBlog = blogName !== null;
     const isMngtPage = location.pathname.startsWith("/mngt");
     const isBlogPage = location.pathname.startsWith("/blog");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    let  params  = useParams();
     
 
     
@@ -69,7 +80,7 @@ function Topbar() {
                     {/* 관리 페이지에 블로그이름 있을 경우 */}
                     {isMngtPage && blogName && (
                         <Navbar.Brand href='/blog' className={styles.center}>
-                            {userName}의 우당탕탕 블로그
+                            {userName} 의 블로그 
                         </Navbar.Brand>
                     )}
                     

@@ -10,19 +10,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { TokenAxios } from '../../lib/TokenAxios';
 
-const MngtTheme = (props) => {
+const MngtTheme = () => {
     const [themes, setThemes] = useState([]);
 
-    const apiGetCategories = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
-          .then((response) => {
-            setThemes(response.data.themes);
-            console.log(themes)
-          })
-          .catch((error) => {
-            console.error('API GET request error:', error);
-          });
+    const apiGetCategories = async() => {
+        try{
+            const res =await TokenAxios.get(`/api/theme/22`);
+             
+            setThemes(res.data.result.data)
+        }
+        catch(e){
+            console.error('API GET request error:', e);
+        }
     };
 
     const dragItem = useRef();
