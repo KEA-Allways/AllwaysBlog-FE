@@ -109,8 +109,8 @@ const handleKarloImage =async ()=>{
         console.log(promptValue.value);
         console.log(negativeValue.value);
         
-        const positive=",high quality,Canon EF 24mm F2.8 IS USM"
-        const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+        // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+        // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
         // FASTAPI 와 통신
         
         const response = await fetch('http://localhost:8000/generate_image/', {
@@ -119,17 +119,19 @@ const handleKarloImage =async ()=>{
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: new URLSearchParams({
-            'positivePrompt': promptValue.value+positive,
-            'negativePrompt': negativeValue.value +negative,
+            'positivePrompt': promptValue.value,
+            'negativePrompt': negativeValue.value,
             'samples': 1,
             'image_quality':100,
             'width':640,
             'height':320
           })
         });
-        console.log(response);
         //fastAPi에서 받은 image url 적용 
         if (response.ok) {
+          console.log("response ok 후 ",response);
+          
+          
           const data = await response.json(); // Convert response to JSON
           //받아온 s3_image_url 값이 있으면
           if (data.s3_image_url) {
@@ -212,10 +214,18 @@ const handleKarloImage =async ()=>{
   //테마 제작 
   const handleExport = async () => {
     if (previewRef.current) {
-      try{
-        await TokenAxios.post("/api/theme", {
-            themeName: themeName,
-            imageUrl: s3ImageUrl,  
+      //로그인에서 jwt를 header 에 넣기 
+      //백엔드로 전송 
+
+      TokenAxios.post("/api/theme", {
+        imageUrl: s3ImageUrl,
+        themeName: themeName,
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from the backend as needed
+          console.log(data);
+ 
         })
         (!createBlog && await TokenAxios.post("/api/blog", {
           blogName,
@@ -223,9 +233,7 @@ const handleKarloImage =async ()=>{
         }) && setCreateBlog(true))
         
       }
-      catch(e){
-        console.log("Error:" + e);
-      }
+      
              
       //image_url spring boot 로 보내기 
       Swal.fire ({
@@ -235,8 +243,8 @@ const handleKarloImage =async ()=>{
           Swal.showLoading()
         }
       }).then(navigate("/"))
-    }
-  };
+    };
+
 
   return (
      

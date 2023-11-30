@@ -126,17 +126,17 @@ const ThumbnailModal = ( props ) => {
           if(negativeValue.isConfirmed){
              
             
-            const positive=",high quality,Canon EF 24mm F2.8 IS USM"
-            const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+            // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+            // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
 
-            const response = await fetch('http://localhost:8000/generate_image/', {
+            const response = await fetch('http://localhost:8000/api/create', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               },
               body: new URLSearchParams({
-                'positivePrompt': promptValue.value+positive,
-                'negativePrompt': negativeValue.value+negative,
+                'positivePrompt': promptValue.value ,
+                'negativePrompt': negativeValue.value,
                 'samples': 1,
                 'image_quality':100,
                 'width':640,
@@ -250,7 +250,7 @@ const ThumbnailModal = ( props ) => {
     setShowSubtitle(true)
   };
 
-  //저장버튼 클릭 시
+    //저장버튼 클릭 시
   const handleExport = async () => {
         try{
       if(Preview.current){
@@ -260,7 +260,7 @@ const ThumbnailModal = ( props ) => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              //'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMDkyNjgyLCJleHAiOjE3MDE2OTc0ODJ9.SP6HurxWPXR5G7H33rOtNgYc3TWdYLVeXzzb_AOL2Bo`, // accessKey를 사용한 토큰 전송
+              'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMDkyNjgyLCJleHAiOjE3MDE2OTc0ODJ9.SP6HurxWPXR5G7H33rOtNgYc3TWdYLVeXzzb_AOL2Bo`, // accessKey를 사용한 토큰 전송
           },
             body: JSON.stringify({
               postTitle: postTitle,
@@ -291,7 +291,6 @@ const ThumbnailModal = ( props ) => {
             
           } else {
             console.error('Error:', data.message);
-            //문구 이상하면 변경 해주세용~
             alert("게시글을 저장하는데 오류가 발생했습니다.");
           }
 

@@ -21,12 +21,17 @@ function Topbar() {
     const { blogName} = blogStore(state => state);
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
+    const hasBlog = blogName !== null;
     const isMngtPage = location.pathname.startsWith("/mngt");
     const isBlogPage = location.pathname.startsWith("/blog");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
     let  params  = useParams();
+    
+
+    
+    
 
     const handleButtonClick = () => {
         navigate("/login");

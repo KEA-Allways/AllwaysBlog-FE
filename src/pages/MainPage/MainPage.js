@@ -9,6 +9,7 @@ import axios from "axios";
 import { blogStore, loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
 import { DefaultAxios } from "../../lib/DefaultAxios";
+import { redirect } from "react-router-dom";
 
 const MainPage = () => {
 
@@ -22,6 +23,8 @@ const MainPage = () => {
         try{
             const res = await TokenAxios.get(`/api/user`);
             const data = res.data.result.data;
+             
+            // const profileUrl =await axios.get("localhost:8001/receive_profile")
             
             if(res.data.success){
                 const userSeq=res.data.result.data.userSeq

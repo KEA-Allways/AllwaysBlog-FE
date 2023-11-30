@@ -17,6 +17,7 @@ import { DefaultAxios } from "../../lib/DefaultAxios.js";
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
 const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+const REACT_APP_AWS_S3_BUCKET_NAME = process.env.REACT_APP_AWS_S3_BUCKET_NAME;
 
 
 const PostEditor = () => {
@@ -97,7 +98,7 @@ const PostEditor = () => {
         const upload = new AWS.S3.ManagedUpload({
           params: {
             ACL: "public-read",
-            Bucket: "allways-test-bucket", //버킷 이름
+            Bucket: REACT_APP_AWS_S3_BUCKET_NAME, //버킷 이름
             Key: `upload/${name}.${file.type.split("/")[1]}`,
             Body: file,
             ContentType: file.type,

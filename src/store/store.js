@@ -3,41 +3,24 @@ import {devtools} from "zustand/middleware"
 
 // user, blog
 export const loginStore = create(devtools(set =>({
-    userSeq: 0,
-    userId: "",
-    password: "",
-    userName: "",
-    profileImg: "",
+    userSeq : 0,
+    userId : "",
+    password : "",
+    userName : "",
+    profileImg : "",
 
-    // 각각의 상태가 변경될 때 로컬 스토리지 업데이트
-    setUserSeq: (userSeq) => {
-        set({ userSeq });
-        localStorage.setItem('userSeq', JSON.stringify(userSeq));
-    },
-    setUserId: (userId) => {
-        set({ userId });
-        localStorage.setItem('userId', userId);
-    },
-    setPassword: (password) => {
-        set({ password });
-        localStorage.setItem('password', password);
-    },
-    setUserName: (userName) => {
-        set({ userName });
-        localStorage.setItem('userName', userName);
-    },
-    setProfileImg: (profileImg) => {
-        set({ profileImg });
-        localStorage.setItem('profileImg', profileImg);
-    },
-})));
+    setUserSeq : (userSeq) => set({userSeq}),
+    setUserId : (userId) => set({userId}),
+    setPassword : (password) => set({password}),
+    setUserName : (userName) => set({userName}),
+    setProfileImg : (profileImg) => set({profileImg}),
+
+})))
 
 export const blogStore = create(devtools(set => ({
-    blogSeq : 0,
     blogName : "",
     blogDescription : "",
 
-    setBlogSeq : (blogSeq) => set({blogSeq}),
     setBlogName : (blogName) => set({blogName}),
     setBlogDescription : (blogDescription) => set({blogDescription}),
 })))
