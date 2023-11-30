@@ -24,7 +24,7 @@ function Topbar() {
     const blogDescription = localStorage.getItem("blogDescription")
     const userName = localStorage.getItem('userName');
     const userSeq = localStorage.getItem("userSeq");
-    const { blogName} = blogStore(state => state);
+    const blogName = localStorage.getItem("blogName")
 
 
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
@@ -34,13 +34,11 @@ function Topbar() {
     
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
-    const hasBlog = blogName !== null;
     const isMngtPage = location.pathname.startsWith("/mngt");
     const isBlogPage = location.pathname.startsWith("/blog");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    let  params  = useParams();
     
 
     
