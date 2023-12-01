@@ -3,14 +3,15 @@ import styled from "@emotion/styled";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { blogPostStore, defaultBlogStore, themeListStore } from "../../store/store";
+import { blogPostStore, blogStore, defaultBlogStore, themeListStore } from "../../store/store";
 import { TokenAxios } from "../../lib/TokenAxios";
 import Swal from "sweetalert2";
 import { DefaultAxios } from "../../lib/DefaultAxios";
+import axios from "axios";
 
 
 function BlogSidebar({body, currentPage}) {
-  const profileImg = localStorage.getItem("profileImg");
+  const {blogProfileImg} = blogStore(state => state);
   
   const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
   const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Sydney.jpg";
@@ -23,8 +24,8 @@ function BlogSidebar({body, currentPage}) {
   const [showInputBox, setShowInputBox] = useState(false);
   const {themes} = themeListStore(state => state);
   const {blogInfo} = defaultBlogStore(state => state);
-  const userSeq = localStorage.getItem("userSeq");
-  const params = useParams();
+  // const userSeq = localStorage.getItem("userSeq");
+  const {userSeq, themeSeq, categorySeq} = useParams();
   const {setBlogPosts} = blogPostStore(state => state)
 
   const initializeMenuStates = () => {
@@ -39,15 +40,21 @@ function BlogSidebar({body, currentPage}) {
     initializeMenuStates();
   },[])
 
-  // 테마 Seq로 테마 이미지 가져오게 하는 코드
+  // URL의 themeSeq가 변경되었을 때 실행
   useEffect(() => {
+    getThemeImg();
+  },[themeSeq])
 
-  },[params.themeSeq])
-
+  // 테마 이미지 가져오는 함수
   const getThemeImg = async() => {
-    const res = await DefaultAxios(``)
+    try{
+      const res = await axios(`http://localhost:8001/api/file/theme/${themeSeq}`);
+      console.log(res.data.themeImg);
+      document.documentElement.style.setProperty('--background-image', `url(${res.data.themeImg})`);
+    }catch(e){
+      console.log("테마 가져오기 에러" + e);
+    }
   }
-  
   // 사용자가 테마를 눌렀을 때 테마별 카테고리가 보이게한다.
   const toggleMenu = (menu) => {
 
@@ -74,7 +81,7 @@ function BlogSidebar({body, currentPage}) {
     try {
       // 여러 비동기 작업을 동시에 처리하기 위해 Promise.all 사용
       await Promise.all([
-        TokenAxios.post(`/api/theme/${params.themeSeq}/category`, {
+        TokenAxios.post(`/api/theme/${themeSeq}/category`, {
           categoryName: newCategory,
         }),
         new Promise(resolve => {
@@ -107,8 +114,9 @@ function BlogSidebar({body, currentPage}) {
     setShowInputBox(true); // Show the input box
   };
 
+  // 카테고리 클릭됐을 때 데이터 가져오는 함수
   const handleCategoryClicked = async (categorySeq) => {
-      const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${categorySeq}?page=${currentPage}&size=10`)
+      const res = await DefaultAxios.get(`/api/post/user/${userSeq}/category/${categorySeq}?page=${currentPage}&size=10`)
       const data = res.data.result.data;
       setBlogPosts(data.content);
   }
@@ -124,7 +132,7 @@ function BlogSidebar({body, currentPage}) {
           <div className={styles.sidebar}>
               {/* 프로필 이미지 */}
               <Profile
-                src={profileImg}
+                src={blogProfileImg}
               />
               {/* {console.log(menuStates)} */}
               {/* 블로그 소개, 이메일 */}

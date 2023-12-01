@@ -12,19 +12,10 @@ import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
 
 function Topbar() {
-    // const image = <img src='/img/usericon.png' width="50px" height="50px" />
-     
-
-    // const {userName,profileImg} = loginStore(state => state);
-    // const {blogSeq, blogName,blogDescription} = blogStore(state => state);
-    // const { themeNames ,addTheme } = themeListStore(state => state);
-
     const profileImg = localStorage.getItem('profileImg');
-    const blogSeq = localStorage.getItem("blogSeq")
-    const blogDescription = localStorage.getItem("blogDescription")
-    const userName = localStorage.getItem('userName');
     const userSeq = localStorage.getItem("userSeq");
-    const blogName = localStorage.getItem("blogName")
+    const {userName} = loginStore(state => state);
+    const {blogName} = blogStore(state => state);
 
 
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
