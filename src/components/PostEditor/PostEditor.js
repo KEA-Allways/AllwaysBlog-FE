@@ -13,7 +13,7 @@ import "react-quill/dist/quill.snow.css";
 import AWS from "aws-sdk";
 import Swal from "sweetalert2";
 import { DefaultAxios } from "../../lib/DefaultAxios.js";
-import { TokenAxios } from "../../lib/TokenAxios.js";
+import { TokenAxios } from "../../lib/TokenAxios.js"
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
@@ -70,7 +70,7 @@ const PostEditor = () => {
     onClose: () => setShowModal(false),
     postContent: postContent,
     postTitle: titleState,
-    themeSeq: themeSeq //themeSeq 지정 필요
+    themeSeq: params.themeSeq
   };
   
   
@@ -161,42 +161,22 @@ const PostEditor = () => {
     }
   }, [selectedTemplateSeq]);
 
+
+  
   
 
   // 게시글 상세 정보 가져오는 함수
-  // const apiGetPost = () => {
-
-  //   axios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
-  //     headers: {
-  //       'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-  //     },
-  //     responseType: "json",
-  //   })
-  //   .then((response) => {
-  //     const data = response.data.result.data;
-      
-      // setPostContent(data.postContent);
-      // setTitleState(data.postTitle);
-      // setThemeSeq(data.themeSeq);
-      // setThemeName(data.themeName);
-      // console.log(themeSeq)
-  //   })
-  //   .catch((error) => {
-  //     console.error('AxiosError: ', error);
-  //   });
-  // }
-
-  const apiGetPost = () => {
-    const res =TokenAxios.get(`api/post/${postSeq}`)
-    const data =res.data.result.data;
+  const apiGetPost = async () => {
+    const res = await TokenAxios.get(`/api/post/detail/${postSeq}`)
+    const data = res.data.result.data;
+    console.log(data);
     setPostContent(data.postContent);
     setTitleState(data.postTitle);
     setThemeSeq(data.themeSeq);
     setThemeName(data.themeName);
-    
+    console.log(themeSeq)
   }
+
 
   // 카테고리 목록 가져오는 함수
   const apiGetCategories = async () => {
@@ -206,62 +186,26 @@ const PostEditor = () => {
     const data = res.data.result.data;
     console.log(data);
     setCategoryList(data);
+    if (data.length > 0){
+      setThemeName(data[0].theme.themeName)
+    }
   }
 
-  // // 템플릿 목록 가져오는 함수
-  // const apiGetTemplateList = () => {
-  //   axios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_GATEWAY_URL}/api/template`,
-  //     headers: {
-  //       'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-  //     },
-  //     responseType: "json",
-  //   })
-  //   .then((response) => {
-  //     console.log(response.data.result.data)
-  //     setTemplateList(response.data.result.data)
-  //   }).catch((error) => {
-  //     console.error('API GET request error:', error);
-  //   });
-  // }
-
-  const apiGetTemplateList = async() => {
-    const res=await TokenAxios.get(`/api/template`)
-    
-    const data=res.data.result.data 
-    setTemplateList(data)
-     
+  // 템플릿 목록 가져오는 함수
+  const apiGetTemplateList = async () => {
+    const res = await TokenAxios.get(`/api/template`)
+    const data = res.data.result.data;
+    console.log(data);
+    setTemplateList(data);
   }
 
   // 템플릿 적용 함수
-  // const apiGetTemplate = () => {
-  //   axios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_GATEWAY_URL}/api/template/${selectedTemplateSeq}`,
-  //     headers: {
-  //       'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-  //     },
-  //     responseType: "json",
-  //   })
-  //   .then((response) => {
-  //     const data = response.data.result.data;
-  //     setPostContent(data.templateContent);
-  //     setTitleState(data.templateTitle);
-  //   }).catch((error) => {
-  //     console.error('API GET request error:', error);
-  //   });
-    
-  // }
-
-  const apiGetTemplate = () => {
-
-    const res =TokenAxios.get(`api/template/${selectedTemplateSeq}`);
-    const data =res.data.result.data;
-    setPostContent(data.templateContent)
-    setTitleState(data.templateTitle)
-     
-    
+  const apiGetTemplate = async () => {
+    const res = await TokenAxios.get(`/api/template/${selectedTemplateSeq}`)
+    const data = res.data.result.data;
+    console.log(data);
+    setPostContent(data.templateContent);
+    setTitleState(data.templateTitle);
   }
 
   // 템플릿 title, Seq 지정 함수
@@ -270,61 +214,21 @@ const PostEditor = () => {
     setSelectedTemplate(value);
   }
 
+
   // 게시글 저장(수정 시 썸네일 모달 없이 바로 저장) 함수
-  // const handlePostComplete = () => {
-  //   axios({
-  //     method: "PUT",
-  //     url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-  //     },
-  //     data: {
-  //       postTitle: titleState,
-  //       postContent: postContent,
-  //       categorySeq : 1
-  //     },
-  //     responseType: "json",
-  //   })
-  //   .then((response) => {
-  //     const data = response.data.result.data;
-  //     let resultSeq = 0;
-  //     if (data.postSeq > 0){
-  //       resultSeq = data.postSeq;
-
-  //       Swal.fire({
-  //         title: "게시글을 저장 중입니다.",
-  //         timer: 3000,
-  //         didOpen: () => {
-  //           Swal.showLoading()
-  //         }
-  //       }).then(() => {
-  //         navigate(`/post/${resultSeq}`);
-  //       });
-        
-  //     } else {
-  //       console.error('Error:', data.message);
-  //       //문구 이상하면 변경 해주세용~
-  //       alert("게시글을 저장하는데 오류가 발생했습니다.");
-  //     }
-  //   }).catch((error) => {
-  //     console.error('API GET request error:', error);
-  //   });
-  // };
-
-  const postPayload = {
-      postTitle: titleState,
+  const handlePostComplete = async () => {
+    try{
+      const res = await TokenAxios.put(`/api/post/${postSeq}`, {
+        postTitle: titleState,
         postContent: postContent,
-        categorySeq : 1
-  };
-  const handlePostComplete = () => {
-    TokenAxios.put(`api/post/${postSeq}`,postPayload)
-    .then((response) => {
-      const data = response.data.result.data;
-      let resultSeq = 0;
-      if (data.postSeq > 0){
-        resultSeq = data.postSeq;
+        categorySeq : params.themeSeq
+      })
+      const data = res.data;
+      console.log(data);
 
+      let resultSeq = 0;
+      if (data.success){
+        resultSeq = data.result.data;
         Swal.fire({
           title: "게시글을 저장 중입니다.",
           timer: 3000,
@@ -334,60 +238,17 @@ const PostEditor = () => {
         }).then(() => {
           navigate(`/post/${resultSeq}`);
         });
-        
+
       } else {
-        console.error('Error:', data.message);
-        //문구 이상하면 변경 해주세용~
-        alert("게시글을 저장하는데 오류가 발생했습니다.");
+        alert("게시글을 저장하는데 실패했습니다.");
       }
-    })
-    .catch((error)=>{
-      console.error('API PUT request error:', error);
-      
-    })
-
-   
-  };
-
-  // axios({
-  //   method: "PUT",
-  //   url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-  //   },
-  //   data: {
-  //     postTitle: titleState,
-  //     postContent: postContent,
-  //     categorySeq : 1
-  //   },
-  //   responseType: "json",
-  // })
-  // .then((response) => {
-  //   const data = response.data.result.data;
-  //   let resultSeq = 0;
-  //   if (data.postSeq > 0){
-  //     resultSeq = data.postSeq;
-
-  //     Swal.fire({
-  //       title: "게시글을 저장 중입니다.",
-  //       timer: 3000,
-  //       didOpen: () => {
-  //         Swal.showLoading()
-  //       }
-  //     }).then(() => {
-  //       navigate(`/post/${resultSeq}`);
-  //     });
-      
-  //   } else {
-  //     console.error('Error:', data.message);
-  //     //문구 이상하면 변경 해주세용~
-  //     alert("게시글을 저장하는데 오류가 발생했습니다.");
-  //   }
-  // }).catch((error) => {
-  //   console.error('API GET request error:', error);
-  // });
-
+    } catch(e) {
+      console.error("An error occurred:", e);
+      alert("게시글을 저장하는데 오류가 발생했습니다.");
+    }
+    
+  }
+ 
   return (
     <>
     {templateShowState === true && (

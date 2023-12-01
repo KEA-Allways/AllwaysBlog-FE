@@ -3,14 +3,17 @@ import BlogBody from "../../components/Body/BlogBody";
 import styles from "./BlogPage.module.css";
 import BlogTopSideBar from '../../components/TopSidebar/BlogTopSideBar';
 import { DefaultAxios } from '../../lib/DefaultAxios';
-import { blogPostStore, defaultBlogStore, loginStore, themeListStore } from '../../store/store';
+import { blogPostStore, blogStore, defaultBlogStore, loginStore, themeListStore } from '../../store/store';
 import { TokenAxios } from '../../lib/TokenAxios';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const BlogPage = () => {
     const {setBlogPosts, setTotalElements, setTotalPages} = blogPostStore(state => state);
+    const {userName,setUserName} = loginStore(state => state);
     const {setThemes} = themeListStore(state => state);
-    const {setBlogInfo} = defaultBlogStore(state => state);
+    const {setBlogProfileImg} = blogStore(state => state);
+    const {blogInfo, setBlogInfo} = defaultBlogStore(state => state);
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -33,7 +36,7 @@ const BlogPage = () => {
         try{
             const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=1&size=10`);
             const data = res.data.result.data;
-            console.log(data);
+            // console.log(data);
             setBlogPosts(data.content);
             setTotalElements(data.totalElements);
             setTotalPages(data.totalPages);
@@ -48,23 +51,30 @@ const BlogPage = () => {
             const data = res.data.result.data;
             // console.log(data);
             setBlogInfo(data);
+            setUserName(data.nickname);
+            const response = await axios.get(`http://localhost:8001/receive_profile/${params.userSeq}`)
+            console.log(response.data.profileImg);
+            setBlogProfileImg(response.data.profileImg);
         }catch(e){
-            console.log(e);
+            console.log("getUserBlog에러 " + e);
         }
     }
 
     useEffect(() => {
         getThemeAndCategory();
-        getUserBlog();
-    },[params.categorySeq])
+    },[])
 
     useEffect(() => {
+        getUserBlog();
         getCategoryPost();
     },[params.categorySeq])
 
     return (
         <div className={styles.blog}>
-            <BlogTopSideBar currentPage={currentPage} body={<BlogBody currentPage={currentPage} setCurrentPage={setCurrentPage} />}/>
+            {userName 
+            ? <BlogTopSideBar currentPage={currentPage} body={<BlogBody currentPage={currentPage} setCurrentPage={setCurrentPage} />}/> 
+            : <div style={{height : "100vh"}}></div>
+            }
         </div>
     )
 }

@@ -8,6 +8,7 @@ import Topbar from "../../components/Topbar/Topbar";
 import { blogStore, loginStore, mainPostStore }  from "../../store/store"
 import { TokenAxios } from "../../lib/TokenAxios";
 import { DefaultAxios } from "../../lib/DefaultAxios";
+import axios from "axios";
 
 const MainPage = () => {
 
@@ -22,23 +23,10 @@ const MainPage = () => {
         try{
             const res = await TokenAxios.get(`/api/user`);
             const data=res.data.result.data
-            
-            // const profileUrl =await axios.get("localhost:8001/receive_profile")
-            
             if(res.data.success){
-                const userSeq=res.data.result.data.userSeq
-                const response = await fetch(`http://localhost:8001/receive_profile/${userSeq}`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    }
-                })
-                if (response.ok) {
-                    const profileData = await response.json(); // Convert response to JSON
-                    const profileUrl = profileData.profileImg;
- 
-                    
-                    setUserSeq(data.userSeq);
+                const response = await axios.get(`http://localhost:8001/receive_profile/${data.userSeq}`);
+                if (response.status === 200) {
+                    const profileUrl = response.data.profileImg;
                     setProfileImg(profileUrl);
                     setUserName(data.nickname);
                     setBlogName(data.blogName); 
@@ -47,14 +35,11 @@ const MainPage = () => {
                     }else{
                         setBlogCreation(false)
                     }
-
- 
                     
                 } else {
-                    // Handle error, if any
+                    // 에러처리
                     console.error('Error fetching profile image:', response.statusText);
                 }
-                 
             }
         }catch (e) {
             if (e.response && e.response.status === 500) {
@@ -75,9 +60,6 @@ const MainPage = () => {
         try{
             const res = await TokenAxios.get(`/api/blog`);
             const data=res.data.result.data
-            console.log(data);
-            
-            // const profileUrl =await axios.get("localhost:8001/receive_profile")
             
             if(res.data.success){
                 setBlogName(data.blogName);
@@ -101,7 +83,6 @@ const MainPage = () => {
     const getMainPost = async() => {
         try{
             const res = await DefaultAxios.get(`/api/post/main`);
-            console.log(res.data);
             setTenPosts(res.data.result.data);
         }catch(e){
             console.log(e);

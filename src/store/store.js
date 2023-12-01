@@ -18,14 +18,11 @@ export const loginStore = create(devtools(set =>({
         set({ userId });
         localStorage.setItem('userId', userId);
     },
-    setPassword: (password) => {
-        set({ password });
-        localStorage.setItem('password', password);
-    },
-    setUserName: (userName) => {
-        set({ userName });
-        localStorage.setItem('userName', userName);
-    },
+    
+    setPassword: (password) => set({ password }),
+
+    setUserName: (userName) => set({ userName }),
+    
     setProfileImg: (profileImg) => {
         set({ profileImg });
         localStorage.setItem('profileImg', profileImg);
@@ -36,22 +33,12 @@ export const blogStore = create(devtools(set => ({
     blogSeq : 0,
     blogName : "",
     blogDescription : "",
-    blogCreation:false,
-    
+    blogProfileImg : "",
 
     setBlogSeq : (blogSeq) => set({blogSeq}),
-    setBlogName : (blogName) => {
-        set({blogName});
-        localStorage.setItem("blogName",blogName);
-    },
-    setBlogDescription : (blogDescription) => {
-        set({blogDescription});
-        localStorage.setItem("blogDescription",blogDescription);
-    } ,
-    setBlogCreation: (blogCreation) =>{
-        set({blogCreation});
-        localStorage.setItem("blogCreation",blogCreation);
-    }
+    setBlogName : (blogName) => set({blogName}),
+    setBlogDescription : (blogDescription) => set({blogDescription}),
+    setBlogProfileImg : (blogprofileImg) => set({blogprofileImg}),
 })))
 
 export const defaultBlogStore = create(devtools(set => ({

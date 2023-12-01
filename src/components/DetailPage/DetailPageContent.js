@@ -3,9 +3,10 @@ import { CommonColorButton, CommonDeleteButton } from "../../common";
 import styled from "@emotion/styled";
 import styles from "./DetailPageBody.module.css";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { loginStore }  from "../../store/store"
 import Swal from "sweetalert2";
+import { DefaultAxios } from '../../lib/DefaultAxios';
 
 const DetailPageContent =( props )=> {
   const { postSeq } = props;
@@ -14,12 +15,14 @@ const DetailPageContent =( props )=> {
   const {setProfileImg, setUserName} = loginStore(state => state);
   const profileImg = localStorage.getItem('profileImg');
   console.log(profileImg)
+  const params = useParams();
+  console.log(params)
 
   //게시글 수정
   const editButtonClicked = ( postSeq ) => {
     //선택된 테마 seq 가져가도록 설정 필요
     const theme = '선택된 테마';
-    navigate('/post', { state: { postSeq: postSeq, theme: theme } });
+    navigate('/post/edit/3', { state: { postSeq: postSeq, theme: theme } });
   };
 
   //게시글 삭제
@@ -35,24 +38,14 @@ const DetailPageContent =( props )=> {
       }).then(function (result) {
         if (result.isConfirmed) {
           deletePost();
+          alert("삭제되었습니다.")
           navigate(`/blog/1`);
         }
       });
   };
 
   const deletePost = () => {
-    axios({
-      method: "DELETE",
-      url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}`,
-      headers: {
-        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-      }
-    })
-    .then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
+    DefaultAxios.delete(`/api/post/${postSeq}`)
   };
 
   //게시글 내용 가져오기

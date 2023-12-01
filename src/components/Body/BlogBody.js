@@ -32,9 +32,14 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
 
   const handlePageChange = async (page) => {
     setCurrentPage(page);
-    const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=${currentPage}&size=10`)
-    const data = res.data.result.data;
-    setBlogPosts(data.content);
+    try{
+      const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=${currentPage}&size=10`)
+      const data = res.data.result.data;
+      setBlogPosts(data.content);
+    }catch(e){
+      console.log("카테고리 별 포스트 가져오기 에러" + e);
+    }
+    
   };
 
   return (
