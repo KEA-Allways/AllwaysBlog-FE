@@ -14,6 +14,7 @@ import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import {loginStore} from "./store/store";
+import TemplatePage from "./pages/TemplatePage/TemplatePage";
 
 const theme = createTheme({
   typography : {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/blog-creation" element={<BlogCreationPage />} />
             <Route path="/mngt" element={<ManagePage />} />
             <Route path="/post/edit/:themeSeq" element={<PostPage />} />
+            <Route path="/template/edit/:templateSeq" element={<TemplatePage/>}/>
             <Route path="/mngt/theme" element={<MngtTheme />} />
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent />} />

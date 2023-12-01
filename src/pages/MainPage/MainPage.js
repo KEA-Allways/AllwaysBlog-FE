@@ -13,8 +13,8 @@ const MainPage = () => {
 
     // store에서 함수들 가져오기
     const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
-    const { setBlogName,setBlogDescription} = blogStore(state => state);
-
+    const { setBlogName,setBlogDescription,setBlogCreation} = blogStore(state => state);
+    const blogName=localStorage.getItem("blogName")
     const {setTenPosts} = mainPostStore(state => state);
 
     // accessToken 가지고 userInfo 가져오는 코드
@@ -41,7 +41,13 @@ const MainPage = () => {
                     setUserSeq(data.userSeq);
                     setProfileImg(profileUrl);
                     setUserName(data.nickname);
-                    setBlogName(data.blogName);
+                    setBlogName(data.blogName); 
+                    if (blogName!== null){
+                        setBlogCreation(true)
+                    }else{
+                        setBlogCreation(false)
+                    }
+
  
                     
                 } else {

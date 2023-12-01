@@ -36,10 +36,22 @@ export const blogStore = create(devtools(set => ({
     blogSeq : 0,
     blogName : "",
     blogDescription : "",
+    blogCreation:false,
+    
 
     setBlogSeq : (blogSeq) => set({blogSeq}),
-    setBlogName : (blogName) => set({blogName}),
-    setBlogDescription : (blogDescription) => set({blogDescription}),
+    setBlogName : (blogName) => {
+        set({blogName});
+        localStorage.setItem("blogName",blogName);
+    },
+    setBlogDescription : (blogDescription) => {
+        set({blogDescription});
+        localStorage.setItem("blogDescription",blogDescription);
+    } ,
+    setBlogCreation: (blogCreation) =>{
+        set({blogCreation});
+        localStorage.setItem("blogCreation",blogCreation);
+    }
 })))
 
 export const defaultBlogStore = create(devtools(set => ({
