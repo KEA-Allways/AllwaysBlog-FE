@@ -23,6 +23,8 @@ jobs:
         run: |
           npm install --force
           npm run build
+        env: 
+          CI: ""
 
       - name: 빌드한 파일 S3에 업로드
         run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET }} --acl public-read
