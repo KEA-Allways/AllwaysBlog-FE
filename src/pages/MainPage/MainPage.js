@@ -13,8 +13,8 @@ import axios from "axios";
 const MainPage = () => {
 
     // store에서 함수들 가져오기
-    const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
-    const { setBlogName,setBlogDescription} = blogStore(state => state);
+    const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription} = loginStore(state => state);
+    // const { blogName} = blogStore(state => state);
 
     const {setTenPosts} = mainPostStore(state => state);
 
@@ -22,12 +22,12 @@ const MainPage = () => {
     const getUserInfo = async() => {
         try{
             const res = await TokenAxios.get(`/api/user`);
-            const data=res.data.result.data
+            const data=res.data.result.data;
             setUserSeq(data.userSeq);
             setUserName(data.nickname);
             setBlogName(data.blogName);
             if(res.data.success){
-                const response = await axios.get(`http://localhost:8001/receive_profile/${data.userSeq}`);
+                const response = await axios.get(`http://localhost:8088/api/file/profileImg/${data.userSeq}`);
                 if (response.status === 200) {
                     const profileUrl = response.data.profileImg;
                     setProfileImg(profileUrl);
@@ -55,7 +55,7 @@ const MainPage = () => {
         try{
             const res = await TokenAxios.get(`/api/blog`);
             const data=res.data.result.data
-            
+            console.log(data);
             if(res.data.success){
                 setBlogName(data.blogName);
                 setBlogDescription(data.blogDescription);

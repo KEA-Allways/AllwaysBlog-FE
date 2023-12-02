@@ -6,7 +6,7 @@ import classnames from "classnames"
 import styles from "./Topbar.module.css"
 import styled from "@emotion/styled";
 import axios from "axios";
-import { blogStore, loginStore, themeListStore }  from '../../store/store'
+import { blogStore, loginStore, themeStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
@@ -14,15 +14,15 @@ import Swal from "sweetalert2";
 function Topbar() {
     const profileImg = localStorage.getItem('profileImg');
     const userSeq = localStorage.getItem("userSeq");
-    const {userName} = loginStore(state => state);
-    const {blogName} = blogStore(state => state);
+    const userName = localStorage.getItem("userName");
+    const blogName = localStorage.getItem("blogName");
 
 
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
 
     
-    const {themes} = themeListStore(state => state);
-    
+    const {themes} = themeStore(state => state);
+    const {blogMasterName} = blogStore(state => state);
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
     const isMngtPage = location.pathname.startsWith("/mngt");
@@ -71,7 +71,7 @@ function Topbar() {
                     {/* 관리 페이지에 블로그이름 있을 경우 */}
                     {isMngtPage && blogName && (
                         <Navbar.Brand href='/blog' className={styles.center}>
-                            {userName} 의 블로그 
+                            {userName} 의 {blogName}
                         </Navbar.Brand>
                     )}
                     
@@ -85,7 +85,7 @@ function Topbar() {
                     {/* 블로그 페이지에 테마이름 */}
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
-                            {userName}의 {themes.length >0 ? themes[0].themeName : ""}
+                            {blogMasterName}의 {themes.length >0 ? themes[0].themeName : ""}
                         </Navbar.Brand>
                     )}
 
@@ -95,6 +95,7 @@ function Topbar() {
                 {/* 로그인페이지와 회원가입 페이지에는 로그인쪽 버튼 X */}
                 {!(isLoginPage) && !(isSignUpPage) && (
                     <div className={styles.rightSideContainer}>
+                        {console.log(userName)}
                     {userName ? (
                         <NavDropdown
                             title={image}

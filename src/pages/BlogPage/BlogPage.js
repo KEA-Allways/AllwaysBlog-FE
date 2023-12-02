@@ -3,17 +3,16 @@ import BlogBody from "../../components/Body/BlogBody";
 import styles from "./BlogPage.module.css";
 import BlogTopSideBar from '../../components/TopSidebar/BlogTopSideBar';
 import { DefaultAxios } from '../../lib/DefaultAxios';
-import { blogPostStore, blogStore, defaultBlogStore, loginStore, themeListStore } from '../../store/store';
+import { blogPostStore, blogStore, defaultBlogStore, loginStore, themeStore } from '../../store/store';
 import { TokenAxios } from '../../lib/TokenAxios';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const BlogPage = () => {
     const {setBlogPosts, setTotalElements, setTotalPages} = blogPostStore(state => state);
-    const {userName,setUserName} = loginStore(state => state);
-    const {setThemes} = themeListStore(state => state);
-    const {setBlogProfileImg} = blogStore(state => state);
-    const {blogInfo, setBlogInfo} = defaultBlogStore(state => state);
+    const {setThemes} = themeStore(state => state);
+    const {blogMasterName, setBlogMasterName ,blogName, setBlogMasterProfileImg} = blogStore(state => state);
+    const {setBlogInfo} = defaultBlogStore(state => state);
     const params = useParams();
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -51,30 +50,37 @@ const BlogPage = () => {
             const data = res.data.result.data;
             // console.log(data);
             setBlogInfo(data);
-            setUserName(data.nickname);
-            const response = await axios.get(`http://localhost:8001/receive_profile/${params.userSeq}`)
-            console.log(response.data.profileImg);
-            setBlogProfileImg(response.data.profileImg);
+            setBlogMasterName(data.nickname);
+            const response = await axios.get(`http://localhost:8088/api/file/profileImg/${params.userSeq}`)
+            // console.log("블로그작성자 프로필 이미지 :" + response.data.profileImg);
+            setBlogMasterProfileImg(response.data.profileImg);
         }catch(e){
             console.log("getUserBlog에러 " + e);
         }
     }
+    
+
+    const log = () => {
+        console.log(blogName);
+    }
 
     useEffect(() => {
         getThemeAndCategory();
+        getUserBlog();
     },[])
 
     useEffect(() => {
-        getUserBlog();
         getCategoryPost();
     },[params.categorySeq])
 
     return (
         <div className={styles.blog}>
-            {userName 
+            {blogMasterName 
             ? <BlogTopSideBar currentPage={currentPage} body={<BlogBody currentPage={currentPage} setCurrentPage={setCurrentPage} />}/> 
-            : <div style={{height : "100vh"}}></div>
+            : <div style={{height : "100vh"}}>
+            </div>
             }
+            {log()}
         </div>
     )
 }

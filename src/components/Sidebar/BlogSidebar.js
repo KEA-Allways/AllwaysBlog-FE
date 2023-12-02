@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { blogPostStore, blogStore, defaultBlogStore, themeListStore } from "../../store/store";
+import { blogPostStore, blogStore, defaultBlogStore, themeStore } from "../../store/store";
 import { TokenAxios } from "../../lib/TokenAxios";
 import Swal from "sweetalert2";
 import { DefaultAxios } from "../../lib/DefaultAxios";
@@ -11,10 +11,7 @@ import axios from "axios";
 
 
 function BlogSidebar({body, currentPage}) {
-  const {blogProfileImg} = blogStore(state => state);
   
-  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
-  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Sydney.jpg";
 
   const pathName = useLocation().pathname;
   const [menuStates, setMenuStates] = useState({});
@@ -22,8 +19,11 @@ function BlogSidebar({body, currentPage}) {
   const [isAddingSubMenu, setIsAddingSubMenu] = useState(false);
   const [selectedParentMenu, setSelectedParentMenu] = useState(null);
   const [showInputBox, setShowInputBox] = useState(false);
-  const {themes} = themeListStore(state => state);
+
+
+  const {themes} = themeStore(state => state);
   const {blogInfo} = defaultBlogStore(state => state);
+  const {blogMasterProfileImg} = blogStore(state => state);
   // const userSeq = localStorage.getItem("userSeq");
   const {userSeq, themeSeq, categorySeq} = useParams();
   const {setBlogPosts} = blogPostStore(state => state)
@@ -36,48 +36,19 @@ function BlogSidebar({body, currentPage}) {
     setMenuStates(initialMenuStates);
   };
 
-  useState(() => {
-    initializeMenuStates();
-  },[])
-
-  // URL의 themeSeq가 변경되었을 때 실행
-  useEffect(() => {
-    getThemeImg();
-  },[themeSeq])
-
   // 테마 이미지 가져오는 함수
   const getThemeImg = async() => {
     try{
-      const res = await axios(`http://localhost:8001/api/file/theme/${themeSeq}`);
-      console.log(res.data.themeImg);
+      const res = await axios(`http://localhost:8088/api/file/theme/${themeSeq}`);
+      console.log("사이드바: " + res.data.themeImg);
       document.documentElement.style.setProperty('--background-image', `url(${res.data.themeImg})`);
     }catch(e){
       console.log("테마 가져오기 에러" + e);
     }
   }
-  // 사용자가 테마를 눌렀을 때 테마별 카테고리가 보이게한다.
-  const toggleMenu = (menu) => {
 
-    //백그라운드 이미지 설정 
-    // if(menu ==="소소한 요리 기록") {
-    //   document.documentElement.style.setProperty('--background-image', `url(${backgroundImg1})`);
-    // } else if(menu === "여행 다이어리"){
-    //   document.documentElement.style.setProperty('--background-image', `url(${backgroundImg2})`);
-    // }
-
-    const updatedMenuStates = { ...menuStates };
-    for (const key in updatedMenuStates) {
-      if (key !== menu) {
-        updatedMenuStates[key] = false;
-      }
-    }
-
-    updatedMenuStates[menu] = !menuStates[menu];
-    setMenuStates(updatedMenuStates);
-    setShowInputBox(false);
-  };
-
-  const handleAddMenuItem = async () => {
+  // 카테고리 추가하는 함수
+  const postCategory = async () => {
     try {
       // 여러 비동기 작업을 동시에 처리하기 위해 Promise.all 사용
       await Promise.all([
@@ -105,7 +76,20 @@ function BlogSidebar({body, currentPage}) {
       console.error("에러 발생!!", error);
     }
   };
-  
+
+  // 사용자가 테마를 눌렀을 때 테마별 카테고리가 보이게한다.
+  const toggleMenu = (menu) => {
+
+    const updatedMenuStates = { ...menuStates };
+    for (const key in updatedMenuStates) {
+      if (key !== menu) {
+        updatedMenuStates[key] = false;
+      }
+    }
+    updatedMenuStates[menu] = !menuStates[menu];
+    setMenuStates(updatedMenuStates);
+    setShowInputBox(false);
+  };
   
   // 부모의 아래에 하위 메뉴 추가하는 함수
   const handleAddSubMenu = (parentMenu) => {
@@ -121,6 +105,14 @@ function BlogSidebar({body, currentPage}) {
       setBlogPosts(data.content);
   }
 
+  useState(() => {
+    initializeMenuStates();
+  },[])
+
+  // URL의 themeSeq가 변경되었을 때 실행
+  useEffect(() => {
+    getThemeImg();
+  },[themeSeq])
 
   return (
     <>
@@ -132,7 +124,7 @@ function BlogSidebar({body, currentPage}) {
           <div className={styles.sidebar}>
               {/* 프로필 이미지 */}
               <Profile
-                src={blogProfileImg}
+                src={blogMasterProfileImg}
               />
               {/* {console.log(menuStates)} */}
               {/* 블로그 소개, 이메일 */}
@@ -197,7 +189,7 @@ function BlogSidebar({body, currentPage}) {
                                   onChange={(e) => setNewCategory(e.target.value)}
                                   />
                                 {/* 입력확인버튼 */}
-                                  <SaveIcon onClick={handleAddMenuItem}></SaveIcon>
+                                  <SaveIcon onClick={postCategory}></SaveIcon>
                                 </form>
                                 
                               ) : (

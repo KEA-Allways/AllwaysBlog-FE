@@ -8,6 +8,8 @@ export const loginStore = create(devtools(set =>({
     password: "",
     userName: "",
     profileImg: "",
+    blogName : "",
+    blogDescription : "",
 
     // 각각의 상태가 변경될 때 로컬 스토리지 업데이트
     setUserSeq: (userSeq) => {
@@ -21,24 +23,40 @@ export const loginStore = create(devtools(set =>({
     
     setPassword: (password) => set({ password }),
 
-    setUserName: (userName) => set({ userName }),
+    setUserName: (userName) => {
+        set({userName});
+        localStorage.setItem("userName", userName);
+    },
     
     setProfileImg: (profileImg) => {
         set({ profileImg });
         localStorage.setItem('profileImg', profileImg);
     },
+
+    setBlogName : (blogName) => {
+        set({blogName});
+        localStorage.setItem("blogName", blogName);  
+    },
+
+    setBlogDescription : (blogDescription) => {
+        set({blogDescription});
+        localStorage.setItem("blogDescription", blogDescription);;
+    }
+
 })));
 
 export const blogStore = create(devtools(set => ({
+    blogMasterName : "",
     blogSeq : 0,
     blogName : "",
     blogDescription : "",
-    blogProfileImg : "",
+    blogMasterProfileImg : "",
 
+    setBlogMasterName : (blogMasterName) => set({blogMasterName}),
     setBlogSeq : (blogSeq) => set({blogSeq}),
     setBlogName : (blogName) => set({blogName}),
     setBlogDescription : (blogDescription) => set({blogDescription}),
-    setBlogProfileImg : (blogprofileImg) => set({blogprofileImg}),
+    setBlogMasterProfileImg : (blogMasterProfileImg) => set({blogMasterProfileImg}),
 })))
 
 export const defaultBlogStore = create(devtools(set => ({
@@ -48,7 +66,7 @@ export const defaultBlogStore = create(devtools(set => ({
 })))
 
 // theme, category
-export const themeListStore = create(devtools(set =>({
+export const themeStore = create(devtools(set =>({
     themeSeq : 0,
     themeNames : [],
     themes : [],
