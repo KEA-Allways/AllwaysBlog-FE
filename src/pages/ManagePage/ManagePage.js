@@ -12,8 +12,12 @@ import { loginStore,blogStore } from "../../store/store";
 import AWS from "aws-sdk";
 const ManagePage = ({isLogin, hasBlog, username}) => {
   const HeaderTitle = "블로그 관리";
-  const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
-  const { setBlogName,setBlogDescription} = blogStore(state => state);
+  const {setProfileImg, setUserName,setUserSeq,userName} = loginStore(state => state);
+  const { setBlogName,setBlogDescription,blogName,blogDescription} = blogStore(state => state);
+  console.log("userName",userName);
+  console.log("blogName",blogName);
+  
+  
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
@@ -22,13 +26,12 @@ const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_B
   // const [profileImg,setProfileImg]=useState();
   
   const DEFAULT_IMAGE_URL="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-  
+ 
 
   //localstorage 에서 불러오기 
   const profileImg = localStorage.getItem('profileImg');
-  const userName = localStorage.getItem("userName");
-  const blogName = localStorage.getItem("blogName")
-  const blogDescription = localStorage.getItem("blogDescription")
+  // const blogName = localStorage.getItem("blogName")
+  // const blogDescription = localStorage.getItem("blogDescription")
 
   const [modifiedBlogName, setModifiedBlogName] = useState(blogName);
   const [modifiedBlogDescription, setModifiedBlogDescription] = useState(blogDescription);

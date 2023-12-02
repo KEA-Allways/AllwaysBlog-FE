@@ -52,7 +52,7 @@ const BlogPage = () => {
             // console.log(data);
             setBlogInfo(data);
             setUserName(data.nickname);
-            const response = await axios.get(`http://localhost:8001/receive_profile/${params.userSeq}`)
+            const response = await axios.get(`http://localhost:8088//api/file/profileImg//${params.userSeq}`)
             console.log(response.data.profileImg);
             setBlogProfileImg(response.data.profileImg);
         }catch(e){

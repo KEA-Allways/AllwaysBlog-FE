@@ -10,21 +10,19 @@ export const loginStore = create(devtools(set =>({
     profileImg: "",
 
     // 각각의 상태가 변경될 때 로컬 스토리지 업데이트
-    setUserSeq: (userSeq) => {
-        set({ userSeq });
-        localStorage.setItem('userSeq', JSON.stringify(userSeq));
+    setUserSeq: (newUserSeq) => {
+        set({ userSeq:newUserSeq });
     },
-    setUserId: (userId) => {
-        set({ userId });
-        localStorage.setItem('userId', userId);
+    setUserId: (newUserId) => {
+        set({ userId:newUserId });
     },
     
-    setPassword: (password) => set({ password }),
+    setPassword: (password) => set({ password:password }),
 
-    setUserName: (userName) => set({ userName }),
+    setUserName: (userName) => set({ userName:userName }),
     
     setProfileImg: (profileImg) => {
-        set({ profileImg });
+        set({ profileImg:profileImg });
         localStorage.setItem('profileImg', profileImg);
     },
 })));
