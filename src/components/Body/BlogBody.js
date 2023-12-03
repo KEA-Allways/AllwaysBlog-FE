@@ -9,7 +9,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import Paging from '../../components/Paging/Paging';
 import ViewList from '@mui/icons-material/ViewList';
 import ViewModule from '@mui/icons-material/ViewModule';
-import { blogPostStore } from '../../store/store';
+import { blogPostStore, blogStore } from '../../store/store';
 import { DefaultAxios } from '../../lib/DefaultAxios';
 
 const BlogBody = ({currentPage, setCurrentPage}) => {
@@ -17,6 +17,9 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
   const [showContent, setShowContent] = useState('gridList');
   // const [currentPage, setCurrentPage] = useState(1);
   const {blogPosts, totalElements, setBlogPosts} = blogPostStore(state => state);
+  const {blogMasterName} = blogStore(state => state);
+  const userName = localStorage.getItem("userName");
+  const isLoginUserBlog = blogMasterName === userName;
   const params = useParams();
   
 
@@ -64,7 +67,10 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
                 </div>
               )}
             </div>
-            <CommonButton sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
+            {isLoginUserBlog 
+            ? <CommonButton sx={{marginRight:"10px"}} onClick={() => editButtonClicked(0)}>글 작성하기</CommonButton>
+            : "" }
+            
           </div> 
           
           <br></br>
