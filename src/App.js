@@ -14,6 +14,17 @@ import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
 import {loginStore} from "./store/store";
+import { ApmRoutes } from '@elastic/apm-rum-react'
+import { init as initApm } from '@elastic/apm-rum'
+
+const apm = initApm({
+  serviceName: 'Allways-FE',
+  serverUrl: 'https://f694429f0917434384e0abfab751507d.apm.us-west-2.aws.cloud.es.io:443',
+  secretToken: process.env.REACT_APP_APM_TOKEN,
+  environment: "msa-allways"
+});
+
+
 
 const theme = createTheme({
   typography : {
@@ -29,7 +40,7 @@ function App() {
       
       <div className={styles.App}>
         <BrowserRouter>
-          <Routes>
+        <ApmRoutes>
             <Route path="/" element={<MainPage/>} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -44,7 +55,7 @@ function App() {
             <Route path="/mngt/content" element={<MngtContent />} />
             <Route path="/mngt/template" element={<MngtTemplate />}/>
             <Route path="/post/:postSeq" element={<DetailPage />} />
-          </Routes>
+          </ApmRoutes>
         </BrowserRouter>
       </div>
 
