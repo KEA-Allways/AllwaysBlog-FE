@@ -117,11 +117,8 @@ const ThemeModal = ({ showModal, onClose} ) => {
           console.log(promptValue.value);
           console.log(negativeValue.value);
           
-          // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
-          // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
-          // FASTAPI 와 통신
           
-          const response = await fetch('http://localhost:8000/generate_image/', {
+          const response = await fetch('http://localhost:8087/api/file/create', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'

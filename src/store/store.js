@@ -10,13 +10,16 @@ export const loginStore = create(devtools(set =>({
     profileImg: "",
     blogName : "",
     blogDescription : "",
+    blogCreation:"",
 
     // 각각의 상태가 변경될 때 로컬 스토리지 업데이트
-    setUserSeq: (newUserSeq) => {
-        set({ userSeq:newUserSeq });
+    setUserSeq: (userSeq) => {
+        set({userSeq})
+        localStorage.setItem('userSeq',userSeq)
     },
-    setUserId: (newUserId) => {
-        set({ userId:newUserId });
+    setUserId: (userId) => {
+        set({userId})
+        localStorage.setItem('userId',userId)
     },
     
     setPassword: (password) => set({ password:password }),
@@ -38,7 +41,11 @@ export const loginStore = create(devtools(set =>({
 
     setBlogDescription : (blogDescription) => {
         set({blogDescription});
-        localStorage.setItem("blogDescription", blogDescription);;
+        localStorage.setItem("blogDescription", blogDescription);
+    },
+    setBlogCreation : (blogCreation ) => {
+        set({blogCreation});
+        localStorage.setItem("blogCreation",blogCreation);
     }
 
 })));

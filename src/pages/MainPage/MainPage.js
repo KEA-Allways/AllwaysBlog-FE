@@ -13,9 +13,8 @@ import axios from "axios";
 const MainPage = () => {
 
     // store에서 함수들 가져오기
-    const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription} = loginStore(state => state);
-    // const { blogName} = blogStore(state => state);
-
+    const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription,setBlogCreation} = loginStore(state => state);
+    const blogName = localStorage.getItem("blogName")
     const {setTenPosts} = mainPostStore(state => state);
 
     // accessToken 가지고 userInfo 가져오는 코드
@@ -32,11 +31,11 @@ const MainPage = () => {
                     const profileUrl = response.data.profileImg;
                     setProfileImg(profileUrl);
                     setUserName(data.nickname);
-                    // if (blogName!== null){
-                    //     setBlogCreation(true)
-                    // }else{
-                    //     setBlogCreation(false)
-                    // }
+                    if (blogName!== null){
+                        setBlogCreation(true)
+                    }else{
+                        setBlogCreation(false)
+                    }
                     
                 } else {
                     // 에러처리

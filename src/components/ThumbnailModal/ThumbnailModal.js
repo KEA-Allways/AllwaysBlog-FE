@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../index.css';
 import { ChromePicker } from 'react-color';
 import { Preview } from "@mui/icons-material";
+import { TokenAxios } from "../../lib/TokenAxios";
 
 
 
@@ -129,7 +130,7 @@ const ThumbnailModal = ( props ) => {
             // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
             // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
 
-            const response = await fetch('http://localhost:8000/api/file/create', {
+            const response = await fetch('http://localhost:8088/api/file/create', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -256,19 +257,12 @@ const ThumbnailModal = ( props ) => {
       if(Preview.current){
       //게시글 저장
       //로그인에서 jwt를 header 에 넣기 
-        const response = await fetch('http://localhost:8082/api/post', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMDkyNjgyLCJleHAiOjE3MDE2OTc0ODJ9.SP6HurxWPXR5G7H33rOtNgYc3TWdYLVeXzzb_AOL2Bo`, // accessKey를 사용한 토큰 전송
-          },
-            body: JSON.stringify({
-              postTitle: postTitle,
-              postContent: postContent,
-              imageUrl: s3ImageUrl,
-              categorySeq : 1
-            }),
-          });
+        const response = await TokenAxios.post("/api/post",{
+            postTitle: postTitle,
+            postContent: postContent,
+            imageUrl: s3ImageUrl,
+            categorySeq : 1
+        })
         if (response.ok){
           const data = await response.json();
           let resultSeq = 0;

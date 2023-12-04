@@ -5,7 +5,6 @@ import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
 import Topbar from "../../components/Topbar/Topbar";
-import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
 import { TokenAxios } from "../../lib/TokenAxios";
 import { blogStore } from "../../store/store";
