@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
+import Swal from "sweetalert2";
 import { TokenAxios } from '../../lib/TokenAxios';
 
 const SmallButton = styled(CommonButton)`
@@ -37,7 +38,7 @@ const MngtContents = () => {
   const [hideList, setHideList] = useState(Array(lists.length).fill(false));
   const navigate = useNavigate();
   const page =1;
-  const itemsPerPage = 4;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
   
@@ -76,6 +77,50 @@ const MngtContents = () => {
     navigate('/post', { state: { postSeq: postSeq, themplateSeq: undefined, theme: theme } });
   };
 
+  const removeButtonClicked = (postSeq) => {
+    Swal.fire({
+      title: "게시글을 삭제 중입니다.",
+      text: "삭제가 완료될 때까지 기다려주세요.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+      allowOutsideClick: false,
+       
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User clicked "확인"
+        TokenAxios.delete(`api/post/${postSeq}`)
+          .then(response => {
+            // handle successful response if needed
+            Swal.fire({
+              title: "게시글이 삭제되었습니다.",
+              icon: "success",
+            });
+            // You may want to perform additional actions after successful deletion
+          }).then(()=>{
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error("Error deleting post:", error);
+            Swal.fire({
+              title: "삭제 중 오류가 발생했습니다.",
+              text: "다시 시도해주세요.",
+              icon: "error",
+            });
+          });
+      } else {
+        // User clicked "취소" or closed the modal
+        Swal.fire({
+          title: "삭제가 취소되었습니다.",
+          icon: "info",
+        });
+      }
+    });
+  };
+
   const HeaderTitle = "글 관리";
   const HeaderButton = "";
 
@@ -110,7 +155,7 @@ const MngtContents = () => {
                         {hideList[idx] && (
                           <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <SmallButton onClick={() => editButtonClicked(row.postSeq)}>수정</SmallButton>
-                            <SmallButton>삭제</SmallButton>
+                            <SmallButton onClick={() => removeButtonClicked(row.postSeq)}>삭제</SmallButton>
                           </div>
                         )}
                       </TableCell>

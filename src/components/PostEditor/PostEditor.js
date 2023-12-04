@@ -181,6 +181,8 @@ const PostEditor = () => {
   // 카테고리 목록 가져오는 함수
   const apiGetCategories = async () => {
     const res = await DefaultAxios.get(`/api/theme/${params.themeSeq}/category`)
+    console.log("게시글 카테고리 목록");
+    console.log(res);
     const data = res.data.result.data;
     console.log(data);
     setCategoryList(data);

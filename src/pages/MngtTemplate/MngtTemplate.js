@@ -9,7 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
@@ -73,15 +73,21 @@ const MngtTemplate = () => {
         // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
         apiGetCategories();
     }, []);
-
+    const params = useParams();
     const HeaderTitle = "템플릿 관리";
     const HeaderButton = "템플릿 추가";
+
     const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: undefined, templateSeq: 0 } });
+        navigate('/template', { state: { postSeq: undefined, templateSeq: 0 } });
     };
-    const editButtonClicked = (templateSeq) => {
-        navigate('/post', { state: { postSeq: undefined, templateSeq: templateSeq } });
+    const addButtonClicked = (templateSeq) => {
+        navigate(`/template/edit/${params.templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
     }
+
+    const editButtonClicked = (templateSeq) => {
+        navigate(`/template/edit/${params.templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
+    }
+    
 
     // 페이지네이션 관련
     const totalItems = lists.length; // 전체 아이템 수
@@ -95,7 +101,7 @@ const MngtTemplate = () => {
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={headerButtonClicked} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={addButtonClicked} Container={
                 <div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">

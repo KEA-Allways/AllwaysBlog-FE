@@ -17,7 +17,7 @@ import { DefaultAxios } from "../../lib/DefaultAxios";
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const {userId, password, setUserId, setPassword } = loginStore();
+  const {userId, password, setUserId, setPassword ,setUserSeq} = loginStore();
   const [response, setResponse] = useState("");
   // const [userId, setUserId] = useState("");
   // const [password, setPassword] = useState("");
@@ -30,12 +30,16 @@ const LoginPage = () => {
 
   const login = async() => {
     try{
+      
       const res = await DefaultAxios.post(`/api/auth/sign-in`, {
         "email" : userId,
         "password" : password,
+        
       });
+      
       localStorage.setItem("accessToken", res.data.result.data.accessToken);
       localStorage.setItem("refreshToken", res.data.result.data.refreshToken);
+       
       window.open("/", "_self");
     }catch(error){
       if(error.response.status === 401){

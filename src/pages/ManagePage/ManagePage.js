@@ -11,19 +11,19 @@ import { TokenAxios } from "../../lib/TokenAxios";
 import AWS from "aws-sdk";
 import { loginStore,blogStore } from "../../store/store";
 
+
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+const DEFAULT_IMAGE_URL="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+
+
 const ManagePage = ({isLogin, hasBlog, username}) => {
+
     const HeaderTitle = "블로그 관리";
     const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
-    const {setBlogName,setBlogDescription} = blogStore(state => state);
-
-    const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
-    const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
-    const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
-    // const [userName, setUserName] = useState();
-    // const [profileImg,setProfileImg]=useState();
+    const { setBlogName,setBlogDescription } = blogStore(state => state);
     
-
-    const DEFAULT_IMAGE_URL="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
 
     //localstorage 에서 불러오기 
     const profileImg = localStorage.getItem('profileImg');
