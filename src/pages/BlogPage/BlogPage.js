@@ -51,7 +51,7 @@ const BlogPage = () => {
             // console.log(data);
             setBlogInfo(data);
             setBlogMasterName(data.nickname);
-            const response = await axios.get(`http://localhost:8088/api/file/profileImg/${params.userSeq}`)
+            const response = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/file/profileImg/${params.userSeq}`)
             // console.log("블로그작성자 프로필 이미지 :" + response.data.profileImg);
             setBlogMasterProfileImg(response.data.profileImg);
         }catch(e){

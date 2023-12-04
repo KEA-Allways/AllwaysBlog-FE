@@ -232,7 +232,7 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
           const upload = new AWS.S3.ManagedUpload({
             params: {
               ACL: "public-read",
-              Bucket: "suhabuckettest", //버킷 이름
+              Bucket: `${process.env.REACT_APP_AWS_S3_BUCKET_NAME}`, //버킷 이름
               Key: `upload/${name}.${file.type.split("/")[1]}`,
               Body: file,
               ContentType: file.type,

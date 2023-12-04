@@ -26,7 +26,7 @@ const MainPage = () => {
             setUserName(data.nickname);
             setBlogName(data.blogName);
             if(res.data.success){
-                const response = await axios.get(`http://localhost:8088/api/file/profileImg/${data.userSeq}`);
+                const response = await axios.get(`${process.env.REACT_APP_GATEWAY_URL}/api/file/profileImg/${data.userSeq}`);
                 if (response.status === 200) {
                     const profileUrl = response.data.profileImg;
                     setProfileImg(profileUrl);

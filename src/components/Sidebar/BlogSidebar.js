@@ -39,7 +39,7 @@ function BlogSidebar({body, currentPage}) {
   // 테마 이미지 가져오는 함수
   const getThemeImg = async() => {
     try{
-      const res = await axios(`http://localhost:8088/api/file/theme/${themeSeq}`);
+      const res = await axios(`${process.env.REACT_APP_GATEWAY_URL}/api/file/theme/${themeSeq}`);
       console.log("사이드바: " + res.data.themeImg);
       document.documentElement.style.setProperty('--background-image', `url(${res.data.themeImg})`);
     }catch(e){

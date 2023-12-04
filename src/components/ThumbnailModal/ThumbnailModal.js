@@ -130,7 +130,7 @@ const ThumbnailModal = ( props ) => {
             // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
             // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
 
-            const response = await fetch('http://localhost:8088/api/file/create', {
+            const response = await fetch(`${process.env.REACT_APP_GATEWAY_URL}/api/file/create`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
