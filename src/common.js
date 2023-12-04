@@ -16,6 +16,7 @@ export const CommonButton = styled(Button)`
     border-radius: 10px;
     transition: all 0.4s ease;
 
+    
     &:hover {
         color: black;
         background: white;
