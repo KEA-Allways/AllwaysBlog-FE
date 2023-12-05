@@ -52,12 +52,14 @@ function App() {
             <Route path="/blog-creation" element={<BlogCreationPage />} />
             <Route path="/mngt" element={<ManagePage />} />
             <Route path="/post/edit/:themeSeq" element={<PostPage />} />
+            <Route path="/template/edit" element={<TemplatePage/>}/>
             <Route path="/template/edit/:templateSeq" element={<TemplatePage/>}/>
             <Route path="/mngt/theme" element={<MngtTheme />} />
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent />} />
             <Route path="/mngt/template" element={<MngtTemplate />}/>
             <Route path="/post/:postSeq" element={<DetailPage />} />
+            <Route path="/blog/:userSeq/post/:postSeq" element={<DetailPage />} />
           </ApmRoutes>
         </BrowserRouter>
       </div>

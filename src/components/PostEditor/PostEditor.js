@@ -52,6 +52,7 @@ const PostEditor = () => {
   // 템플릿 목록
   const [templateList, setTemplateList] = useState([]);
 
+
   // 선택된 템플릿 이름
   const [selectedTemplate, setSelectedTemplate] = useState("");
 
@@ -180,14 +181,18 @@ const PostEditor = () => {
 
   // 카테고리 목록 가져오는 함수
   const apiGetCategories = async () => {
-    const res = await DefaultAxios.get(`/api/theme/${params.themeSeq}/category`)
-    console.log("게시글 카테고리 목록");
-    console.log(res);
-    const data = res.data.result.data;
-    console.log(data);
-    setCategoryList(data);
-    if (data.length > 0){
-      setThemeName(data[0].theme.themeName)
+    try{
+      const res = await DefaultAxios.get(`/api/theme/${params.themeSeq}/category`)
+      console.log("게시글 카테고리 목록");
+      console.log(res);
+      const data = res.data.result.data;
+      console.log(data);
+      setCategoryList(data);
+      if (data.length > 0){
+        setThemeName(data[0].theme.themeName)
+      }
+    }catch(e){
+      console.log(e);
     }
   }
 

@@ -40,6 +40,7 @@ const MngtTemplate = () => {
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
     const page =1;
     const itemsPerPage = 5; // 한 페이지에 보여질 아이템 수
+    const userSeq = localStorage.getItem("userSeq");
     const navigate = useNavigate();
 
     const apiGetCategories = async() => {
@@ -80,12 +81,12 @@ const MngtTemplate = () => {
     const headerButtonClicked = () => {
         navigate('/template', { state: { postSeq: undefined, templateSeq: 0 } });
     };
-    const addButtonClicked = (templateSeq) => {
-        navigate(`/template/edit/${params.templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
+    const addButtonClicked = () => {
+        navigate(`/template/edit`, { state: { postSeq: undefined, templateSeq: 0 } });
     }
 
     const editButtonClicked = (templateSeq) => {
-        navigate(`/template/edit/${params.templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
+        navigate(`/template/edit/${templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
     }
     
 
@@ -113,7 +114,8 @@ const MngtTemplate = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {displayedLists.map((row, idx) => {
+                                {console.log(lists)}
+                                {lists.map((row, idx) => {
                                     return (
                                     <TableRow
                                         key={row.templateSeq}
@@ -129,7 +131,7 @@ const MngtTemplate = () => {
                                         <TableCell align="right">
                                             {hideList[idx] && (
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <SmallButton onClick={ () => editButtonClicked(row.templateSeq)}>수정</SmallButton>
+                                                    <SmallButton onClick={ () => editButtonClicked(lists[idx].templateSeq)}>수정</SmallButton>
                                                     <SmallButton>삭제</SmallButton>
                                                 </div>
                                             )}

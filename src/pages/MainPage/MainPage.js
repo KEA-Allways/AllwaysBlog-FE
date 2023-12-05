@@ -85,6 +85,7 @@ const MainPage = () => {
         try{
             const res = await axios.get("http://localhost:8082/api/post/main");
             setTenPosts(res.data.result.data);
+            console.log(res.data.result.data);
         }catch(e){
             console.log(e);
             console.log("블로그가 2개가 있을 가능성이 있습니다.")
