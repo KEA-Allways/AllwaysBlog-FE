@@ -19,6 +19,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Setting .env
+        run: |
+          echo "REACT_APP_APM_TOKEN=${{ secrets.REACT_APP_APM_TOKEN }}" >> .env
+          echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_REGION=${{ secrets.REACT_APP_AWS_S3_BUCKET_REGION }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID=${{ secrets.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY }}" >> .env
+          echo "REACT_APP_AWS_S3_BUCKET_NAME=${{ secrets.REACT_APP_AWS_S3_BUCKET_NAME }}" >> .env
+          echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
+          cat .env
+
       - name: 리액트 빌드
         run: |
           npm install --force
