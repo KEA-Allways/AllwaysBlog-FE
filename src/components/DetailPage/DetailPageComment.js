@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { CommonButton } from '../../common';
 import styles from "./DetailPageBody.module.css";
 import axios from "axios";
+import { TokenAxios } from '../../lib/TokenAxios';
 
 const DetailPageComment = (props) => {
   const { postSeq } = props;
@@ -20,41 +21,31 @@ const DetailPageComment = (props) => {
   };
 
   //댓글 저장 함수
-  const onCommentSubmit = () => {
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}/reply`,
-      headers: {
-        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-      },
-      data: {
-        replyContent: comment,
-      },
-      responseType: "json",
-    })
-    .then((response) => {
+  const onCommentSubmit = async () => {
+    try{
+      const res = await TokenAxios.post(`/api/post/${postSeq}/reply`, {
+        replyContent : comment,
+      })
       apiGetReplies();
-      setComment('');
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
+      setComment("");
+    }catch(e){
+      console.log("댓글 저장에서 오류 났습니다.");
+      console.log(e);
+    }
+    
   }
 
   //댓글 목록 조회 함수
-  const apiGetReplies = () => {
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_GATEWAY_URL}/api/post/${postSeq}/reply`,
-      headers: {
-        'AccessToken': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzAxMTYzOTA0LCJleHAiOjE3MDE3Njg3MDR9.JPW9GdiuLiCaKR6NzXibjTtTx8EXCnUyvierMoO0EsA`,
-      },
-      responseType: "json",
-    })
-    .then((response) => {
-      setReplyList(response.data.result.data)
-    }).catch((error) => {
-      console.error('API GET request error:', error);
-    });
+  const apiGetReplies = async () => {
+    try{
+      const res = await TokenAxios.get(`/api/post/${postSeq}/reply`);
+      console.log(res.data.result.data);
+      setReplyList(res.data.result.data);
+    }
+    catch(e){
+      console.log("댓글 목록 조회에서 오류 났습니다.");
+      console.log(e);
+    }
   }
 
   useEffect(() => {
