@@ -27,7 +27,7 @@ jobs:
           echo "REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID=${{ secrets.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID }}" >> .env
           echo "REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY }}" >> .env
           echo "REACT_APP_AWS_S3_BUCKET_NAME=${{ secrets.REACT_APP_AWS_S3_BUCKET_NAME }}" >> .env
-          echo "REACT_APP_APM_URL=${{ secrets.REACT_APP_APM_URL }}" >> .env
+          echo "REACT_APP_GATEWAY_URL=${{ secrets.REACT_APP_GATEWAY_URL }}" >> .env
           cat .env
 
       - name: 리액트 빌드
