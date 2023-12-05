@@ -118,7 +118,7 @@ const ThemeModal = ({ showModal, onClose} ) => {
           console.log(negativeValue.value);
           
           
-          const response = await fetch('http://localhost:8087/api/file/create', {
+          const response = await fetch(`${process.env.REACT_APP_GATEWAY_URL}/api/file/create`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
