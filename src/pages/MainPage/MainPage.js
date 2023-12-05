@@ -83,7 +83,7 @@ const MainPage = () => {
     // mainPost 10개 가지고 오는 코드
     const getMainPost = async() => {
         try{
-            const res = await axios.get("http://3.94.102.116/api/post/main");
+            const res = await axios.get("http://3.94.102.116:8082/api/post/main");
             setTenPosts(res.data.result.data);
         }catch(e){
             console.log(e);
