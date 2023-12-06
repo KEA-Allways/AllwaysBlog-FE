@@ -5,28 +5,27 @@ import axios from "axios";
 import React from "react";
 import Swal from "sweetalert2";
 import Topbar from "../../components/Topbar/Topbar";
-import ThumbnailModal from "../../components/ThumbnailModal/ThumbnailModal";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
+import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore } from "../../store/store";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState("1");
-  const [blogName, setBlogName] = useState("");
-  const [description, setDescription] = useState("");
+  const {setBlogName, setBlogDescription} = blogStore(state => state);
   const [showModal, setShowModal] = useState(false);
   const [profileImg, setProfileImg] = useState("");
 
-  const apiGetProfileImg = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/users`)
-      .then((response) => {
-        setProfileImg(response.data.profileImg);
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-    
+  const [blogSeq, setBlogSeq] = useState(0);
+
+  const apiGetProfileImg = async () => {
+    try{
+      const res = await TokenAxios.get(`/api/users`)
+      setProfileImg(res.data.profileImg);
+    }catch(e){
+      console.log("프로필 이미지를 가져올 수 없습니다.", e);
+    };
   }
 
 
@@ -35,29 +34,7 @@ const BlogCreationPage = () => {
   }, []);
   
   const createBtnClicked = () => {
-    axios.post(`${process.env.REACT_APP_API_URL}/api/blogs/new-blog`, {
-        blogName: blogName,
-        paswordDescriptions: description,
-      })
-      .then((response) => {
-        //setResponse(response);
-
-        if (response.status === 200) {
-          // localStorage.setItem("jwt", result.data.result.jwt);
-          // localStorage.setItem("memberId", result.data.result.id);
-          Swal.fire({
-            title: "블로그 생성!",
-            icon: "success",
-          }).then(() => {
-            navigate("/");
-          });
-        } else {
-          Swal.fire({
-            title: "블로그 생성 실패!",
-            icon: "error",
-          }).then(() => {});
-        }
-      });
+    setShowModal(true);
   };
 
   return (
@@ -96,7 +73,7 @@ const BlogCreationPage = () => {
             <BlogDescriptionInput
               placeholder=""
               onChange={(e) => {
-                setDescription(e.target.value);
+                setBlogDescription(e.target.value);
               }}
             />
 
@@ -105,7 +82,8 @@ const BlogCreationPage = () => {
           <Line />
 
           <BtnsContainer>
-            <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn>
+            {/* <CreationBtn onClick={() => setShowModal(true)}>블로그 생성</CreationBtn> */}
+            <CreationBtn onClick={createBtnClicked}>블로그 생성</CreationBtn>
           </BtnsContainer>
         </BlogSection>
       </Container>

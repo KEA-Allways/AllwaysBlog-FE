@@ -13,9 +13,20 @@ import MngtContent from "./pages/MngtContent/MngtContent"
 import MngtTemplate from "./pages/MngtTemplate/MngtTemplate";
 import { ThemeProvider, createTheme } from "@mui/material";
 import DetailPage from "./pages/DetailPage/DetailPage";
-import axios from "axios";
-import { useEffect } from "react";
 import {loginStore} from "./store/store";
+import TemplatePage from "./pages/TemplatePage/TemplatePage";
+
+import { ApmRoutes } from '@elastic/apm-rum-react'
+import { init as initApm } from '@elastic/apm-rum'
+
+const apm = initApm({
+  serviceName: 'Allways-FE',
+  serverUrl: process.env.REACT_APP_APM_URL,
+  secretToken: process.env.REACT_APP_APM_TOKEN,
+  environment: "msa-allways"
+});
+
+
 
 const theme = createTheme({
   typography : {
@@ -24,68 +35,32 @@ const theme = createTheme({
 })
 
 function App() {
-  const {setIsLogin, setHasBlog, setUsername} = loginStore();
-
-  // const accessToken = () => {
-  //   axios({
-  //     url: "/accesstoken",
-  //     method: "GET",
-  //     withCredentials: true,
-  //   });
-  // };
-
-  // const refreshToken = () => {
-  //   axios({
-  //     url: "/refreshtoken",
-  //     method: "GET",
-  //     withCredentials: true,
-  //   });
-  // };
-
-  useEffect(() => {
-    try {
-      axios({
-        url: "/login/success",
-        method: "GET",
-        withCredentials: true,
-      })
-        .then((result) => {
-          if (result.data) {
-            setIsLogin(result.data.id);
-            setHasBlog(result.data.hasBlog)
-            setUsername(result.data.username)
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
-    
+  
   return (
     
     <ThemeProvider theme={theme}>
       
       <div className={styles.App}>
         <BrowserRouter>
-          <Routes>
+        <ApmRoutes>
             <Route path="/" element={<MainPage/>} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/blogs" element={<BlogPage/>} />
-            <Route path="/blogs/themes/:themeId" element={<BlogPage />} />
-            <Route path="/blogs/themes/:themeId/lists/:listId" element={<BlogPage />} />
+            <Route path="/blog/:userSeq" element={<BlogPage/>} />
+            <Route path="/blog/:userSeq/theme/:themeSeq" element={<BlogPage />} />
+            <Route path="/blog/:userSeq/theme/:themeSeq/category/:categorySeq" element={<BlogPage />} />
             <Route path="/blog-creation" element={<BlogCreationPage />} />
             <Route path="/mngt" element={<ManagePage />} />
-            <Route path="/post" element={<PostPage />} />
+            <Route path="/post/edit/:themeSeq" element={<PostPage />} />
+            <Route path="/template/edit" element={<TemplatePage/>}/>
+            <Route path="/template/edit/:templateSeq" element={<TemplatePage/>}/>
             <Route path="/mngt/theme" element={<MngtTheme />} />
             <Route path="/mngt/theme/:themeSeq" element={<MngtList />} />
             <Route path="/mngt/content" element={<MngtContent />} />
             <Route path="/mngt/template" element={<MngtTemplate />}/>
             <Route path="/post/:postSeq" element={<DetailPage />} />
-          </Routes>
+            <Route path="/blog/:userSeq/post/:postSeq" element={<DetailPage />} />
+          </ApmRoutes>
         </BrowserRouter>
       </div>
 

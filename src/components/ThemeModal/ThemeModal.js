@@ -13,6 +13,14 @@ import { useNavigate } from 'react-router-dom';
 import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
+import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore } from "../../store/store";
+import AWS from "aws-sdk";
+
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+const REACT_APP_AWS_S3_BUCKET_NAME = process.env.REACT_APP_AWS_S3_BUCKET_NAME;
 
 
 
@@ -28,15 +36,10 @@ const ModalButton = styled(CommonButton)`
     color: white;
       background: white;
        
-       
+      border: 0px solid white;
     }
    
 `
-
-
-
- 
-
 const SuccessButton = styled(CommonColorButton)`
 
     font-size:14px;
@@ -57,36 +60,25 @@ const ThemeModal = ({ showModal, onClose} ) => {
   //modal
    
   const navigate = useNavigate();
+  
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
+  const [s3ImageUrl, setS3ImageUrl] = useState('');
+  const [themeName, setThemeName] = useState('');
+  const blogName =localStorage.getItem("blogName")
+  const {blogDescription, createBlog, setCreateBlog,setBlogCreation} = blogStore(state => state);
+  const blogCreation = localStorage.getItem("blogCreation");
+
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
 
 
-const handleKarloImage =async ()=>{
-  try{
-    const promptValue = await Swal.fire({
-      title: '키워드를 입력해주세요',
-      input: 'text',
-      inputAttributes: {
-        autocapitalize: 'off'
-      },
-      showCancelButton: true,
-      confirmButtonText: '확인',
-      cancelButtonText: '취소',
-      showLoaderOnConfirm: true,
-      preConfirm: (promptValue) => {
-        if (!promptValue) {
-          Swal.showValidationMessage('키워드');
-        }
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }) 
-    // 긍정 키워드 완료되면 
-    if(promptValue.isConfirmed){
-      const negativeValue =await Swal.fire({
-        title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
+  const handleKarloImage =async ()=>{
+    
+    try{
+      const promptValue = await Swal.fire({
+        title: '키워드를 입력해주세요',
         input: 'text',
         inputAttributes: {
           autocapitalize: 'off'
@@ -95,51 +87,79 @@ const handleKarloImage =async ()=>{
         confirmButtonText: '확인',
         cancelButtonText: '취소',
         showLoaderOnConfirm: true,
-        preConfirm: (negativeValue) => {
-          if (!negativeValue) {
-            Swal.showValidationMessage('부정적인 키워드');
+        preConfirm: (promptValue) => {
+          if (!promptValue) {
+            Swal.showValidationMessage('키워드');
           }
         },
         allowOutsideClick: () => !Swal.isLoading()
-      }) ;
-      if(negativeValue.isConfirmed){
-        console.log(promptValue.value);
-        console.log(negativeValue.value);
-        
-        
-        const response = await fetch('http://localhost:8000/generate_image/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+      }) 
+      // 긍정 키워드 완료되면 
+      if(promptValue.isConfirmed){
+        const negativeValue =await Swal.fire({
+          title: '화면에 표시를 원하지 않은 키워드를 입력해주세요 ',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
           },
-          body: new URLSearchParams({
-            'prompt': promptValue.value ,
-            'negative_prompt': negativeValue.value,
-            'samples': 1
-          })
-        });
-
-        if (response.ok) {
-          const data = await response.json(); // Convert response to JSON
-          if (data.image_url) {
-            console.log('Image URL:', data.image_url);
-            setBackgroundImage(data.image_url);
+          showCancelButton: true,
+          confirmButtonText: '확인',
+          cancelButtonText: '취소',
+          showLoaderOnConfirm: true,
+          preConfirm: (negativeValue) => {
+            if (!negativeValue) {
+              Swal.showValidationMessage('부정적인 키워드');
+            }
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        }) ;
+        if(negativeValue.isConfirmed){
+          console.log(promptValue.value);
+          console.log(negativeValue.value);
+          
+          
+          const response = await fetch(`${process.env.REACT_APP_GATEWAY_URL}/api/file/create`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+              'positivePrompt': promptValue.value,
+              'negativePrompt': negativeValue.value,
+              'samples': 1,
+              'image_quality':100,
+              'width':640,
+              'height':320
+            })
+          });
+          //fastAPi에서 받은 image url 적용 
+          if (response.ok) {
+            console.log("response ok 후 ",response);
+            
+            
+            const data = await response.json(); // Convert response to JSON
+            //받아온 s3_image_url 값이 있으면
+            if (data.s3_image_url) {
+            
+              console.log('Image URL:', data.s3_image_url);
+              setS3ImageUrl(data.s3_image_url);
+              setBackgroundImage(data.s3_image_url);
+            } else {
+              console.error('Error:', data.message);
+            }
           } else {
-            console.error('Error:', data.message);
+            throw new Error('Network response was not ok');
           }
-        } else {
-          throw new Error('Network response was not ok');
         }
+        
       }
+
+
+    }catch(error){
+      console.error('Error',error);
       
     }
-
-
-  }catch(error){
-    console.error('Error',error);
-    
   }
-}
  
 
   //fastApi에 요청 보내기 
@@ -158,11 +178,42 @@ const handleKarloImage =async ()=>{
       showCancelButton: true,
       confirmButtonText: '확인',
     }) 
+      
+    try {
+
+      const response = await fetch(imgUrl);
+      const imageData = await response.blob();
     
-    //imgUrl 유효하면 배경 설정 
-    if (imgUrl) {      
-      setBackgroundImage(imgUrl);
+      //업로드할 파일의 이름으로 Date 사용
+      const name = Date.now();
+      //s3 관련 설정
+      AWS.config.update({
+        region: REACT_APP_AWS_S3_BUCKET_REGION,
+        accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+        secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+        
+      });
+      //s3에 업로드할 객체 생성
+      const upload = new AWS.S3.ManagedUpload({
+        params: {
+          ACL: 'public-read',
+          Bucket: REACT_APP_AWS_S3_BUCKET_NAME,
+          Key: `upload/${name}.${imageData.type.split('/')[1]}`,
+          Body: imageData,
+          ContentType: imageData.type,
+        },
+      });
+      //이미지 업로드 url 반환
+      const IMG_URL = await upload.promise().then((res) => res.Location);
+      if (IMG_URL) {      
+        setBackgroundImage(IMG_URL);
+      }
+    } catch (error) {
+      console.log(error);
     }
+
+      //imgUrl 유효하면 배경 설정 
+      
   };
 
    
@@ -182,7 +233,7 @@ const handleKarloImage =async ()=>{
     return "#" + rgb;
   };
 
-  //클릭하면 랜덤RGB로 변경
+//클릭하면 랜덤RGB로 변경
   const handleRandomColorClick = () => {
     const randomBackgroundColor = randomRGB();
     setBackgroundColor(randomBackgroundColor);
@@ -195,33 +246,57 @@ const handleKarloImage =async ()=>{
     setBackgroundColor("");
     
   };
-  //사진 윈도우에 저장하기
-  const handleExport =  () => {
-    if (previewRef.current) {
-        html2canvas(previewRef.current, {
-        allowTaint: true,
-        useCORS: true,
-      }).then((canvas) => {
-        
-        
-        const imgData = canvas.toDataURL("image/png");
-        const imgSrc = /^data:image/.test(imgData) ? imgData : imgData + '?' + new Date().getTime();
-        const link = document.createElement("a");
-        link.download = "thumbnail.png";
-        link.href = imgSrc;
-        link.click();
-      });
-
-
-      Swal.fire ({
-        title:"게시글 제작",
-        timer:3000,
-        didOpen:()=>{
-          Swal.showLoading()
+    
+  //테마 제작 
+  const handleExport = async () => {
+    try {
+      if (previewRef.current) {
+        // Check if the blog already exists
+        if (!blogCreation) {
+          await TokenAxios.post("/api/blog", {
+            blogName,
+            blogDescription,
+          });
+          setBlogCreation(true);
         }
-      }).then(navigate("/blogs"))
+  
+        // Now proceed to create the theme
+        const response = await TokenAxios.post("/api/theme", {
+          imageUrl: backgroundImage,
+          themeName: themeName,
+        });
+        console.log(response);
+        
+        if (response.status==201) {
+        } else {
+          console.error('Error creating theme:', response.statusText);
+          throw new Error('Error creating theme');
+        }
+  
+        // Navigate after both blog and theme creation
+        Swal.fire({
+          title: "테마 제작",
+          timer: 3000,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        }).then(() => navigate("/"));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Swal.fire({
+        title: "오류 발생",
+        text: "다시 시도해주세요.",
+        icon: "error",
+      });
     }
   };
+  
+      
+             
+      //image_url spring boot 로 보내기 
+      
+
 
   return (
      
@@ -235,13 +310,17 @@ const handleKarloImage =async ()=>{
         enforceFocus={false}
       >
       
-        <section className="wrapper"  >
+        <section className="wrapper" style={{height:"620px"}}>
           <Container fluid className="wrapper">
             <Row className="contents">
                
             <header style={{  display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "380px",marginTop:"5px" }}>테마 이미지 생성기</h3>
+              <h3 style={{ fontFamily: 'Yeongdeok Snow Crab', color: "black", textAlign: "center", marginLeft: "380px",marginTop:"5px" }}>
+                테마 이미지 생성기
+              </h3>
+              
               <div style={{ textAlign: "right" }}>
+               
                 <SuccessButton
                   className="modal__sucess__btn me-3"
                   id="export"
@@ -251,7 +330,16 @@ const handleKarloImage =async ()=>{
                   완료 및 이미지화
                 </SuccessButton>
               </div>
+              
             </header>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Form.Control size="sm" type="text" placeholder="테마를 적어주세요" 
+            value={themeName}
+            onChange={(e) => setThemeName(e.target.value)}
+            style={{width:"250px", height:"20px" , 
+            fontSize:"18px",fontWeight:"bold",textAlign:"center" }}/>
+
+            </div>
                 
                 <div
                    

@@ -6,7 +6,8 @@ import { CommonButton } from '../../common';
 import styles from "./Sidebar.module.css";
 import axios from "axios";
 import ThemeModal from "../ThemeModal/ThemeModal";
-
+import { TokenAxios } from "../../lib/TokenAxios";
+import { blogStore, loginStore }  from "../../store/store"
 
 
 function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction, BodyContainer}) {
@@ -14,19 +15,34 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
   const [IsHeaderButton, setIsHeaderButton] = useState(false);
   const [IsHeaderButton2,setIsHeaderButton2] =useState(false);
   const [profiles, setProfiles] = useState({});
+  // const [blogDescription,setBlogDescription] = useState(false);
+  const [blogSeq,setBlogSeq] = useState(false);
+
+  const userName = localStorage.getItem("userName");
+
+   //localstorage 에서 받아옴 
+   
+  const profileImg = localStorage.getItem('profileImg');
+  const blogName = localStorage.getItem('blogName')
+  const blogDescription = localStorage.getItem('blogDescription')
+   
  
   const [showModal,setShowModal] = useState(false);
  
   const isTheme = pathName.startsWith("/mngt/theme");
- 
+  
+  
 
   useEffect( () => {
     if(HeaderButton != null && HeaderButton !== ""){
       setIsHeaderButton(true);
+       
     }
     if(HeaderButton2!=null && HeaderButton2 !==""){
       setIsHeaderButton2(true);
+       
     }
+     
   }, []);
 
     const headerButtonClicked = () => {
@@ -39,19 +55,19 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
       setShowModal(true);
     }
 
-    const apiGetProfile = () => {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
-        .then((response) => {
-          setProfiles(response.data);
-        })
-        .catch((error) => {
-          console.error('API GET request error:', error);
-        });
-    };
+    // const apiGetProfile = () => {
+    //   axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
+    //     .then((response) => {
+    //       setProfiles(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error('API GET request error:', error);
+    //     });
+    // };
   
-    useEffect(() =>{
-      apiGetProfile();
-    },[])
+    // useEffect(() =>{
+    //   apiGetProfile();
+    // },[])
 
     return (
       <>
@@ -60,18 +76,20 @@ function ManageSidebar({ HeaderTitle, HeaderButton, HeaderButton2, HeaderAction,
           <div className={styles.sidebarContainer}>
             {/* 사이드바 박스 */}
             <div className={styles.sidebar}>
-              {console.log(profiles)}
+              
                 {/* 프로필 이미지 */}
                 <Profile
-                  src={profiles.profileImg}
+                  src={profileImg}
                 />
                
                 
                 {/* 블로그 소개, 이메일 */}
                 <ProfileBox>
-                  <p className={styles.blogName}>{profiles.nickname}의 {profiles.blogName}</p>
-                  <small>{profiles.description}</small><br/>
-                  <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link> 
+                  {/* {blogName} */}
+                  <p  >{blogName} </p>
+                  {/* {blogDescription} */}
+                  <small>{blogDescription}</small><br/>
+                  {/* <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link>  */}
                 </ProfileBox>
                 
                 {/* 사이드바 메뉴 */} 

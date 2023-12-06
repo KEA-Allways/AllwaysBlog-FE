@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 // App.js 또는 원하는 컴포넌트 파일에서
 import '../../index.css';
 import { ChromePicker } from 'react-color';
+import { Preview } from "@mui/icons-material";
+import { TokenAxios } from "../../lib/TokenAxios";
+import { blogPostStore } from "../../store/store";
 
 
 
@@ -59,10 +62,10 @@ const SuccessButton = styled(CommonColorButton)`
     
 `
 
+//props Content , Title 받기 
+const ThumbnailModal = ( props ) => {
+  const { showModal, onClose, postContent, postTitle} = props;
 
-const ThumbnailModal = ({ showModal, onClose} ) => {
-  //modal
-   
   const navigate = useNavigate();
   const [backgroundImage, setBackgroundImage] = useState("");
   const [backgroundColor, setBackgroundColor] = useState("");
@@ -77,6 +80,10 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
 
   const previewRef = useRef(null);
   const bootstrapModalRef = useRef(null);
+
+  const [s3ImageUrl, setS3ImageUrl] = useState('');
+  const {categorySeq} = blogPostStore(state =>state);
+  const userSeq =localStorage.getItem("userSeq")
 
  
 
@@ -121,27 +128,32 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
             allowOutsideClick: () => !Swal.isLoading()
           }) ;
           if(negativeValue.isConfirmed){
-            console.log(promptValue.value);
-            console.log(negativeValue.value);
+             
             
-            
-            const response = await fetch('http://localhost:8000/generate_image/', {
+            // const positive=",high quality,Canon EF 24mm F2.8 IS USM"
+            // const negative = ",low quality, worst quality,mutated,mutation,distorted,deformed,white frame"
+
+            const response = await fetch(`${process.env.REACT_APP_GATEWAY_URL}/api/file/create`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               },
               body: new URLSearchParams({
-                'prompt': promptValue.value ,
-                'negative_prompt': negativeValue.value,
-                'samples': 1
+                'positivePrompt': promptValue.value ,
+                'negativePrompt': negativeValue.value,
+                'samples': 1,
+                'image_quality':100,
+                'width':640,
+                'height':320
               })
             });
     
             if (response.ok) {
               const data = await response.json(); // Convert response to JSON
-              if (data.image_url) {
-                console.log('Image URL:', data.image_url);
-                setBackgroundImage(data.image_url);
+              if (data.s3_image_url) {
+                console.log('Image URL:', data.s3_image_url);
+                setS3ImageUrl(data.s3_image_url);
+                setBackgroundImage(data.s3_image_url);
               } else {
                 console.error('Error:', data.message);
               }
@@ -241,33 +253,42 @@ const ThumbnailModal = ({ showModal, onClose} ) => {
     setTextColorStyle("white")
     setShowSubtitle(true)
   };
-  //사진 윈도우에 저장하기
-  const handleExport =  () => {
-    
 
-    if (previewRef.current) {
+    //저장버튼 클릭 시
+  const handleExport = async () => {
+        try{
+              
+            //게시글 저장
+            //로그인에서 jwt를 header 에 넣기 
+              const response = await TokenAxios.post("/api/post",{
+                  postTitle: postTitle,
+                  postContent: postContent,
+                  imageUrl: backgroundImage,
+                  categorySeq : categorySeq,
+              })
+              console.log("response data --------------------------------");
+              
+              console.log(response);
+              if (response.status===201){
 
+                  Swal.fire({
+                    title: "게시글을 저장 중입니다.",
+                    timer: 3000,
+                    didOpen: () => {
+                      Swal.showLoading()
+                    }
+                  }).then(() => {
+                    navigate(`/blog/${userSeq}`);
+                  });
+                  
+                } else {
+                  console.error('Error:', response.message);
+                  alert("게시글을 저장하는데 오류가 발생했습니다.");
+                }
 
-        html2canvas(previewRef.current, {
-        allowTaint: true,
-        useCORS: true,
-         
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.download = "thumbnail.png";
-        link.href = imgData;
-        link.click();
-      });
-
-
-      Swal.fire ({
-        title:"게시글 제작",
-        timer:3000,
-        didOpen:()=>{
-          Swal.showLoading()
-        }
-      }).then(navigate("/blogs"))
+              
+    } catch (error){
+      console.error('Error:', error);
     }
   };
 

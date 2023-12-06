@@ -8,15 +8,34 @@ import {FaEye} from "react-icons/fa"
 import {FaEyeSlash} from "react-icons/fa"
 import Topbar from "../../components/Topbar/Topbar";
 import { CommonColorButton } from '../../common';
+import { Tooltip, IconButton } from "@material-ui/core";
+import InfoIcon from '@mui/icons-material/Info';
+import { DefaultAxios } from "../../lib/DefaultAxios";
+import AWS from "aws-sdk";
+
+const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
+const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
+const REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY = process.env.REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY;
+const REACT_APP_AWS_S3_BUCKET_NAME = process.env.REACT_APP_AWS_S3_BUCKET_NAME;
 
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const valid_email = new RegExp('^[a-zA-Z0-9]+@[a-zA-Z]+(?=\\.[a-zA-Z]{2,})[a-zA-Z0-9.]{2,}$');
+  const valid_userId = new RegExp('[a-zA-Z0-9]');
+  const valid_password = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+
 
   const fileInput = useRef(null);
 
   const [file, setFile] = useState("");
 
   const [response, setResponse] = useState("");
+
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isUserIdValid, setIsUserIdValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isConfirmPassword, setIsConfirmPassword] = useState(false);
+  
 
   const [form,setForm] = useState({
     profileImage: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
@@ -34,39 +53,75 @@ const SignUpPage = () => {
     setShowPwState(!isShowPw);
   }
 
-
-  const signUpBtnClicked = () => {
-     axios.post(`${process.env.REACT_APP_API_URL}/api/users/new-user`,
+  const signUpBtnClicked = async () => {
+    try{
+      const res = await DefaultAxios.post(`/api/auth/sign-up`,
         {
-          profileImg: form.profileImage,
+          profileImgSeq: form.profileImage,
+          //profileImgSeq : 1,
           userId: form.userId,
           email: form.email,
           nickname: form.nickname,
           password: form.password,
-          repeatPassword: form.repeatPassword,
+          // repeatPassword: form.repeatPassword,
         }
       )
-      .then((response) => {
-        if (response.status === 200) {
-          Swal.fire({
-            title: "회원가입 성공!",
-            icon: 'success'
-          }).then(()=> {
-            navigate("/login");
-          }) 
-        } else {
-          Swal.fire({
-            title: "회원가입 실패!",
-            icon: 'error'
-          }).then(()=> {
-          }) 
-        }
-      });
+      
+      if(res.data.success){
+        Swal.fire({
+          title: "회원가입 성공",
+          text: "회원가입에 성공하셨습니다! 로그인을 해주세요",
+          icon: "success"
+        })
+        .then(navigate("/login"));
+      }
+    }catch(e){
+      if(e.response.status === 409){
+        alert("중복된 이메일 혹은 아이디 입니다.");
+      }
+      else if(e.response.status === 400){
+        alert("유효성 검사에 통과하지 못했습니다.");
+      }
+      else if(e.response.status === 500){
+        alert("서버에 에러가 있습니다 서버가 켜져있는지 확인해주세요");
+      }
+      else if(e.response.status === 404){
+        alert("서버의 주소를 찾을 수 없습니다. URL이나 HTTP 요청을 수정하세요");
+      }
+    }
   };
 
-  const selectFile = (e) => {
+  const selectFile = async (e) => {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      try {
+        //업로드할 파일의 이름으로 Date 사용
+        const name = Date.now();
+        //s3 관련 설정
+        AWS.config.update({
+          region: REACT_APP_AWS_S3_BUCKET_REGION,
+          accessKeyId: REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID,
+          secretAccessKey: REACT_APP_AWS_S3_BUCKET_SECRET_ACCESS_KEY,
+          
+        });
+        //s3에 업로드할 객체 생성
+        const upload = new AWS.S3.ManagedUpload({
+          params: {
+            ACL: "public-read",
+            Bucket: REACT_APP_AWS_S3_BUCKET_NAME, //버킷 이름
+            Key: `upload/${name}.${file.type.split("/")[1]}`,
+            Body: file,
+            ContentType: file.type,
+          },
+        });
+        //이미지 업로드 url 반환
+        const IMG_URL = await upload.promise().then((res) => res.Location);
+        setForm({...form, profileImage : IMG_URL});
+        
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       //업로드 취소할 시
       setForm({...form, profileImage :  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
@@ -79,7 +134,7 @@ const SignUpPage = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setForm({...form, profileImage : reader.result});
+        //setForm({...form, profileImage : reader.result});
       }
     };
 
@@ -93,6 +148,7 @@ const SignUpPage = () => {
       <Container>
         <SignUpSection>
           <SignUpTitle>회원가입</SignUpTitle>
+          
 
           <Profile
             src={form.profileImage}
@@ -111,27 +167,39 @@ const SignUpPage = () => {
           />
 
           <SignUpContainer>
-            <SignUpText>이메일</SignUpText>
-
+          <SignUpText>이메일 {isEmailValid ? "" : 
+          <Tooltip title= "ex) aaaaaa@gmail.com" placement="right">
+                  <IconButton size="small"><InfoIcon /></IconButton></Tooltip>}
+          </SignUpText>
+            
+          
             <TextInputContainer>
               <Input
                 placeholder="이메일을 입력해주세요."
                 onChange={(e) => {
                   setForm({...form, email : e.target.value});
+                  (valid_email.test(e.target.value) ? setIsEmailValid(true) :  setIsEmailValid(false))
                 }}
-              />
-
+              /> 
+              
               {/* <EmailBtn>인증하기</EmailBtn> */}
             </TextInputContainer>
             
-            <SignUpText>아이디</SignUpText>
+            <SignUpText>아이디{isUserIdValid ? "" : 
+                  <Tooltip title= "한글 입력은 안됩니다!" placement="right">
+                  <IconButton size="small"><InfoIcon /></IconButton></Tooltip>}
+
+            </SignUpText>
+
             <TextInputContainer>
               <Input
                 placeholder="아이디를 입력해주세요."
                 onChange={(e) => {
                   setForm({...form, userId : e.target.value});
+                  (valid_userId.test(e.target.value) ? setIsUserIdValid(true) : setIsUserIdValid(false))
                 }}
               />
+              
             </TextInputContainer>
 
             <SignUpText>닉네임</SignUpText>
@@ -145,7 +213,10 @@ const SignUpPage = () => {
               />
             </TextInputContainer>
 
-            <SignUpText>비밀번호</SignUpText>
+            <SignUpText>비밀번호{isPasswordValid ? "" : 
+                  <Tooltip title= "영어, 숫자, 특수문자 포함하여 8글자 이상으로 만들어주세요!" placement="right">
+                  <IconButton size="small"><InfoIcon /></IconButton></Tooltip>}
+            </SignUpText>
 
             <TextInputContainer>
               <Input
@@ -153,12 +224,16 @@ const SignUpPage = () => {
                 type={isShowPw ? "text":"password"}
                 onChange={(e) => {
                   setForm({...form, password : e.target.value});
+                  (valid_password.test(e.target.value) ? setIsPasswordValid(true) :  setIsPasswordValid(false))
                 }}
+                
               />
                 <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
             </TextInputContainer>
 
-            <SignUpText>비밀번호 재입력</SignUpText>
+            <SignUpText>비밀번호 재입력{isConfirmPassword ? "" : 
+                  <Tooltip title= "비밀번호와 일치하게 작성해주세요!" placement="right">
+                  <IconButton size="small"><InfoIcon /></IconButton></Tooltip>}</SignUpText>
 
             <TextInputContainer>
               <Input
@@ -166,6 +241,7 @@ const SignUpPage = () => {
                 type={isShowPw? "text":"password"}
                 onChange={(e) => {
                   setForm({...form, repeatPassword : e.target.value});
+                  (form.password === e.target.value ? setIsConfirmPassword(true) : setIsConfirmPassword(false))
                 }}
               />
                 <Icon onClick={toggleHidePassword}> {isShowPw ? <FaEyeSlash /> : <FaEye />}</Icon>
@@ -174,8 +250,8 @@ const SignUpPage = () => {
           </SignUpContainer>
 
           <Line></Line>
-
-          <SignUpBtn onClick={signUpBtnClicked}>회원가입</SignUpBtn>
+           
+          {(isEmailValid && isUserIdValid && isPasswordValid && isConfirmPassword) ?<SignUpBtn onClick={signUpBtnClicked}>회원가입</SignUpBtn> : <SignUpBtn disabled>회원가입</SignUpBtn> }
         </SignUpSection>
       </Container>
     </>

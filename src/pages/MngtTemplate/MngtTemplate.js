@@ -9,10 +9,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import { CommonButton } from '../../common';
 import styled from "@emotion/styled";
 import Paging from '../../components/Paging/Paging';
+import { TokenAxios } from '../../lib/TokenAxios';
 
 const SmallButton = styled(CommonButton)`
     background-color:white;
@@ -37,17 +38,23 @@ const MngtTemplate = () => {
     const [lists, setLists] = useState([]);
     const [hideList, setHideList] = useState(Array(lists.length).fill(false));
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-    const itemsPerPage = 2; // 한 페이지에 보여질 아이템 수
+    const page =1;
+    const itemsPerPage = 5; // 한 페이지에 보여질 아이템 수
+    const userSeq = localStorage.getItem("userSeq");
     const navigate = useNavigate();
 
-    const apiGetCategories = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/api/templates`)
-          .then((response) => {
-            setLists(response.data.templates);
-          })
-          .catch((error) => {
-            console.error('API GET request error:', error);
-          });
+    const apiGetCategories = async() => {
+        try{
+            // const res =await TokenAxios.get(`/api/post?page=${page}&size=${itemsPerPage}`);
+            const res =await TokenAxios.get(`/api/template?page=${page}&size=${itemsPerPage}`);
+            setLists(res.data.result.data)
+            console.log(res);
+            
+            // setLists(res.data.result.data.content)
+        }
+        catch(e){
+            console.error('API GET request error:', e);
+        }
     };
 
     const setRowHideState = (idx, value) => {
@@ -67,15 +74,21 @@ const MngtTemplate = () => {
         // 컴포넌트가 마운트될 때 API 요청을 보냅니다.
         apiGetCategories();
     }, []);
-
+    const params = useParams();
     const HeaderTitle = "템플릿 관리";
     const HeaderButton = "템플릿 추가";
+
     const headerButtonClicked = () => {
-        navigate('/post', { state: { postSeq: undefined, templateSeq: 0 } });
+        navigate('/template', { state: { postSeq: undefined, templateSeq: 0 } });
     };
-    const editButtonClicked = (templateSeq) => {
-        navigate('/post', { state: { postSeq: undefined, templateSeq: templateSeq } });
+    const addButtonClicked = () => {
+        navigate(`/template/edit`, { state: { postSeq: undefined, templateSeq: 0 } });
     }
+
+    const editButtonClicked = (templateSeq) => {
+        navigate(`/template/edit/${templateSeq}`, { state: { postSeq: undefined, templateSeq: templateSeq } });
+    }
+    
 
     // 페이지네이션 관련
     const totalItems = lists.length; // 전체 아이템 수
@@ -89,7 +102,7 @@ const MngtTemplate = () => {
 
     return (
         <div>
-            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={headerButtonClicked} Container={
+            <ManageTopSideBar HeaderTitle={HeaderTitle} HeaderButton={HeaderButton} HeaderAction={addButtonClicked} Container={
                 <div>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
@@ -101,7 +114,8 @@ const MngtTemplate = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {displayedLists.map((row, idx) => {
+                                {console.log(lists)}
+                                {lists.map((row, idx) => {
                                     return (
                                     <TableRow
                                         key={row.templateSeq}
@@ -112,12 +126,12 @@ const MngtTemplate = () => {
                                             {idx + 1}
                                         </TableCell>
                                         <TableCell align="left" colSpan={1}>
-                                            {row.templateName}
+                                            {row.templateTitle}
                                         </TableCell>
                                         <TableCell align="right">
                                             {hideList[idx] && (
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <SmallButton onClick={ () => editButtonClicked(row.templateSeq)}>수정</SmallButton>
+                                                    <SmallButton onClick={ () => editButtonClicked(lists[idx].templateSeq)}>수정</SmallButton>
                                                     <SmallButton>삭제</SmallButton>
                                                 </div>
                                             )}

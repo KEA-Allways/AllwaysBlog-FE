@@ -33,9 +33,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, 
             <Typography gutterBottom variant="h5" component="div"  >
               {title}
             </Typography>
-            <Typography variant="body2" color="text.secondary" style={{textOverflow: 'eclipse'}}>
-              {subtitle}
-            </Typography>
+          
             
             </CardContent>
             <CardActions className={styles.cardDetail} sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>

@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import './Paging.css';
 import Pagination from "react-js-pagination";
+import { blogPostStore } from "../../store/store";
 
 const Paging = ({ activePage, totalItemsCount, onPageChange, itemsPerPage }) => {
   // Define itemsPerPage here
+
+  // const {} = blogPostStore(state => state);
 
   const handlePageChange = (page) => {
     onPageChange(page);

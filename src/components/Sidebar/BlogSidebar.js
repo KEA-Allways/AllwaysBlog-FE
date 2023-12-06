@@ -1,78 +1,84 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import {CommonButton } from "../../common"
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import sideBarStyles from '../Sidebar/Sidebar.module.css';
-import axios from "axios";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import { blogPostStore, blogStore, defaultBlogStore, themeStore } from "../../store/store";
+import { TokenAxios } from "../../lib/TokenAxios";
+import Swal from "sweetalert2";
+import { DefaultAxios } from "../../lib/DefaultAxios";
+import axios from "axios";
 
 
-function BlogSidebar({body}) {
-  const {themeId, listId} = useParams();
+function BlogSidebar({body, currentPage}) {
   
-
-  const backgroundImg1 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/cookBg.jpeg";
-  const backgroundImg2 = "https://allways-image.s3.ap-northeast-2.amazonaws.com/test-img/main-img/Sydney.jpg";
 
   const pathName = useLocation().pathname;
   const [menuStates, setMenuStates] = useState({});
-  const [newMenuItemName, setNewMenuItemName] = useState("");
+  const [newCategory, setNewCategory] = useState("");
   const [isAddingSubMenu, setIsAddingSubMenu] = useState(false);
   const [selectedParentMenu, setSelectedParentMenu] = useState(null);
   const [showInputBox, setShowInputBox] = useState(false);
-  const [profiles, setProfiles] = useState({});
-  const [themeAndLists, setThemeAndLists] = useState([]);
-  const [listSeq, setListSeq] = useState(4);
 
-  const apiGetProfile = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/blogs/user_id`)
-      .then((response) => {
-        setProfiles(response.data);
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-  };
 
-  const apiGetThemeAndList = () => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/themes/1`)
-      .then((response) => {
-        setThemeAndLists(response.data.themes);
-      })
-      .catch((error) => {
-        console.error('API GET request error:', error);
-      });
-  };
-
-  useEffect(() => {
-    apiGetProfile();
-    apiGetThemeAndList();
-  },[])
+  const {themes} = themeStore(state => state);
+  const {blogInfo} = defaultBlogStore(state => state);
+  const {blogMasterProfileImg} = blogStore(state => state);
+  // const userSeq = localStorage.getItem("userSeq");
+  const {userSeq, themeSeq, categorySeq} = useParams();
+  const {setBlogPosts} = blogPostStore(state => state)
 
   const initializeMenuStates = () => {
     const initialMenuStates = {};
-    themeAndLists.forEach((tal) => {
+    themes.forEach((tal) => {
       initialMenuStates[tal.themeName] = false;
     });
     setMenuStates(initialMenuStates);
   };
 
-  useState(() => {
-    initializeMenuStates();
-  },[])
-  
+  // 테마 이미지 가져오는 함수
+  const getThemeImg = async() => {
+    try{
+      const res = await axios(`${process.env.REACT_APP_GATEWAY_URL}/api/file/theme/${themeSeq}`);
+      console.log("사이드바: " + res.data.themeImg);
+      document.documentElement.style.setProperty('--background-image', `url(${res.data.themeImg})`);
+    }catch(e){
+      console.log("테마 가져오기 에러" + e);
+    }
+  }
+
+  // 카테고리 추가하는 함수
+  const postCategory = async () => {
+    try {
+      // 여러 비동기 작업을 동시에 처리하기 위해 Promise.all 사용
+      await Promise.all([
+        TokenAxios.post(`/api/theme/${themeSeq}/category`, {
+          categoryName: newCategory,
+        }),
+        new Promise(resolve => {
+          // Swal을 사용한 비동기 작업
+          Swal.fire({
+            title: "카테고리 생성중",
+            timer: 5000,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          }).then(() => {
+            resolve(); // Promise가 완료될 때까지 기다리게 함
+          });
+        }),
+      ]);
+      // 모든 비동기 작업이 완료된 후 실행되는 부분
+      setNewCategory(""); // 입력 상자를 비운다.
+      setShowInputBox(false); // 입력 상자를 숨긴다.
+      window.location.reload();
+    } catch (error) {
+      console.error("에러 발생!!", error);
+    }
+  };
+
   // 사용자가 테마를 눌렀을 때 테마별 카테고리가 보이게한다.
   const toggleMenu = (menu) => {
-
-    //백그라운드 이미지 설정 
-    if(menu ==="소소한 요리 기록") {
-      document.documentElement.style.setProperty('--background-image', `url(${backgroundImg1})`);
-    } else if(menu === "여행 다이어리"){
-      document.documentElement.style.setProperty('--background-image', `url(${backgroundImg2})`);
-    }
-    
-
 
     const updatedMenuStates = { ...menuStates };
     for (const key in updatedMenuStates) {
@@ -80,34 +86,9 @@ function BlogSidebar({body}) {
         updatedMenuStates[key] = false;
       }
     }
-
     updatedMenuStates[menu] = !menuStates[menu];
     setMenuStates(updatedMenuStates);
     setShowInputBox(false);
-  };
-
-  // 버튼을 눌렀을 때 하위 메뉴를 추가하게 하는 함수
-  const handleAddMenuItem = () => {
-    if (isAddingSubMenu) {
-      // 하위 메뉴 추가 중
-      const updatedMenuData = [...themeAndLists];
-      setListSeq(listSeq+1)
-      const newSubMenu = {
-        listSeq : listSeq, 
-        listName: newMenuItemName,
-        // listOrder : 4, // 이건 드래그해서 바꿔지게끔.
-        // to: `/${selectedParentMenu}/${newMenuItemName}`,
-      };
-      updatedMenuData.forEach((theme) => {
-        if (theme.themeName === selectedParentMenu) {
-          theme.lists.push(newSubMenu);
-        }
-      });
-      
-      setThemeAndLists(updatedMenuData); // 업데이트된 메뉴 데이터를 상태로 설정
-      setNewMenuItemName("");
-      setShowInputBox(false); // 입력 상자를 숨깁니다.
-    } 
   };
   
   // 부모의 아래에 하위 메뉴 추가하는 함수
@@ -117,9 +98,30 @@ function BlogSidebar({body}) {
     setShowInputBox(true); // Show the input box
   };
 
+  // 카테고리 클릭됐을 때 데이터 가져오는 함수
+  const handleCategoryClicked = async (categorySeq) => {
+      const res = await DefaultAxios.get(`/api/post/user/${userSeq}/category/${categorySeq}?page=${currentPage}&size=10`)
+      const data = res.data.result.data;
+      setBlogPosts(data.content);
+  }
+
+  useState(() => {
+    initializeMenuStates();
+  },[])
+
+  // URL의 themeSeq가 변경되었을 때 실행
+  useEffect(() => {
+    getThemeImg();
+  },[themeSeq])
+
+  // 테마이름이 변경되었을 때 실행
+  useEffect(() => {
+
+  }, [])
 
   return (
     <>
+      {/* {console.log(process.env.REACT_APP_API_URL)} */}
       <div className={styles.App}>
         {/* 사이드바 컨테이너 박스 */}
         <div className={styles.sidebarContainer}>
@@ -127,14 +129,14 @@ function BlogSidebar({body}) {
           <div className={styles.sidebar}>
               {/* 프로필 이미지 */}
               <Profile
-                src={profiles.profileImg}
+                src={blogMasterProfileImg}
               />
-              
+              {/* {console.log(menuStates)} */}
               {/* 블로그 소개, 이메일 */}
               <ProfileBox>
-                <p className={styles.blogName}>{profiles.nickname}의 {profiles.blogName}</p>
-                <small>{profiles.description}</small><br/>
-                <Link to="/mngt" className={styles.emailName}> {profiles.email}@allways.com</Link> 
+                <p className={styles.blogName}>{blogInfo.blogName}</p>
+                <small>{blogInfo.description}</small><br/>
+                <Link to="/mngt" className={styles.emailName}> {blogInfo.email}</Link> 
               </ProfileBox>
               
               {/* 테마 1 */} 
@@ -142,12 +144,12 @@ function BlogSidebar({body}) {
                 <div className={styles.group}>
                   {/* 리스트 시작 */}
                   <ul style={{ width: "100%", height: "auto" }}>
-                    {themeAndLists.map((tal) => (
+                    {themes.map((tal) => (
                       // 테마
                       <li key={tal.themeSeq} style={{width : "100%", marginLeft:"20px"}}>
                         <Link
-                          to={`/blogs/themes/${tal.themeSeq}`}
-                          className={`/blogs/themes/${tal.themeSeq}` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
+                          to={`/blog/${userSeq}/theme/${tal.themeSeq}`}
+                          className={`/blog/${userSeq}/theme/${tal.themeSeq}` === pathName ? `${styles.active} ${styles.themeText}` : styles.themeText}
                           onClick={() => toggleMenu(tal.themeName)}
                         >
                           {tal.themeName}
@@ -168,14 +170,15 @@ function BlogSidebar({body}) {
                   
 
 
-                            {tal.lists.map((list) => (
+                            {tal.categories.map((category) => (
                               // 카테고리
-                              <li key={list.listSeq} style={{marginBottom : 5}}>
+                              <li key={category.categorySeq} style={{marginBottom : 5}}>
                                 <Link
-                                  to={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}`}
-                                  className={`/blogs/themes/${tal.themeSeq}/lists/${list.listSeq}` === pathName ? `${styles.categoryActive} ${styles.categoryText}` : styles.categoryText}
+                                  onClick={() => handleCategoryClicked(category.categorySeq)}
+                                  to={`/blog/${userSeq}/theme/${tal.themeSeq}/category/${category.categorySeq}`}
+                                  className={`/blog/${userSeq}/theme/${tal.themeSeq}/category/${category.categorySeq}` === pathName ? `${styles.categoryActive} ${styles.categoryText}` : styles.categoryText}
                                 >
-                                  {list.listName}
+                                  {category.categoryName}
                                 </Link>
                               </li>
                             ))}
@@ -186,23 +189,17 @@ function BlogSidebar({body}) {
                                   <Input
                                   type="text"
                                   placeholder="하위 메뉴 이름"
-                                  value={newMenuItemName}
+                                  value={newCategory}
                                   autoFocus
-                                  onChange={(e) => setNewMenuItemName(e.target.value)}
+                                  onChange={(e) => setNewCategory(e.target.value)}
                                   />
                                 {/* 입력확인버튼 */}
-                                  <SaveIcon onClick={handleAddMenuItem}></SaveIcon>
+                                  <SaveIcon onClick={postCategory}></SaveIcon>
                                 </form>
                                 
                               ) : (
                                 <></>
-                                
                               )}
-
-                              
-
-
-                           
                           </ul>
                         )}
                       </li>
@@ -213,6 +210,9 @@ function BlogSidebar({body}) {
           </div> {/*사이드바 끝 */}
           
         </div> {/*사이드바 컨테이너 끝 */}
+
+
+
         {/* 바디 컨테이너 시작 */}
         <div className={styles.bodyContainer}>
           {body}

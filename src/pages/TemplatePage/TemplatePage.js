@@ -1,12 +1,10 @@
 import React from 'react';
 import { useLocation } from "react-router-dom";
-import PostEditor from "../../components/PostEditor/PostEditor"
 import { Row, Col } from 'react-bootstrap';
 import Topbar from '../../components/Topbar/Topbar';
+import TemplateEditor from '../../components/TemplateEditor/TemplateEditor';
 
-const PostPage = () => {
-  const location = useLocation();
-  const postSeq = location.state.postSeq;
+const TemplatePage = () => {
 
     return (
       <div>
@@ -15,7 +13,7 @@ const PostPage = () => {
           <Col md={1}></Col>
           <Col md={10}>
 
-            <PostEditor postSeq={postSeq}/>
+            <TemplateEditor/>
           </Col>
           <Col md={1}></Col>
         </Row>
@@ -24,4 +22,4 @@ const PostPage = () => {
     );
   };
 
-export default PostPage;
+export default TemplatePage;

@@ -6,31 +6,51 @@ import classnames from "classnames"
 import styles from "./Topbar.module.css"
 import styled from "@emotion/styled";
 import axios from "axios";
-import { loginStore }  from '../../store/store'
+import { blogStore, loginStore, themeStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
+import { DefaultAxios } from "../../lib/DefaultAxios";
 
 function Topbar() {
-    const image = <img src='/img/usericon.png' width="50px" height="50px" />
+    const profileImg = localStorage.getItem('profileImg');
+    const userSeq = localStorage.getItem("userSeq");
+    const userName = localStorage.getItem("userName");
+    const blogName = localStorage.getItem("blogName");
+    const params = useParams();
 
-    const {isLogin, hasBlog, username} = loginStore(state => state);
+
+    const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
+
+    
+    
+    const {blogMasterName} = blogStore(state => state);
+    const [themeName, setThemeName] = useState("");
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
     const isMngtPage = location.pathname.startsWith("/mngt");
-    const isBlogPage = location.pathname.startsWith("/blogs");
+    const isBlogPage = location.pathname.startsWith("/blog");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
     const navigate = useNavigate();
-    const [themes, setThemes] = useState(["소소한 일상 기록", "여행 다이어리"]);
-    let  params  = useParams();
+    
+
+    
+    const changeThemeName = async () => {
+        try{
+            const res = await DefaultAxios.get(`/api/theme/one/${params.themeSeq}`)
+            setThemeName(res.data.result.data);
+        }catch(e){
+            console.log("탑바에서 나는 오류인데, 잡기 귀찮다")
+        }
+    }
 
     const handleButtonClick = () => {
         navigate("/login");
     }
 
     const handleBlogButtonClicked = () => {
-        if(!hasBlog){
+        if(!blogName){
             Swal.fire({
                 title: "블로그 생성페이지로 이동합니다!",
                 icon: 'info'
@@ -38,57 +58,59 @@ function Topbar() {
                 navigate("/blog-creation");
               })
         }else{
-            navigate("/blogs");
+            navigate(`/blog/${userSeq}`);
         }  
     }
 
     const logout = () => {
-        axios({
-          url: "/logout",
-          method: "POST",
-          withCredentials: true,
-        }).then((result) => {
-          if (result.status === 200) {
-            window.open("/", "_self");
-          }
-        });
-      };
+        localStorage.clear();
+        window.open("/", "_self");
+    };
 
+    useEffect(() => {
+        changeThemeName();
+    }, [params.themeSeq])
+
+      
     return (
         <div>
             <Navbar className={classnames('justify-content-between', styles.topbar)}>
-                {console.log(params.themeId)}
                 {/* 로고 자리 */}
                 <div className={styles.leftSideContainer}>
                     <Navbar.Brand href='/' className="d-flex justify-content-center w-100">
                         <img src="/img/logo.png" className={styles.topbarLogo}/>
                     </Navbar.Brand>
 
-                    {/* 블로그 자리 */}
-                    {isMngtPage && hasBlog && (
-                        <Navbar.Brand href='/blos' className={styles.center}>
-                            {username}의 우당탕탕 블로그
+                    {/* {console.log(themes[0].themeName)} */}
+                    {/* 관리 페이지에 블로그이름 있을 경우 */}
+                    {isMngtPage && blogName && (
+                        <Navbar.Brand href='/blog' className={styles.center}>
+                            {userName} 의 {blogName}
                         </Navbar.Brand>
                     )}
-
-                    {isMngtPage && (!hasBlog) && (
+                    
+                    {/* 관리 페이지에 블로그이름 없을 경우 */}
+                    {isMngtPage && (!blogName) && (
                        <Navbar.Brand className={styles.center}>
-                            {username}님, 블로그가 없습니다.
+                            {userName}님, 블로그가 없습니다.
                        </Navbar.Brand>
                     )}
 
+                    {/* 블로그 페이지에 테마이름 */}
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
-                            {username}의  { params.themeId !== undefined ? themes[params.themeId-1] : themes[0]}
+                            {blogMasterName}의 {themeName}
                         </Navbar.Brand>
                     )}
 
                 
                 </div>
                 {/* 로그인, 드롭다운 자리 */}
+                {/* 로그인페이지와 회원가입 페이지에는 로그인쪽 버튼 X */}
                 {!(isLoginPage) && !(isSignUpPage) && (
                     <div className={styles.rightSideContainer}>
-                    {isLogin ? (
+                        {console.log(userName)}
+                    {userName ? (
                         <NavDropdown
                             title={image}
                             id="basic-nav-dropdown" 
@@ -96,9 +118,7 @@ function Topbar() {
                             align="end"
                             className={styles.rightSideContainer} >
                                 <NavDropdown.Item 
-                                    // href={hasBlog ? "/blogs" : "/blog-creation"}                             
                                     onClick={handleBlogButtonClicked}
-                                    // onClick={() => { if(!hasBlog) Swal.fire({title : "블로그가 없어 생성 페이지로 이동합니다."})}} 
                                     style={{width: "100px", marginRight: "50px"}}>내 블로그</NavDropdown.Item>
                                 <NavDropdown.Item href="/mngt" style={{width: "100px"}}>계정 설정</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} style={{width: "100px"}}>로그아웃</NavDropdown.Item>
