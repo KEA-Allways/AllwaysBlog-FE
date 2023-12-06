@@ -13,6 +13,7 @@ import '../../index.css';
 import { ChromePicker } from 'react-color';
 import { Preview } from "@mui/icons-material";
 import { TokenAxios } from "../../lib/TokenAxios";
+import { blogPostStore } from "../../store/store";
 
 
 
@@ -81,6 +82,8 @@ const ThumbnailModal = ( props ) => {
   const bootstrapModalRef = useRef(null);
 
   const [s3ImageUrl, setS3ImageUrl] = useState('');
+  const {categorySeq} = blogPostStore(state =>state);
+  const userSeq =localStorage.getItem("userSeq")
 
  
 
@@ -254,42 +257,36 @@ const ThumbnailModal = ( props ) => {
     //저장버튼 클릭 시
   const handleExport = async () => {
         try{
-      if(Preview.current){
-      //게시글 저장
-      //로그인에서 jwt를 header 에 넣기 
-        const response = await TokenAxios.post("/api/post",{
-            postTitle: postTitle,
-            postContent: postContent,
-            imageUrl: s3ImageUrl,
-            categorySeq : 1
-        })
-        if (response.ok){
-          const data = await response.json();
-          let resultSeq = 0;
-          console.log(data);
-          console.log(data.result.data.postSeq > 0)
-          if (data.result.data.postSeq > 0){
-            resultSeq = data.result.data.postSeq;
-            console.log(resultSeq);
+              
+            //게시글 저장
+            //로그인에서 jwt를 header 에 넣기 
+              const response = await TokenAxios.post("/api/post",{
+                  postTitle: postTitle,
+                  postContent: postContent,
+                  imageUrl: backgroundImage,
+                  categorySeq : categorySeq,
+              })
+              console.log("response data --------------------------------");
+              
+              console.log(response);
+              if (response.status===201){
 
-            Swal.fire({
-              title: "게시글을 저장 중입니다.",
-              timer: 3000,
-              didOpen: () => {
-                Swal.showLoading()
-              }
-            }).then(() => {
-              console.log(`/post/${resultSeq}`)
-              navigate(`/post/${resultSeq}`);
-            });
-            
-          } else {
-            console.error('Error:', data.message);
-            alert("게시글을 저장하는데 오류가 발생했습니다.");
-          }
+                  Swal.fire({
+                    title: "게시글을 저장 중입니다.",
+                    timer: 3000,
+                    didOpen: () => {
+                      Swal.showLoading()
+                    }
+                  }).then(() => {
+                    navigate(`/blog/${userSeq}`);
+                  });
+                  
+                } else {
+                  console.error('Error:', response.message);
+                  alert("게시글을 저장하는데 오류가 발생했습니다.");
+                }
 
-        }     
-      }
+              
     } catch (error){
       console.error('Error:', error);
     }

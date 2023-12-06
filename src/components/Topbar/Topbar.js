@@ -10,19 +10,22 @@ import { blogStore, loginStore, themeStore }  from '../../store/store'
 import { useLocation, useParams, useNavigate } from "react-router";
 import { CommonButton } from "../../common";
 import Swal from "sweetalert2";
+import { DefaultAxios } from "../../lib/DefaultAxios";
 
 function Topbar() {
     const profileImg = localStorage.getItem('profileImg');
     const userSeq = localStorage.getItem("userSeq");
     const userName = localStorage.getItem("userName");
     const blogName = localStorage.getItem("blogName");
+    const params = useParams();
 
 
     const image = <img src={profileImg} alt="Profile" width="50px" height="50px" />;
 
     
-    const {themes} = themeStore(state => state);
+    
     const {blogMasterName} = blogStore(state => state);
+    const [themeName, setThemeName] = useState("");
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
     const isMngtPage = location.pathname.startsWith("/mngt");
@@ -33,7 +36,14 @@ function Topbar() {
     
 
     
-    
+    const changeThemeName = async () => {
+        try{
+            const res = await DefaultAxios.get(`/api/theme/one/${params.themeSeq}`)
+            setThemeName(res.data.result.data);
+        }catch(e){
+            console.log("탑바에서 나는 오류인데, 잡기 귀찮다")
+        }
+    }
 
     const handleButtonClick = () => {
         navigate("/login");
@@ -56,6 +66,10 @@ function Topbar() {
         localStorage.clear();
         window.open("/", "_self");
     };
+
+    useEffect(() => {
+        changeThemeName();
+    }, [params.themeSeq])
 
       
     return (
@@ -85,7 +99,7 @@ function Topbar() {
                     {/* 블로그 페이지에 테마이름 */}
                     {isBlogPage && (
                         <Navbar.Brand className={styles.center}>
-                            {blogMasterName}의 {themes.length >0 ? themes[0].themeName : ""}
+                            {blogMasterName}의 {themeName}
                         </Navbar.Brand>
                     )}
 
