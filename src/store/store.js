@@ -11,6 +11,7 @@ export const loginStore = create(devtools(set =>({
     blogName : "",
     blogDescription : "",
     blogCreation:"",
+    
 
     // 각각의 상태가 변경될 때 로컬 스토리지 업데이트
     setUserSeq: (userSeq) => {
@@ -94,10 +95,12 @@ export const blogPostStore = create(devtools(set => ({
     totalElements : 0,
     totalPages : 0,
     currentPage : 1,
+    categorySeq:0,
 
     setBlogPosts : (blogPosts) => set({blogPosts : blogPosts}),
     setTotalElements : (totalElements) => set({totalElements : totalElements}),
     setTotalPages : (totalPages) => set({totalPages : totalPages}),
     setCurrentPage : (currentPages) => set({currentPages : currentPages}),
+    setCategorySeq : (categorySeq ) => set({categorySeq:categorySeq})
 })))
     

@@ -14,6 +14,7 @@ import AWS from "aws-sdk";
 import Swal from "sweetalert2";
 import { DefaultAxios } from "../../lib/DefaultAxios.js";
 import { TokenAxios } from "../../lib/TokenAxios.js"
+import { blogPostStore } from "../../store/store.js";
 
 const REACT_APP_AWS_S3_BUCKET_REGION = process.env.REACT_APP_AWS_S3_BUCKET_REGION;
 const REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID = process.env.REACT_APP_AWS_S3_BUCKET_ACCESS_KEY_ID;
@@ -61,9 +62,12 @@ const PostEditor = () => {
 
   const [templateShowState, setTemplateShowState] = useState(true);
 
+  // const [categorySeq ,setCategorySeq] =useState(0);
+
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
 
+  const {setCategorySeq} = blogPostStore(state=>state)
 
   //modal 오픈 시 보낼 데이터
   const modalData = {
@@ -188,6 +192,7 @@ const PostEditor = () => {
       const data = res.data.result.data;
       console.log(data);
       setCategoryList(data);
+      
       if (data.length > 0){
         setThemeName(data[0].theme.themeName)
       }
@@ -218,6 +223,15 @@ const PostEditor = () => {
     setSelectedTemplateSeq(value);
     setSelectedTemplate(value);
   }
+
+  const setCurrentCategory =  (value)=> {
+    const selectedCategory = categoryList.find(c=>c.categoryName===value)
+    setCategorySeq(selectedCategory.categorySeq)
+    setSelectedCategory( value)
+    // console.log(categorySeq);
+    
+  }
+
 
 
   // 게시글 저장(수정 시 썸네일 모달 없이 바로 저장) 함수
@@ -278,13 +292,15 @@ const PostEditor = () => {
           label="게시글 카테고리"
           style={{ width: '20%' }}
           value={selectedCategory}
-          onChange={(event) => setSelectedCategory(event.target.value)}>
+          onChange={(event) => setCurrentCategory(event.target.value)}>
             {categoryList.map((option) => (
               <MenuItem key={option.categorySeq} value={option.categoryName}>
                 {option.categoryName}
               </MenuItem>
             ))}
         </TextField>
+
+        {/* setSelectedCategory */}
 
         <TextField
           id="post-template"
