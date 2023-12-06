@@ -17,6 +17,11 @@ function Topbar() {
     const userSeq = localStorage.getItem("userSeq");
     const userName = localStorage.getItem("userName");
     const blogName = localStorage.getItem("blogName");
+
+    let blogCreation =localStorage.getItem("blogCreation")
+    if (blogCreation ==='false') {
+        blogCreation = false;
+    }
     const params = useParams();
 
 
@@ -29,9 +34,10 @@ function Topbar() {
     // const { themeNames ,addTheme } = themeListStore(state => state);
     const location = useLocation();
     const isMngtPage = location.pathname.startsWith("/mngt");
-    const isBlogPage = location.pathname.startsWith("/blog");
+    const isBlogPage = location.pathname.startsWith("/blog/");
     const isLoginPage = location.pathname.startsWith("/login");
     const isSignUpPage = location.pathname.startsWith("/signup");
+    const isBlogCreationPage = location.pathname.startsWith("/blog-creation")
     const navigate = useNavigate();
     
 
@@ -50,7 +56,7 @@ function Topbar() {
     }
 
     const handleBlogButtonClicked = () => {
-        if(!blogName){
+        if(!blogCreation){
             Swal.fire({
                 title: "블로그 생성페이지로 이동합니다!",
                 icon: 'info'
@@ -101,6 +107,10 @@ function Topbar() {
                         <Navbar.Brand className={styles.center}>
                             {blogMasterName}의 {themeName}
                         </Navbar.Brand>
+                    )}
+                    {isBlogCreationPage && (
+                        <Navbar.Brand className={styles.center}>
+                    </Navbar.Brand>
                     )}
 
                 
