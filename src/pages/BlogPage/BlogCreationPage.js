@@ -7,31 +7,21 @@ import Swal from "sweetalert2";
 import Topbar from "../../components/Topbar/Topbar";
 import ThemeModal from "../../components/ThemeModal/ThemeModal";
 import { TokenAxios } from "../../lib/TokenAxios";
-import { blogStore } from "../../store/store";
+import { blogStore, loginStore } from "../../store/store";
 
 const BlogCreationPage = () => {
   const navigate = useNavigate();
 
   const [response, setResponse] = useState("1");
-  const {setBlogName, setBlogDescription} = blogStore(state => state);
+  const {setBlogName, setBlogDescription} = loginStore(state => state);
   const [showModal, setShowModal] = useState(false);
-  const [profileImg, setProfileImg] = useState("");
-
+  const profileImg = localStorage.getItem("profileImg")
   const [blogSeq, setBlogSeq] = useState(0);
+  const blogCreation = localStorage.getItem("blogCreation");
 
-  const apiGetProfileImg = async () => {
-    try{
-      const res = await TokenAxios.get(`/api/users`)
-      setProfileImg(res.data.profileImg);
-    }catch(e){
-      console.log("프로필 이미지를 가져올 수 없습니다.", e);
-    };
-  }
+  
 
-
-  useEffect(() => {
-    apiGetProfileImg();
-  }, []);
+  
   
   const createBtnClicked = () => {
     setShowModal(true);

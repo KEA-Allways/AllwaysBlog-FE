@@ -114,6 +114,11 @@ function BlogSidebar({body, currentPage}) {
     getThemeImg();
   },[themeSeq])
 
+  // 테마이름이 변경되었을 때 실행
+  useEffect(() => {
+
+  }, [])
+
   return (
     <>
       {/* {console.log(process.env.REACT_APP_API_URL)} */}

@@ -66,8 +66,9 @@ const ThemeModal = ({ showModal, onClose} ) => {
   const [s3ImageUrl, setS3ImageUrl] = useState('');
   const [themeName, setThemeName] = useState('');
   const blogName =localStorage.getItem("blogName")
-  const {blogDescription, createBlog, setCreateBlog,setBlogCreation} = blogStore(state => state);
+  const blogDescription = localStorage.getItem("blogDescription");
   const blogCreation = localStorage.getItem("blogCreation");
+
 
 
   const previewRef = useRef(null);
@@ -252,12 +253,14 @@ const ThemeModal = ({ showModal, onClose} ) => {
     try {
       if (previewRef.current) {
         // Check if the blog already exists
-        if (!blogCreation) {
+        
+        if (!!blogCreation) {
           await TokenAxios.post("/api/blog", {
-            blogName,
-            blogDescription,
+            blogName : blogName,
+            blogDescription : blogDescription,
           });
-          setBlogCreation(true);
+          console.log("블로그 생성 실행 됨");
+          localStorage.setItem("blogCreation", true);
         }
   
         // Now proceed to create the theme
