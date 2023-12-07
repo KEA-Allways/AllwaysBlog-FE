@@ -15,7 +15,7 @@ const BlogCreationPage = () => {
   const [response, setResponse] = useState("1");
   const {setBlogName, setBlogDescription} = loginStore(state => state);
   const [showModal, setShowModal] = useState(false);
-  const profileImg = loginStore.getItem("profileImg");
+  const profileImg = localStorage.getItem("profileImg");
  
   
   const createBtnClicked = () => {
