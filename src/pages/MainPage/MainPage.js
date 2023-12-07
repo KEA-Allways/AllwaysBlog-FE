@@ -16,7 +16,7 @@ const MainPage = () => {
     const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription,setBlogCreation} = loginStore(state => state);
     const blogName = localStorage.getItem("blogName")
     const {setTenPosts} = mainPostStore(state => state);
-    const blogCreation = blogName ? true : false
+    // const blogCreation = blogName ? true : false
 
     // accessToken 가지고 userInfo 가져오는 코드
     const getUserInfo = async() => {
@@ -62,11 +62,13 @@ const MainPage = () => {
             if(res.data.success){
                 setBlogName(data.blogName);
                 setBlogDescription(data.blogDescription);
+                setBlogCreation(true)
             }
         }catch (e) {
             if (e.response && e.response.status === 500) {
                 setBlogName("");
                 setBlogDescription("")
+                setBlogCreation(false)
                 console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
             } else {
                 // Handle other types of errors or log them
