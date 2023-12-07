@@ -16,6 +16,7 @@ const MainPage = () => {
     const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription, setBlogCreation} = loginStore(state => state);
     const blogName = localStorage.getItem("blogName")
     const {setTenPosts} = mainPostStore(state => state);
+    // const blogCreation = blogName ? true : false
 
     // accessToken 가지고 userInfo 가져오는 코드
     const getUserInfo = async() => {
@@ -82,7 +83,8 @@ const MainPage = () => {
         try{
             const res = await DefaultAxios.get("/api/post/main");
             setTenPosts(res.data.result.data);
-            console.log(res.data.result.data);
+            // console.log(res.data.result.data);
+            console.log(blogCreation);
         }catch(e){
             console.log(e);
             console.log("블로그가 2개가 있을 가능성이 있습니다.")

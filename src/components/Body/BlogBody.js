@@ -35,6 +35,8 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
 
   const handlePageChange = async (page) => {
     setCurrentPage(page);
+    
+    
     try{
       const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=${currentPage}&size=10`)
       const data = res.data.result.data;

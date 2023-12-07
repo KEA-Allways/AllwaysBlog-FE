@@ -109,6 +109,16 @@ function Topbar() {
                             {blogMasterName}의 {themeName}
                         </Navbar.Brand>
                     )}
+                    {isBlogCreationPage && (
+                        <Navbar.Brand className={styles.center}>
+                    </Navbar.Brand>
+                    )}
+
+                    {isBlogCreationPage && (
+                        <Navbar.Brand className={styles.center}>
+                            
+                        </Navbar.Brand>
+                    )}
 
                     {isBlogCreationPage && (
                         <Navbar.Brand className={styles.center}>
@@ -122,7 +132,7 @@ function Topbar() {
                 {/* 로그인페이지와 회원가입 페이지에는 로그인쪽 버튼 X */}
                 {!(isLoginPage) && !(isSignUpPage) && (
                     <div className={styles.rightSideContainer}>
-                        {console.log(userName)}
+                        {console.log("텁버" +userName)}
                     {userName ? (
                         <NavDropdown
                             title={image}
