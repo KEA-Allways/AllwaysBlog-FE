@@ -17,7 +17,11 @@ function Topbar() {
     const userSeq = localStorage.getItem("userSeq");
     const userName = localStorage.getItem("userName");
     const blogName = localStorage.getItem("blogName");
-    const blogCreation = localStorage.getItem("blogCreation");
+
+    let blogCreation =localStorage.getItem("blogCreation")
+    if (blogCreation ==='false') {
+        blogCreation = false;
+    }
     const params = useParams();
 
 
@@ -103,6 +107,10 @@ function Topbar() {
                         <Navbar.Brand className={styles.center}>
                             {blogMasterName}의 {themeName}
                         </Navbar.Brand>
+                    )}
+                    {isBlogCreationPage && (
+                        <Navbar.Brand className={styles.center}>
+                    </Navbar.Brand>
                     )}
 
                     {isBlogCreationPage && (
