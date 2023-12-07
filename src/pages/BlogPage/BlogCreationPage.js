@@ -15,13 +15,10 @@ const BlogCreationPage = () => {
   const [response, setResponse] = useState("1");
   const {setBlogName, setBlogDescription} = loginStore(state => state);
   const [showModal, setShowModal] = useState(false);
-  const profileImg = localStorage.getItem("profileImg")
-  const [blogSeq, setBlogSeq] = useState(0);
-  const blogCreation = localStorage.getItem("blogCreation");
+  const profileImg = localStorage.getItem("profileImg");
 
-  
 
-  
+
   
   const createBtnClicked = () => {
     setShowModal(true);

@@ -41,6 +41,11 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
       const res = await DefaultAxios.get(`/api/post/user/${params.userSeq}/category/${params.categorySeq}?page=${currentPage}&size=10`)
       const data = res.data.result.data;
       setBlogPosts(data.content);
+      console.log("params")
+      console.log(params.userSeq)
+      console.log(params.categorySeq)
+      console.log("blog posts 출력 ")
+      console.log(blogPosts)
     }catch(e){
       console.log("카테고리 별 포스트 가져오기 에러" + e);
     }
@@ -81,7 +86,7 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
             <Row xs={1} md={3} className="g-6">
             {blogPosts.map((blg, index) => (
               <Col key={index}>
-                <Link to={`/post/${blg.postSeq}`}>
+                <Link to={`/theme/${params.themeSeq}/post/${blg.postSeq}`}>
                 <CardStyle
                   imgUrl={blg.thumbImg}
                   imgHeight="180px"
@@ -97,7 +102,7 @@ const BlogBody = ({currentPage, setCurrentPage}) => {
             ))}
           </Row>
           )}
-          {console.log(params)}
+          {console.log(blogPosts)}
           {showContent === "lineList" && (
             <Row lg="1" xl="1" className="g-6">
             {blogPosts.map((blg, index) => (

@@ -17,9 +17,8 @@ function Topbar() {
     const userSeq = localStorage.getItem("userSeq");
     const userName = localStorage.getItem("userName");
     const blogName = localStorage.getItem("blogName");
-
-    let blogCreation =localStorage.getItem("blogCreation")
-    if (blogCreation ==='false') {
+    let blogCreation = (localStorage.getItem("blogCreation"))
+    if(blogCreation === "false"){
         blogCreation = false;
     }
     const params = useParams();
@@ -40,6 +39,8 @@ function Topbar() {
     const isBlogCreationPage = location.pathname.startsWith("/blog-creation");
     const navigate = useNavigate();
     
+    // "null" ! ! false
+    // "dawsd" ! ! true
 
     
     const changeThemeName = async () => {
@@ -116,6 +117,12 @@ function Topbar() {
                     {isBlogCreationPage && (
                         <Navbar.Brand className={styles.center}>
                             
+                        </Navbar.Brand>
+                    )}
+
+                    {isBlogCreationPage && (
+                        <Navbar.Brand className={styles.center}>
+                        
                         </Navbar.Brand>
                     )}
 

@@ -60,6 +60,7 @@ function App() {
             <Route path="/mngt/template" element={<MngtTemplate />}/>
             <Route path="/post/:postSeq" element={<DetailPage />} />
             <Route path="/blog/:userSeq/post/:postSeq" element={<DetailPage />} />
+            <Route path="/theme/:themeSeq/post/:postSeq" element={<DetailPage />} />
           </ApmRoutes>
         </BrowserRouter>
       </div>

@@ -95,3 +95,4 @@ jobs:
 #             --recursive \
 #             --region ap-northeast-2 \
 #             dist s3://www.linkhub.life
+#             dist s3://www.linkhub.life

@@ -67,7 +67,7 @@ const PostEditor = () => {
   // 모달 상태 추가
   const [showModal, setShowModal] = useState(false);
 
-  const {setCategorySeq} = blogPostStore(state=>state)
+  const {setCategorySeq,categorySeq} = blogPostStore(state=>state)
 
   //modal 오픈 시 보낼 데이터
   const modalData = {
@@ -152,7 +152,8 @@ const PostEditor = () => {
       setTemplateShowState(false);
       
     } 
-  }, [postSeq, themeSeq, templateSeq]);
+    console.log(categorySeq);
+  }, [postSeq, themeSeq, templateSeq,categorySeq]);
 
   useEffect(() => {
     if (categoryList.length > 0) {
@@ -228,7 +229,7 @@ const PostEditor = () => {
     const selectedCategory = categoryList.find(c=>c.categoryName===value)
     setCategorySeq(selectedCategory.categorySeq)
     setSelectedCategory( value)
-    // console.log(categorySeq);
+    console.log(categorySeq);
     
   }
 

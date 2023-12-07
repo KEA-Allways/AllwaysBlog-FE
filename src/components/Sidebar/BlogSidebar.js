@@ -100,9 +100,14 @@ function BlogSidebar({body, currentPage}) {
 
   // 카테고리 클릭됐을 때 데이터 가져오는 함수
   const handleCategoryClicked = async (categorySeq) => {
+    try{
       const res = await DefaultAxios.get(`/api/post/user/${userSeq}/category/${categorySeq}?page=${currentPage}&size=10`)
       const data = res.data.result.data;
       setBlogPosts(data.content);
+    }catch(e){
+      console.log(e);
+    }
+      
   }
 
   useState(() => {
@@ -112,12 +117,9 @@ function BlogSidebar({body, currentPage}) {
   // URL의 themeSeq가 변경되었을 때 실행
   useEffect(() => {
     getThemeImg();
+    setBlogPosts([]);
   },[themeSeq])
 
-  // 테마이름이 변경되었을 때 실행
-  useEffect(() => {
-
-  }, [])
 
   return (
     <>

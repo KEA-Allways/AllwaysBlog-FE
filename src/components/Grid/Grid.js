@@ -1,11 +1,13 @@
 import {Col, Row} from 'react-bootstrap';
 import CardStyle from '../PostCard/CardStyle';
-import { Link } from 'react-router-dom'; 
+import { Link, useParams } from 'react-router-dom'; 
 import { mainPostStore } from '../../store/store';
 
 const Grid = () => {
   // store에 저장되어 있는 메인포스트들 가지고 오기.
   const { tenPosts } = mainPostStore(state => state);
+  const params = useParams();
+  
 
   // 화면에 뿌려주기
   return (
