@@ -257,7 +257,7 @@ const ThumbnailModal = ( props ) => {
     //저장버튼 클릭 시
   const handleExport = async () => {
         try{
-              
+              console.log(categorySeq);
             //게시글 저장
             //로그인에서 jwt를 header 에 넣기 
               const response = await TokenAxios.post("/api/post",{

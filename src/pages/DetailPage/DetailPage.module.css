@@ -1,3 +1,7 @@
+:root {
+  --background-image: url("https://unv-gcu-allways-bucket.s3.amazonaws.com/andrew-neel-cckf4TsHAuw-unsplash.jpg");
+}
+
 .detail {
     
     overflow: auto;
@@ -16,7 +20,7 @@
     background-attachment: fixed;
     background-size: cover ;
     /* background-position: center; */
-    background-image: url("/public/img/Sydney.jpg");
+    background-image: var(--background-image);
     /* background-image: url("../../../public/img/travel.jpg"); */
     /* background-image: url("/public/img/Turkye.jpg"); */
 

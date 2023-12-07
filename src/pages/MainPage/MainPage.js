@@ -13,7 +13,7 @@ import axios from "axios";
 const MainPage = () => {
 
     // store에서 함수들 가져오기
-    const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription,setBlogCreation} = loginStore(state => state);
+    const {setProfileImg, setUserName,setUserSeq, setBlogName, setBlogDescription, setBlogCreation} = loginStore(state => state);
     const blogName = localStorage.getItem("blogName")
     const {setTenPosts} = mainPostStore(state => state);
 
@@ -31,11 +31,6 @@ const MainPage = () => {
                     const profileUrl = response.data.profileImg;
                     setProfileImg(profileUrl);
                     setUserName(data.nickname);
-                    if (blogName!== null){
-                        setBlogCreation(true)
-                    }else{
-                        setBlogCreation(false)
-                    }
                     
                 } else {
                     // 에러처리
@@ -65,11 +60,13 @@ const MainPage = () => {
             if(res.data.success){
                 setBlogName(data.blogName);
                 setBlogDescription(data.blogDescription);
+                setBlogCreation(true);
             }
         }catch (e) {
             if (e.response && e.response.status === 500) {
                 setBlogName("");
                 setBlogDescription("")
+                setBlogCreation(false);
                 console.log("로컬스토리지에 accessToken 없거나 만료되었습니다.");
             } else {
                 // Handle other types of errors or log them
