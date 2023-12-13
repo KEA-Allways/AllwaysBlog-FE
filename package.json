@@ -68,7 +68,7 @@
   },
 
   
-  "proxy": "http://localhost:8082",
+  "proxy": "http://localhost:8082 , https://unv-gcu-allways-bucket.s3.ap-northeast-2.amazonaws.com",
   "description": "",
   "main": "index.js",
   "keywords": [],
