@@ -36,12 +36,10 @@ const LoginPage = () => {
         "password" : password,
         
       });
-
       
       localStorage.setItem("accessToken", res.data.result.data.accessToken);
       localStorage.setItem("refreshToken", res.data.result.data.refreshToken);
       
-       
       window.open("/", "_self");
     }catch(error){
       if(error.response.status === 401){

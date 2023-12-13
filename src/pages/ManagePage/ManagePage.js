@@ -21,8 +21,8 @@ const DEFAULT_IMAGE_URL="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-pr
 const ManagePage = ({isLogin, hasBlog, username}) => {
 
     const HeaderTitle = "블로그 관리";
-    const {setProfileImg, setUserName,setUserSeq} = loginStore(state => state);
-    const { setBlogName,setBlogDescription } = blogStore(state => state);
+    const {setProfileImg, setUserName,setUserSeq, setBlogDescription, setBlogName} = loginStore(state => state);
+    // const {  } = blogStore(state => state);
     
 
     //localstorage 에서 불러오기 
@@ -87,13 +87,16 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
           blogDescription : modifiedBlogDescription,
         })
         .then((response) => {
-          alert(response.status)
+          
         }).catch((error) => {
           console.error('Error in Axios request:', error);
           console.error("Error in modify blog info ");
           
         });
     };
+
+
+    
   
     const apiPutModifiedUserInfo = () => {
 
@@ -156,7 +159,12 @@ const ManagePage = ({isLogin, hasBlog, username}) => {
   TokenAxios
       .put('/api/user', userPayload)
       .then((response) => {
-          alert(response.status);
+        Swal.fire({
+          title: "수정 완료",
+          icon: 'info'
+        }).then(() => {
+          
+        })
       })
       .catch((error) => {
           console.error('Error in Axios request:', error);

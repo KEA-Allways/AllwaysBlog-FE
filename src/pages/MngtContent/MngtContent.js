@@ -79,8 +79,8 @@ const MngtContents = () => {
 
   const removeButtonClicked = (postSeq) => {
     Swal.fire({
-      title: "게시글을 삭제 중입니다.",
-      text: "삭제가 완료될 때까지 기다려주세요.",
+      title: "게시글을 삭제 하겠습니까?",
+      text: "정말로?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -101,7 +101,9 @@ const MngtContents = () => {
             });
             // You may want to perform additional actions after successful deletion
           }).then(()=>{
-            window.location.reload();
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000)
           })
           .catch(error => {
             console.error("Error deleting post:", error);

@@ -257,7 +257,7 @@ const ThemeModal = ({ showModal, onClose} ) => {
       if (previewRef.current) {
         // Check if the blog already exists
         
-        if (!!blogCreation) {
+        if (!blogCreation) {
           await TokenAxios.post("/api/blog", {
             blogName : blogName,
             blogDescription : blogDescription,
