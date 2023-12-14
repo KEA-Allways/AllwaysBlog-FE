@@ -88,8 +88,8 @@ const MngtTheme = () => {
 
     const removeButtonClicked = (themeSeq) => {
         Swal.fire({
-          title: "테마를 삭제 중입니다.",
-          text: "삭제가 완료될 때까지 기다려주세요.",
+          title: "테마 삭제",
+          text: "테마를 정말 삭제하시겠습니까?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#d33",
