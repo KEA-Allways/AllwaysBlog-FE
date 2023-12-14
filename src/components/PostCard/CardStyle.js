@@ -5,8 +5,14 @@ import CardActions from "@mui/material/CardActions"
 import { Avatar, IconButton, Typography } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import styles from "./CardStyle.module.css";
+import { useNavigate, Link } from 'react-router-dom';
 
-const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, date,opacityValue,profile}) => {
+const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, postSeq, nickname, date,opacityValue,profile, userSeq}) => {
+  const navigate = useNavigate();
+  const handleMove = () => {
+    navigate(`/blog/${userSeq}`);
+  }
+
   return (
         <Card className={styles.cardStyle}
           sx={{ transition: "all 0.5s ease",
@@ -15,7 +21,7 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, 
           marginBottom:"40px", 
           marginRight: "10px", 
           boxShadow:"1px 1px 15px -5px black"}}>
-
+          <Link to={`/post/${postSeq}`}>
           <CardMedia
             component="img"
             height={imgHeight}
@@ -28,18 +34,18 @@ const CardStyle = ({imgUrl, alt, imgHeight,imgWidth, title, subtitle, nickname, 
               width: '100%',
             }}
             /> 
-              
+            </Link>
           <CardContent sx={{height:"120px"}}>
             <Typography gutterBottom variant="h5" component="div"  >
               {title}
             </Typography>
-          
+            
             
             </CardContent>
             <CardActions className={styles.cardDetail} sx={{display : "grid", gridTemplateColumns:"1fr 1fr"}}>
               <div>
               <IconButton aria-label="user-icon" width="20px" height="10px" >
-                <Avatar src = {profile} />
+                <Avatar src = {profile} onClick={handleMove} style={{zIndex : 2}}/>
               </IconButton>
               {nickname}
               </div>

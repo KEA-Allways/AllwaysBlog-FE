@@ -15,8 +15,9 @@ const Grid = () => {
       {tenPosts.map((v, idx) => (
         <Col key={idx}>
           {/* card 누르면 이동하기  */}
-          <Link to={`/post/${v.postSeq}`}>
-            <CardStyle 
+            <CardStyle
+            postSeq ={v.postSeq}
+            userSeq = {v.userSeq} 
             imgUrl={v.thumbImg} 
             imgHeight="180px" 
             imgWidth="180px" 
@@ -26,7 +27,6 @@ const Grid = () => {
             opacityValue="100%"
             date={(v.postDate).substring(0,10)}
             profile={v.profileImg}/> 
-            </Link>
         </Col>
       ))}
     </Row>

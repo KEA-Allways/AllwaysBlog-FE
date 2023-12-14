@@ -78,12 +78,12 @@ const MainPage = () => {
         
     }
 
-    // mainPost 10개 가지고 오는 코드
+    // mainPost 12개 가지고 오는 코드
     const getMainPost = async() => {
         try{
             const res = await DefaultAxios.get("/api/post/main");
             setTenPosts(res.data.result.data);
-            // console.log(res.data.result.data);
+            console.log(res.data.result.data);
             // console.log(blogCreation);
         }catch(e){
             console.log(e);
